@@ -16,7 +16,9 @@ function insertText() {
         document.getElementById("insertText").value = "";
         let theTextSet = document.createElement("p");
         theTextSet.innerText="Tony: "+theText;
-        document.getElementById("textMessage").appendChild(theTextSet);
+        let textMessage = document.getElementById("textMessage");
+        textMessage.appendChild(theTextSet);
+        textMessage.scrollTop =  textMessage.scrollHeight - textMessage.clientHeight;
     }
 }
 
