@@ -49,6 +49,7 @@
     animation-duration: 5s,5s;
     animation-fill-mode: forwards;
     }
+    
 
 /* input[type=text] {
     background-color:rgb(85, 71, 84);
@@ -56,13 +57,36 @@
     height: 4vh;
 } */
 
-input[type=button],input[type=text]{
+/* User Input Message Box */
+.inputMessageBox{
+    position: absolute;
+    bottom: 5vh;
+    right: 5vw;
+}
+#insertText {
     background-color:rgb(60, 51, 61);
     color: #aeaeae;
-    height: 4vh;
-    padding:1px;
-    font-size: 2vh;
+    max-height: 200px;
+    height: 31px;
+    font-size: 14px;
+    padding: 5px 10px;
+    padding-right: 30px;
+    overflow-y: auto;
+    word-wrap:break-word;
+    resize: none;  
 }
+textarea#insertText::-webkit-scrollbar{
+    width: 0px;
+  }
+
+button#submitMessage {
+    position: absolute;
+    background: transparent;
+    border: none;
+    color: white;
+    bottom: 5px;
+    right: 2%; 
+  }
 
 
 @keyframes spin {

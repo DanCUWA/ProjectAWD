@@ -9,12 +9,12 @@
 
     <!-- Latest compiled and minified CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
     <!-- Latest compiled JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <link rel="stylesheet" href="../css/mainPageStyle.css">
-    <script src="../js/mainPageJS.js"></script>
 </head>
 <body>
     
@@ -47,12 +47,17 @@
         </div>
         <div class="col-sm-8 " style="background-color:rgb(68, 58, 68); color:white;">
             <div id="textBox" style="height:85vh; width: 66vw; padding: 50px; display: flex;">
-                <div id="textMessage" style="position:fixed; align-self:flex-end; text-align: left;">
+                <div id="textMessage" style="position:fixed; align-self:flex-end; text-align: left;word-wrap: break-word; overflow-y: auto; max-height: 78vh; width: 63vw;">
 
                 </div>
             </div>
             <div>
-                <input id="insertText" type="text" onkeydown=enterInsert(this) style="border-radius: 20px;width:50vw;"><input id="textInsertButton" onclick=insertText() type="button" value="&#8692" style="width: 50px; border-radius: 20px;;">
+                <form id="input">
+                    <div class="inputMessageBox">
+                        <textarea id="insertText" name="myInput" rows="4" cols="50" style="border-radius: 20px;width:50vw;" placeholder="Type your message here..." autofocus></textarea>
+                        <button id="submitMessage" type="submit"><i class="bx bx-send" id="send"></i></button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -68,7 +73,7 @@
         <a href="#">Profile</a>
         <a href="#">Settings</a>
     </div>    
-
+    <script src="../js/mainPageJS.js"></script>
 </body>
 
 </html>
