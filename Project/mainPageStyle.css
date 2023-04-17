@@ -1,0 +1,143 @@
+#midPage {
+    background-color: white;
+    height: 90vh;
+    text-align: center;
+    animation-name: backgroundAni,entrance;
+    animation-duration: 20s,2s;
+    animation-iteration-count: infinite, 1;
+}
+
+.middleAlign {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 90vh;
+}
+
+#welcome {
+    /* padding-top: 50%; */
+    background-color: transparent;
+    /* padding-bottom: 0; */
+    animation-name: welcome;
+    animation-duration: 6s;
+    animation-timing-function: ease-in;
+    animation-fill-mode: forwards;
+} 
+
+#gameName {
+    opacity: 0;
+    animation-name: welcome;
+    animation-duration: 4s;
+    animation-delay: 2s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+}
+
+#loadPage {
+    position: absolute;
+    top: 50%; 
+    left: 50%;
+    border: 16px solid #f3f3f3; 
+    border-top: 16px solid blueviolet; 
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    opacity: 0;
+    animation-name: loaderDisappear, spin;
+    animation-delay: 6s;
+    animation-duration: 5s,5s;
+    animation-fill-mode: forwards;
+    }
+
+/* input[type=text] {
+    background-color:rgb(85, 71, 84);
+    color: rgb(196, 194, 194);
+    height: 4vh;
+} */
+
+input[type=button],input[type=text]{
+    background-color:rgb(60, 51, 61);
+    color: #aeaeae;
+    height: 4vh;
+    padding:1px;
+    font-size: 2vh;
+}
+
+
+@keyframes spin {
+0% {transform: translate(-50%,-50%) rotate(0deg)  }
+50% { transform: translate(-50%,-50%) rotate(180deg) }
+75% { transform: translate(-50%,-50%) rotate(360deg) }
+90% { transform: translate(-50%,-50%) rotate(360deg) scale(1.5)}
+100% { transform: translate(-50%,-50%) rotate(360deg) scale(1)}
+}
+
+/* @keyframes entrance { 
+    0% {transform:scale(4);}
+    100% {transform: scale(1);}
+} */
+
+@keyframes backgroundAni{
+    0% {background-color:rgb(63, 55, 71);}
+    50% {background-color:rgb(38, 40, 43);}
+    100% {background-color:rgb(63, 55, 71);}
+}
+
+@keyframes loaderDisappear {
+    0% {opacity: 0;}
+    25% {opacity: 1;}
+    90% {opacity: 1;}
+    100% {opacity: 0; display:none}
+}
+@keyframes welcome {
+    0% {opacity: 0;}
+    25% {opacity: 1;}
+    75% {opacity: 1;}
+    100% {opacity: 0; display:none}
+}
+
+
+.sidenav {
+height: 100%;
+width: 0;
+position: fixed;
+z-index: 1;
+top: 0;
+left: 0;
+background-color: #111;
+overflow-x: hidden;
+transition: 0.5s;
+padding-top: 60px;
+}
+
+.sidenav a {
+padding: 8px 8px 8px 32px;
+text-decoration: none;
+font-size: 25px;
+color: #818181;
+display: block;
+transition: 0.3s;
+}
+
+.sidenav a:hover {
+color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+position: absolute;
+top: 0;
+right: 25px;
+font-size: 36px;
+margin-left: 50px;
+}
+
+#main {
+transition: margin-left .5s;
+padding: 16px;
+}
+
+@media screen and (max-height: 450px) {
+.sidenav {padding-top: 15px;}
+.sidenav a {font-size: 18px;}
+}
