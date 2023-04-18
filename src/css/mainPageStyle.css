@@ -55,6 +55,14 @@
     height: 4vh;
 } */
 
+.form-control {
+    background-color:rgb(85, 71, 84);
+    color: #aeaeae;
+    font: 14px "Poppins", sans-serif;
+    display: flex;
+    justify-content: center;
+}
+
 /* User Input Message Box */
 .inputMessageBox{
     position: absolute;
@@ -85,6 +93,7 @@ button#submitMessage {
     bottom: 5px;
     right: 2%; 
   }
+
 
 
 @keyframes spin {
@@ -131,6 +140,9 @@ background-color: #111;
 overflow-x: hidden;
 transition: 0.5s;
 padding-top: 60px;
+display: flex;
+justify-content: space-between;
+flex-direction: column;
 }
 
 .sidenav a {
@@ -142,9 +154,9 @@ display: block;
 transition: 0.3s;
 }
 
-.sidenav a:hover {
+/* .sidenav :hover {
 color: #f1f1f1;
-}
+} */
 
 .sidenav .closebtn {
 position: absolute;
@@ -152,6 +164,23 @@ top: 0;
 right: 25px;
 font-size: 36px;
 margin-left: 50px;
+}
+
+button#logout{
+    background: transparent;
+    border: none;
+    color: white;
+    height: auto;
+    display: flex;
+    padding: 20px;
+    color: #818181;
+    font: 5px;
+}
+.hover :hover {
+    color: #f1f1f1;
+}
+.hover:hover {
+    color: #f1f1f1;
 }
 
 #main {
