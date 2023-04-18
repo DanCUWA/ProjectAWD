@@ -48,7 +48,7 @@ function insertText() {
     let theTextSet = document.createElement("p");
     theTextSet.innerText="Tony: "+myInputValue;
     output.appendChild(theTextSet);
-    output.scrollTop =  output.scrollHeight - output.clientHeight;
+    output.scrollTop =  output.scrollHeight;
   }
 
   textarea.value = ''; // clear the textarea value

@@ -29,10 +29,10 @@
             <div class="col-sm-2">
                 <!-- <input type="text" placeholder="Password" class="form-control" > -->
             </div>
-            <div class="col-sm-1">
+            <div class="col-sm-1 hover">
                 <input type="button" value="Login" class="form-control" onclick="document.location.href='login.html';">
             </div>
-            <div class="col-sm-1">
+            <div class="col-sm-1 hover">
                 <input type="button" value="Sign up" class="form-control" onclick="document.location.href='signup.html';">
             </div>
     
@@ -66,12 +66,15 @@
         <div style="padding-top: 1vh; color:white">@2023 Copyright</div>
     </div>
 
-    <div id="mySidenav" class="sidenav">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a href="rooms.html">Game Rooms</a>
-        <a href="stats.html">Stats</a>
-        <a href="profile.html">Profile</a>
-        <a href="settings.html">Settings</a>
+    <div id="mySidenav" class="sidenav hover">
+        <div id="navChoices">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <a href="rooms.html">Game Rooms</a>
+            <a href="stats.html">Stats</a>
+            <a href="profile.html">Profile</a>
+            <a href="settings.html">Settings</a>
+        </div>
+        <button id="logout" type="submit"><i class="bx bx-log-out bx-md"></i></button>
     </div>    
     <script src="../js/mainPageJS.js"></script>
 </body>
