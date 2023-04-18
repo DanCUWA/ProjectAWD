@@ -9,8 +9,13 @@ document.getElementById("mySidenav").style.width = "0";
 document.getElementById("main").style.marginLeft= "0";
 document.body.style.backgroundColor = "white";
 }
-
-
+function toggleNav(){ 
+    if (document.getElementById("mySidenav").style.width == "250px") { 
+        closeNav(); 
+    } else { 
+        openNav(); 
+    }
+}
 //___________________________________________________________
 // Message Box
 const textarea = document.querySelector("#insertText");
