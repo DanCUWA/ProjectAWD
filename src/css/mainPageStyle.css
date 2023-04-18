@@ -48,9 +48,7 @@
     animation-delay: 6s;
     animation-duration: 5s,5s;
     animation-fill-mode: forwards;
-    }
-    
-
+}
 /* input[type=text] {
     background-color:rgb(85, 71, 84);
     color: rgb(196, 194, 194);
@@ -164,4 +162,23 @@ padding: 16px;
 @media screen and (max-height: 450px) {
 .sidenav {padding-top: 15px;}
 .sidenav a {font-size: 18px;}
+}
+
+.box { 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    flex-flow: row wrap;
+}
+.inner { 
+    margin: 15px 50svh;
+    padding: 10px;
+}
+.bt { 
+    border: 2px solid grey;
+    border-radius: 10px;
+}
+.subs { 
+    position:relative;
+    top: 150px;
 }

@@ -52,7 +52,6 @@ function insertText() {
   }
 
   textarea.value = ''; // clear the textarea value
-
 }
 //___________________________________________________________
 
