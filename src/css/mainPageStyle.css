@@ -56,11 +56,13 @@
 } */
 
 .form-control {
-    background-color:rgb(85, 71, 84);
+    /* background-color:rgb(85, 71, 84); */
+    background-color: transparent;
     color: #aeaeae;
     font: 14px "Poppins", sans-serif;
     display: flex;
     justify-content: center;
+    border: none;
 }
 
 /* User Input Message Box */
