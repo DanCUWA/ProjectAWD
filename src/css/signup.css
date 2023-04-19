@@ -5,7 +5,7 @@ body{
     padding: 0;
     height: 100vh;
 }
-.login-box{
+.sign_up-box{
     background: #fff;
     border: #282525 1px solid;
     position: absolute;
@@ -60,15 +60,6 @@ form {
 .txt_field input:valid ~ label {
     top: -5px;
     color: #248cd2;
-}
-.forgot {
-    margin: -5px 0 20px 5px;
-    color: #adadad;
-    cursor: pointer;
-}
-.forgot:hover {
-    text-decoration: underline;
-    color: #282525;
 }
 input[type="submit"] {
     height: 40px;
