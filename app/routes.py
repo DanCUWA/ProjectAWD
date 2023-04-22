@@ -1,12 +1,11 @@
 from app import app
 from flask import render_template
 from flask import escape
-
 @app.route('/')
 @app.route('/index')
 def index():
     return render_template('mainPage.html',title="MAIN")
-@app.route('/signup')
+@app.route('/signup', methods=['GET','POST'])
 def signup():
     return render_template('signup.html')
 @app.route('/stats/<username>')
