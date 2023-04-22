@@ -56,19 +56,30 @@
 } */
 
 .form-control {
-    background-color:rgb(85, 71, 84);
+    /* background-color:rgb(85, 71, 84); */
+    background-color: transparent;
     color: #aeaeae;
     font: 14px "Poppins", sans-serif;
     display: flex;
     justify-content: center;
+    border: none;
 }
 
 /* User Input Message Box */
-.inputMessageBox{
-    position: absolute;
-    bottom: 5vh;
-    right: 5vw;
-}
+/* .inputMessageBox{
+} */
+/* .chatbox {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+} */
+
+/* .buttonInsert {
+    margin-bottom: 2.5%;
+    margin-right: 0%;
+} */
+
 #insertText {
     background-color:rgb(60, 51, 61);
     color: #aeaeae;
@@ -90,9 +101,17 @@ button#submitMessage {
     background: transparent;
     border: none;
     color: white;
-    bottom: 5px;
-    right: 2%; 
+    bottom: 7px;
+    right: 1%; 
   }
+
+  input[type=button],input[type=text]{
+    background-color:rgb(60, 51, 61);
+    color: #aeaeae;
+    height: 4vh;
+    padding:1px;
+    font-size: 2vh;
+}
 
 
 
@@ -211,3 +230,27 @@ padding: 16px;
     position:relative;
     top: 150px;
 }
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+    color:transparent
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: transparent;
+
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: rgb(68, 68, 68,1);
+    border-radius: 50px;
+    box-shadow: 0 0 5px black;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #202020;
+  }
