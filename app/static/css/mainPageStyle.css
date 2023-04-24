@@ -260,10 +260,19 @@ padding: 16px;
     max-height: 85vh;
   }
 
+  .screenChange2{
+    height: 78vh;
+    max-height: 78vh;
+  }
+
   @media screen and (max-width: 576px){
     .screenChange { 
-        height: 35vh;
-        max-height: 35vh;
+        height: 33vh;
+        max-height: 33vh;
 
+    }
+    .screenChange2{
+        height: 25vh;
+        max-height: 25vh;
     }
 }
