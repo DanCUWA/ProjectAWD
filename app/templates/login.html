@@ -14,31 +14,13 @@
     <!-- https://gingkoapp.com/including-rpg-awesome-and-font-awesome-libraries.html -->
 
     <!-- Latest compiled JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <link rel="stylesheet" href="../css/loginPage.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mainPageStyle.css') }}">
+
 </head>
 <body> 
     <h1>Login</h1>
     <i class="ra ra-sword ra-3x"></i>
-    <div class="login-box">
-        <label class="title">Login</label>
-        <form id="signin"> 
-            <div class="txt_field">
-                <input type="text" required>
-                <label>Username</label>
-            </div>
-            <div class="txt_field">
-                <input type="text" required>
-                <label>Password</label>
-            </div>
-            <div class="forgot">Forgot Password?</div>
-            <input type="submit" value="Login">
-        </form>
-        <div class="sign_up_link">
-            Not a Member? <a href="signup.html">Sign Up</a>
-        </div>
-    </div>
 </body>
 </html>
