@@ -254,3 +254,16 @@ padding: 16px;
   ::-webkit-scrollbar-thumb:hover {
     background: #202020;
   }
+
+  .screenChange{
+    height: 85vh;
+    max-height: 85vh;
+  }
+
+  @media screen and (max-width: 576px){
+    .screenChange { 
+        height: 35vh;
+        max-height: 35vh;
+
+    }
+}
