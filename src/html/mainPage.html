@@ -16,7 +16,7 @@
 
     <link rel="stylesheet" href="../css/mainPageStyle.css">
 </head>
-<body>
+<body style="background-color: rgb(63, 55, 71);"> 
     
     
     <div class="container-fluid" style="text-align: center;background-image: linear-gradient(225deg,rgb(63, 55, 71) 50%,rgb(38, 40, 43) 90%);  height: 5vh;">
@@ -39,8 +39,8 @@
         </div>
     </div>
 
-    <div id="midPage" class="container-fluid" >
-        <div class="row" style="height:90vh">
+    <div id="midPage" class="container-fluid" style="max-height: 90vh;" >
+        <div class="row" style="height:90vh; max-height: 90vh;">
             <div class="col-sm-4" style="background-color: rgb(116, 115, 126);">
                 <div id="main" style="margin-top: 40vh; text-align: left;">
                     <span style="font-size:30px;cursor:pointer;color: #d4d4d4;" onclick="toggleNav()">&#8692;</span>
@@ -48,14 +48,14 @@
             </div>
             <div class="col-sm-8 chatbox" style="background-color:rgb(68, 58, 68); color:white;">
                 <div id="textBox" style=" width: 100%; padding: 50px; display: flex; height:93%; max-height: 85vh;">
-                    <div id="textMessage" style=" text-align: left;word-wrap: break-word; overflow-y: auto; width: 100%;">
+                    <div id="textMessage" style=" text-align: left; word-wrap: break-word; overflow-y: auto; width: 100%; height:40vh;">
 
                     </div>
                 </div>
                 <div>
                     <form id="input">
                         <div class="inputMessageBox">
-                            <textarea id="insertText" name="myInput" style="border-radius: 20px; width:100%;" placeholder="Type your message here..." autofocus></textarea>
+                            <textarea id="insertText" name="myInput" style="border-radius: 20px; width: 100%;" placeholder="Type your message here..." autofocus></textarea>
                             <button class="buttonInsert" id="submitMessage" type="submit"><i class="bx bx-send buttonInsert" id="send"></i></button>
                         </div>
                     </form>
@@ -64,9 +64,6 @@
         </div>
     </div>
 
-    <div class="container-fluid" style="text-align: center;background-image: linear-gradient(45deg,rgb(63, 55, 71) 50%,rgb(38, 40, 43) 90%); height: 5vh">
-        <div style="padding-top: 1vh; color:white">@2023 Copyright</div>
-    </div>
 
     <div id="mySidenav" class="sidenav hover">
         <div id="navChoices">
@@ -78,6 +75,10 @@
         </div>
         <button id="logout" type="submit"><i class="bx bx-log-out bx-md"></i></button>
     </div>    
+
+    <!-- <div class="container-fluid" style="text-align: center;background-image: linear-gradient(45deg,rgb(63, 55, 71) 50%,rgb(38, 40, 43) 90%); height: 5vh">
+        <div style="padding-top: 1vh; color:white; font-size: 2vh;">@2023 Copyright</div>
+    </div> -->
     <script src="../js/mainPageJS.js"></script>
 </body>
 
