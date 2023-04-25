@@ -22,23 +22,33 @@
 <body> 
     <div class="sign_up-box">
         <label class="title">Sign Up</label>
-        <form id="signin"> 
+        <form id="signin" action="" method="post">
+            {{ form.hidden_tag() }}
             <div class="txt_field">
-                <input type="text" required>
+                {{ form.username(size=32) }}
                 <label>Username</label>
+                {% for error in form.username.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
             </div>
             <div class="txt_field">
-                <input type="text" required>
+                {{ form.password(size=32) }}
                 <label>Password</label>
+                {% for error in form.password.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
             </div>
             <div class="txt_field">
-                <input type="text" required>
+                {{ form.password2(size=32) }}
                 <label>Confirm Password</label>
+                {% for error in form.password2.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
             </div>
-            <input type="submit" value="Sign Up">
+            {{ form.submit() }}
         </form>
         <div class="sign_up_link">
-            Already have an Account? <a href="login.html">Login</a>
+            Already have an Account? <a href="/login">Login</a>
         </div>
     </div>
 </body>

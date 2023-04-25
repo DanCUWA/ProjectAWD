@@ -1,19 +1,48 @@
 from app import app
-from flask import render_template
+from flask import render_template, redirect, flash
 from flask import escape
+from app import db
+from app.forms import LoginForm, SignUpForm
+from app.models import User
+from flask_login import login_required
+
 @app.route('/')
 @app.route('/index')
 def index():
     return render_template('mainPage.html',title="MAIN")
+
 @app.route('/signup', methods=['GET','POST'])
 def signup():
-    return render_template('signup.html')
+    form = SignUpForm()
+    if form.validate_on_submit():
+        user = User(username=form.username.data) #, email=form.email.data)
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash('Congratulations, you are now a registered user!')
+        return redirect(('/login'))
+    return render_template('signup.html', title='SignUp', form=form)
+
 @app.route('/stats/<username>')
 def stats(username): 
     return render_template('stats.html',username=escape(username))
-@app.route('/login')
+
+@app.route('/login', methods=['GET','POST'])
 def login(): 
-    return render_template('login.html')
+    form=LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user is None or not user.check_password(form.password.data):
+            flash('Invalid username or password')
+            return redirect(('/login'))
+        return redirect('/index')
+    return render_template('login.html', title='Sign In', form=form)
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(('/index'))
+
 @app.route('/settings')
 def settings(): 
     return render_template('settings.html')
