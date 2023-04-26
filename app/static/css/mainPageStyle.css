@@ -279,10 +279,13 @@ padding: 16px;
 
 /*gameRooms*/
 .gameNodes{
-    border: black 2px solid;
-    border-radius: 20px;
-    height: 20px;
-    width: 40px;
-    background-color: darkmagenta;
+    border: rgb(52, 52, 52,0.4) 4px solid;
+    border-radius: 40px;
+    height: 200px;
+    width: 450px;
+    background-color: rgb(41, 32, 41, 0.4);
     color: aliceblue;
-}
+    padding: 10px;
+    margin:10px;
+    font-size:x-large;
+  }
