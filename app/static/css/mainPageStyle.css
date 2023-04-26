@@ -105,7 +105,7 @@ button#submitMessage {
     right: 1%; 
   }
 
-  input[type=button],input[type=text]{
+input[type=button],input[type=text]{
     background-color:rgb(60, 51, 61);
     color: #aeaeae;
     height: 4vh;
@@ -276,3 +276,60 @@ padding: 16px;
         max-height: 25vh;
     }
 }
+
+#GRbackButton{
+    position: absolute; 
+    left: 20px; 
+    top: 5px;
+}
+
+.backButton{
+    border-radius: 20px;
+    background-color: rgb(125, 125, 125); 
+    color: lightgray;
+}
+
+/*gameRooms*/
+.gameNodes{
+    border: rgb(52, 52, 52,0.4) 4px solid;
+    border-radius: 40px;
+    height: 200px;
+    width: 450px;
+    background-color: rgb(41, 32, 41, 0.4);
+    color: aliceblue;
+    padding: 10px;
+    margin:10px;
+    font-size:x-large;
+  }
+
+.roomFormatting{
+    display: flex; 
+    flex-wrap: wrap; 
+    justify-content: center;
+}
+
+/*Main colouring*/
+#topPage{
+    background-image: linear-gradient(225deg,rgb(63, 55, 71) 50%,rgb(38, 40, 43) 90%);  
+}
+
+#botPage{
+    background-image: linear-gradient(45deg,rgb(63, 55, 71) 50%,rgb(38, 40, 43) 90%);
+}
+/*Main formatting*/
+#botPage, #topPage{
+    text-align: center;
+    height: 5vh;
+}
+
+#midPage {
+    max-height: 90vh;
+}
+
+.centerItems {
+    display: flex; 
+    flex-wrap: wrap; 
+    justify-content: center;
+    align-items: center;
+}
+

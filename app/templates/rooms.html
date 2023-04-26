@@ -16,7 +16,27 @@
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/mainPageStyle.css') }}">
 </head>
-<body> 
-    <h1>Rooms</h1>
+<body>
+    <div class="container-fluid" id="topPage" >
+        <button onclick = "window.open('/', '_parent')" id="GRbackButton" class="backButton"> Go Back</button>
+        <h1 style="color:white">GameRooms</h1>
+    </div>
+    
+    <div id="midPage" class="container-fluid">
+        <div class="centerItems" >
+            <div class="gameNodes">Room 1<br> Turn 36 <br> Purple Adventure <br> Players: 3</div>
+            <div class="gameNodes">Room 2</div>
+            <div class="gameNodes">Room 3</div>
+            <div class="gameNodes">Room 4</div>
+            <div class="gameNodes">Room 5</div>
+            <div class="gameNodes">Room 6</div>
+            <div class="gameNodes">Room 7</div>
+        </div>
+    </div>
+
+    <div class="container-fluid" id="botPage">
+        <div style="padding-top: 1vh; color:white">@2023 Copyright</div>
+    </div>
+
 </body>
 </html>
