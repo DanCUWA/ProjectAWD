@@ -46,7 +46,12 @@ function insertText() {
   const myInputValue = formData.get('myInput'); // get value of myInput field
   if(myInputValue != ''){
     let theTextSet = document.createElement("p");
-    theTextSet.innerText="Tony: "+myInputValue;
+    fetch('/get_username').then(response => response.json())
+    .then(data => {
+      user = data.username;
+      theTextSet.innerText=user+": "+myInputValue;
+    });
+    //theTextSet.innerText=user+": "+myInputValue;
     output.appendChild(theTextSet);
     output.scrollTop =  output.scrollHeight;
   }

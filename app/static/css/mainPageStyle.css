@@ -185,7 +185,17 @@ font-size: 36px;
 margin-left: 50px;
 }
 
-button#logout{
+a.logout{
+    border: none;
+    color: white;
+    width: max-content;
+    height: auto;
+    display: flex;
+    padding: 20px;
+    color: #818181;
+    font: 5px;
+}
+/* button#logout{
     background: transparent;
     border: none;
     color: white;
@@ -194,7 +204,7 @@ button#logout{
     padding: 20px;
     color: #818181;
     font: 5px;
-}
+} */
 .hover :hover {
     color: #f1f1f1;
 }
@@ -253,4 +263,13 @@ padding: 16px;
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
     background: #202020;
+  }
+
+  .gameNodes{
+    border: black 2px solid;
+    border-radius: 20px;
+    height: 20px;
+    width: 40px;
+    background-color: darkmagenta;
+    color: aliceblue;
   }

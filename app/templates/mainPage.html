@@ -47,7 +47,7 @@
                         <span style="font-size:30px;cursor:pointer;color: #d4d4d4;" onclick="toggleNav()">&#8692;</span>
                     </div>
                     <div class="stats_box">
-                        <span id="username">Tony - template layout</span>
+                        <span id="username">{{current_user.username}}- template layout</span>
                         <div class="Character">
                             
                             <label>Health</label>
@@ -89,11 +89,11 @@
         <div id="navChoices">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
             <a href="/rooms">Game Rooms</a>
-            <a href="/stats">Stats</a>
+            <a href='/stats/{{current_user.username}}'>Stats</a>
             <a href="/profile">Profile</a>
             <a href="/settings">Settings</a>
         </div>
-        <button id="logout" type="submit"><i class="bx bx-log-out bx-md"></i></button>
+        <a class="logout" href="{{ url_for('logout') }}"><i class="bx bx-log-out bx-md"></i></a>
     </div>    
     <script type="text/javascript" src="{{ url_for('static', filename='./js/mainPageJS.js') }}"></script>
 </body>
