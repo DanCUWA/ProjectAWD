@@ -105,7 +105,7 @@ button#submitMessage {
     right: 1%; 
   }
 
-  input[type=button],input[type=text]{
+input[type=button],input[type=text]{
     background-color:rgb(60, 51, 61);
     color: #aeaeae;
     height: 4vh;
@@ -275,4 +275,14 @@ padding: 16px;
         height: 25vh;
         max-height: 25vh;
     }
+}
+
+/*gameRooms*/
+.gameNodes{
+    border: black 2px solid;
+    border-radius: 20px;
+    height: 20px;
+    width: 40px;
+    background-color: darkmagenta;
+    color: aliceblue;
 }
