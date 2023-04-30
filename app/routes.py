@@ -1,63 +1,89 @@
-from app import app
-from flask import render_template, redirect, flash, jsonify
-from flask import escape
-from app import db
-from app.forms import LoginForm, SignUpForm
-from app.models import User
-from flask_login import login_required, current_user, login_user, logout_user
+from app import app, db
+from flask import render_template, request, escape, flash, redirect
+from flask_login import current_user, login_user, logout_user, login_required
+from app.models import User, Settings, Stats
+from app.forms import LoginForm, SignupForm
+import bcrypt
 
-@app.route('/')
-@app.route('/index')
+
+def init_all_db(user):
+    s = Settings(username=user)
+    st = Stats(username=user)
+    db.session.add(s)
+    db.session.add(st)
+    db.session.commit()
+
+
+
+@app.route("/")
+@app.route("/index")
 def index():
-    
-    return render_template('mainPage.html',title="MAIN")
+    return render_template("mainPage.html", title="MAIN")
 
-@app.route('/get_username')
+
+@app.route("/get_username")
 def get_username():
-    return {'username': current_user.username}
+    return {"username": current_user.username}
 
-@app.route('/signup', methods=['GET','POST'])
+
+@app.route("/signup", methods=["GET", "POST"])
 def signup():
-    form = SignUpForm()
+
+    form = SignupForm()
     if form.validate_on_submit():
-        user = User(username=form.username.data) #, email=form.email.data)
+
+        # add new user to the database
+        user = User(username=form.username.data)  # , email=form.email.data)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        flash('Congratulations, you are now a registered user!')
-        return redirect(('/login'))
-    return render_template('signup.html', title='SignUp', form=form)
+        flash("Congratulations, you are now a registered user!")
+        return redirect(("/login"))
+    return render_template("signup.html", title="SignUp", form=form)
 
-@app.route('/stats/<username>')
-def stats(username): 
-    return render_template('stats.html',username=escape(username))
 
-@app.route('/login', methods=['GET','POST'])
-def login(): 
+@app.route("/login", methods=["GET", "POST"])
+def login():
     if current_user.is_authenticated:
-        return redirect('/index')
-    form=LoginForm()
+        return redirect("/")
+    form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
-        if user is None or not user.check_password(form.password.data):
-            flash('Invalid username or password')
-            return redirect(('/login'))
-        login_user(user, remember=form.remember_me.data)
-        return redirect('/index')
-    return render_template('login.html', title='Sign In', form=form)
+        if user.password_hash != bcrypt.hashpw(
+            form.password.data.encode("utf-8"), user.salt
+        ):
+            flash("Incorrect password")
+            return redirect("/")
+        if user is None:
+            flash("User does not exist")
+            return redirect("/")
+        login_user(user)
+        next_page = request.args.get("next")
+        if not next_page:
+            next_page = "index"
+        return redirect(next_page)
+    return render_template("login.html", form=form)
 
-@app.route('/logout')
+
+@app.route("/logout")
 def logout():
     logout_user()
-    return redirect(('/index'))
+    return redirect("/")
 
-@app.route('/settings')
-def settings(): 
-    return render_template('settings.html')
-@app.route('/rooms')
-def rooms(): 
-    return render_template('rooms.html')
-@app.route('/profile/<user_id>')
-def profile(user_id): 
-    return render_template('profile.html',id=escape(user_id))
 
+@app.route("/settings")
+@login_required
+def settings():
+    s = Settings.query.get(current_user.username)
+    return render_template("settings.html", settings=s)
+
+
+@app.route("/rooms")
+def rooms():
+    return render_template("rooms.html")
+
+
+@login_required
+@app.route("/stats/")
+def stats():
+    return render_template("stats.html")
