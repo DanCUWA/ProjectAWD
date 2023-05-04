@@ -14,7 +14,45 @@
     <!-- Latest compiled JavaScript -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
+    <!--Jquery-->
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.4.2.min.js"></script>
+    <!--Socket-->
+    <script type="text/javascript" src="//cdn.socket.io/4.4.1/socket.io.min.js"></script>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/mainPageStyle.css') }}">
+    <script>//Socket communcation for chat
+        var socket;
+                    $(document).ready(function(){
+                        socket = io.connect('http://' + document.domain + ':' + location.port + '/chat');
+                        socket.on('connect', function() {
+                            socket.emit('joined', {});
+                        });
+                        socket.on('status', function(data) {
+                            $('#textmessage').val($('#textmessage').val() + '<' + data.msg + '>\n');
+                            $('#textmessage').scrollTop($('#textmessage')[0].scrollHeight);
+                        });
+                        socket.on('message', function(data) {
+                            $('#textmessage').val($('#textmessage').val() + data.msg + '\n');
+                            $('#textmessage').scrollTop($('#textmessage')[0].scrollHeight);
+                        });
+                        $('#insertText').keypress(function(e) {
+                            var code = e.keyCode || e.which;
+                            if (code == 13) {
+                                text = $('#insertText').val();
+                                $('#insertText').val('');
+                                socket.emit('text', {msg: text});
+                            }
+                        });
+                    });
+                    function leave_room() {
+                        socket.emit('left', {}, function() {
+                            socket.disconnect();
+        
+                            // go back to the login page
+                            window.location.href = "{{ url_for('index') }}";
+                        });
+                    }
+        </script>
 </head>
 <body>
     

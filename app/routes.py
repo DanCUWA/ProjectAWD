@@ -1,5 +1,5 @@
 from app import app, db
-from flask import render_template, request, escape, flash, redirect
+from flask import render_template, request, escape, flash, redirect, session, redirect, url_for
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Settings, Stats
 from app.forms import LoginForm, SignupForm
@@ -18,7 +18,13 @@ def init_all_db(user):
 @app.route("/")
 @app.route("/index")
 def index():
-    return render_template("mainPage.html", title="MAIN")
+    """Chat room. The user's name and room must be stored in
+    the session."""
+    name = session.get('name', 'LostBoi0')
+    room = session.get('room', '1')
+    # if name == '' or room == '':
+    #     return redirect(url_for('index'))
+    return render_template("mainPage.html", title="MAIN", name=name, room=room)
 
 
 @app.route("/get_username")
