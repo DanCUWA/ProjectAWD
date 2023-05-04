@@ -60,6 +60,10 @@ class GameRoom(db.Model):
         db.String(64), db.ForeignKey("user.username"), primary_key=True, index=True
     )
     roomID = db.Column(db.Integer, unique=True, index=True)
+    roomName = db.Column(db.String(30), index=True)
+    playerNumber = db.Column(db.Integer, index=True)
+    turnNumber = db.Column(db.Integer, index=True)
+
 
     def __repr__(self):
-        return "<User {}, Room access {}>".format(self.username, self.roomID)
+        return "<User {}, Room access {}, roomName {}, playerNumber {}, turnNumber {}>".format(self.username, self.roomID, self.roomName, self.playerNumber, self.turnNumber)
