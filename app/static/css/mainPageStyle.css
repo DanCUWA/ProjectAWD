@@ -105,7 +105,7 @@ button#submitMessage {
     right: 1%; 
   }
 
-  input[type=button],input[type=text]{
+input[type=button],input[type=text]{
     background-color:rgb(60, 51, 61);
     color: #aeaeae;
     height: 4vh;
@@ -265,11 +265,37 @@ padding: 16px;
     background: #202020;
   }
 
-  .gameNodes{
-    border: black 2px solid;
-    border-radius: 20px;
-    height: 20px;
-    width: 40px;
-    background-color: darkmagenta;
+  .screenChange{
+    height: 85vh;
+    max-height: 85vh;
+  }
+
+  .screenChange2{
+    height: 78vh;
+    max-height: 78vh;
+  }
+
+  @media screen and (max-width: 576px){
+    .screenChange { 
+        height: 33vh;
+        max-height: 33vh;
+
+    }
+    .screenChange2{
+        height: 25vh;
+        max-height: 25vh;
+    }
+}
+
+/*gameRooms*/
+.gameNodes{
+    border: rgb(52, 52, 52,0.4) 4px solid;
+    border-radius: 40px;
+    height: 200px;
+    width: 450px;
+    background-color: rgb(41, 32, 41, 0.4);
     color: aliceblue;
+    padding: 10px;
+    margin:10px;
+    font-size:x-large;
   }
