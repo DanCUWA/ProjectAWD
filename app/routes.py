@@ -5,7 +5,6 @@ from app.models import User, Settings, Stats, GameRoom
 from app.forms import LoginForm, SignupForm
 import bcrypt
 
-
 def init_all_db(user):
     s = Settings(username=user)
     st = Stats(username=user)
@@ -99,6 +98,10 @@ def rooms():
 
 
 @login_required
-@app.route("/stats/")
-def stats():
-    return render_template("stats.html")
+@app.route('/stats/<username>')
+def stats(username): 
+    return render_template('stats.html',username=escape(username))
+
+@app.route('/profile/<user_id>')
+def profile(user_id): 
+    return render_template('profile.html',id=escape(user_id))

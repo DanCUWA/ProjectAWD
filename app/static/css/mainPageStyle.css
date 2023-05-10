@@ -287,6 +287,18 @@ padding: 16px;
     }
 }
 
+#GRbackButton{
+    position: absolute; 
+    left: 20px; 
+    top: 5px;
+}
+
+.backButton{
+    border-radius: 20px;
+    background-color: rgb(125, 125, 125); 
+    color: lightgray;
+}
+
 /*gameRooms*/
 .gameNodes{
     border: rgb(52, 52, 52,0.4) 4px solid;
@@ -299,3 +311,36 @@ padding: 16px;
     margin:10px;
     font-size:x-large;
   }
+
+.roomFormatting{
+    display: flex; 
+    flex-wrap: wrap; 
+    justify-content: center;
+}
+
+/*Main colouring*/
+#topPage{
+    background-image: linear-gradient(225deg,rgb(63, 55, 71) 50%,rgb(38, 40, 43) 90%);  
+}
+
+#botPage{
+    background-image: linear-gradient(45deg,rgb(63, 55, 71) 50%,rgb(38, 40, 43) 90%);
+}
+/*Main formatting*/
+#botPage, #topPage{
+    text-align: center;
+    height: 5vh;
+}
+
+#midPage {
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.centerItems {
+    display: flex; 
+    flex-wrap: wrap; 
+    justify-content: center;
+    align-items: center;
+}
+
