@@ -10,7 +10,11 @@
             <div class="gameNodes">Room 1<br> Turn 36 <br> Purple Adventure <br> Players: 3</div>
             <div class="gameNodes">Room 2</div>
             {%for room in rooms%}
-            <div class="gameNodes">Room: {{room.roomID}}<br>Turn: {{room.turnNumber}} <br> {{room.roomName}} <br> Players: {{room.playerNumber}}</div>
+            <div class="gameNodes">Room: {{room.roomID}}<br>Turn: {{room.turnNumber}} <br> {{room.roomName}} <br> Players: {{room.playerNumber}} <br>
+                <form action="{{ url_for('deleteRoom')}}" method="POST">
+                    <input type="hidden" value={{room.roomID}} name="roomDelete">
+                    <input type="submit" value="Delete Room">
+                  </form></div>
             {%endfor%}
             <div class="gameNodes">
                 <div>

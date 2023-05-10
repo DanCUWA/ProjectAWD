@@ -13,7 +13,6 @@ def init_all_db(user):
     db.session.commit()
 
 
-
 @app.route("/")
 @app.route("/index")
 def index():
@@ -94,8 +93,20 @@ def rooms():
 
     rooms = GameRoom.query.filter_by(username=current_user.username).all()
 
+
     return render_template('rooms.html', user=user, rooms=rooms)
 
+@app.route("/rooms/deleteRoom", methods=['GET', 'POST'])
+def deleteRoom():
+    user = User.query.filter_by(username=current_user.username).first_or_404()
+    if request.method == 'POST':
+            deleteRoom = request.form['roomDelete']
+            room_to_delete = GameRoom.query.get(deleteRoom)
+            db.session.delete(room_to_delete)
+            db.session.commit()
+
+    rooms = GameRoom.query.filter_by(username=current_user.username).all()
+    return render_template('rooms.html', user=user, rooms=rooms)
 
 @login_required
 @app.route('/stats/<username>')
