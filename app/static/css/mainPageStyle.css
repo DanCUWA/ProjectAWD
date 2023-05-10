@@ -105,7 +105,7 @@ button#submitMessage {
     right: 1%; 
   }
 
-input[type=button],input[type=text]{
+input{
     background-color:rgb(60, 51, 61);
     color: #aeaeae;
     height: 4vh;

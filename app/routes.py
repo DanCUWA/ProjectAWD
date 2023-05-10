@@ -1,7 +1,7 @@
 from app import app, db
 from flask import render_template, request, escape, flash, redirect
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, Settings, Stats
+from app.models import User, Settings, Stats, GameRoom
 from app.forms import LoginForm, SignupForm
 import bcrypt
 
@@ -78,9 +78,24 @@ def settings():
     return render_template("settings.html", settings=s)
 
 
-@app.route("/rooms")
+@app.route("/rooms", methods=['GET', 'POST'])
 def rooms():
-    return render_template("rooms.html")
+    user = User.query.filter_by(username=current_user.username).first_or_404()
+
+    if request.method == 'POST':
+        room_name = request.form['room_name']
+        num_players = int(request.form['num_players'])
+
+        # Create a new Room object and set the necessary attributes
+        room = GameRoom(username=user.username, roomName=room_name, playerNumber=num_players, turnNumber=0)
+
+        # Add the room to the database
+        db.session.add(room)
+        db.session.commit()
+
+    rooms = GameRoom.query.filter_by(username=current_user.username).all()
+
+    return render_template('rooms.html', user=user, rooms=rooms)
 
 
 @login_required

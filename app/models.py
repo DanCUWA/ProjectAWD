@@ -13,6 +13,8 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
     # email = db.Column(db.String(120), index=True, unique=True)
+
+    rooms = db.relationship('GameRoom', backref='Game Rooms', lazy='dynamic')
     salt = db.Column(db.String(128))
     password_hash = db.Column(db.String(128))
 
@@ -44,7 +46,7 @@ class Stats(db.Model):
 
 class Settings(db.Model):
     username = db.Column(
-        db.String(64), db.ForeignKey("user.username"), primary_key=True, index=True
+        db.String(64), db.ForeignKey("user.username"), primary_key=True,
     )
     primaryColor = db.Column(db.String(7), default="#000000")
     secondaryColor = db.Column(db.String(7), default="#FFFFFF")
@@ -57,9 +59,9 @@ class Settings(db.Model):
 
 class GameRoom(db.Model):
     username = db.Column(
-        db.String(64), db.ForeignKey("user.username"), primary_key=True, index=True
+        db.String(64), db.ForeignKey("user.username"), index=True
     )
-    roomID = db.Column(db.Integer, unique=True, index=True)
+    roomID = db.Column(db.Integer, unique=True, index=True, primary_key = True)
     roomName = db.Column(db.String(30), index=True)
     playerNumber = db.Column(db.Integer, index=True)
     turnNumber = db.Column(db.Integer, index=True)
