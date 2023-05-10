@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Flask SocketIO Chat Room</title>
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"></script>
+  </head>
+  <body>
+    <div id="messages"></div>
+    <input type="text" id="message_input">
+    <button id="send_message">Send</button>
+    <script>
+      $(document).ready(function() {
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+        socket.on('message', function(message) {
+          $('#messages').append($('<p>').text(message));
+        });
+        $('#send_message').click(function() {
+          var message = $('#message_input').val();
+          socket.send('message', message);
+          $('#message_input').val('');
+        });
+      });
+    </script>
+  </body>
+</html>

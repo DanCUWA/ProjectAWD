@@ -17,8 +17,52 @@
     <!--Jquery-->
     <script type="text/javascript" src="//code.jquery.com/jquery-1.4.2.min.js"></script>
     <!--Socket-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/mainPageStyle.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(document.ready(function() { 
+            var socket = io.connect('http://localhost:5000/index');
+            socket.on('connect', function() {
+                print("a new user has connected")
+                socket.send('User connected!');
+            });
+        }))
+    </script>
+    <!-- <script type="text/javascript" src="//cdn.socket.io/4.4.1/socket.io.min.js"></script>
+    <script>//Socket communcation for chat
+        var socket;
+                    $(document).ready(function(){
+                        socket = io.connect('http://' + document.domain + ':' + location.port + '/chat');
+                        socket.on('connect', function() {
+                            socket.emit('User connected!', {});
+                        });
+                        // socket.on('status', function(data) {
+                        //     $('#textmessage').val($('#textmessage').val() + '<' + data.msg + '>\n');
+                        //     $('#textmessage').scrollTop($('#textmessage')[0].scrollHeight);
+                        // });
+                        socket.on('message', function(data) {
+                            $('#textMessage').append($('<p>').text(data))
+                            // $('#textMessage').val($('#textMessage').val() + data.msg + '\n');
+                            // $('#textMessage').scrollTop($('#textMessage')[0].scrollHeight);
+                        });
+                        $('#insertText').keypress(function(e) {
+                            var code = e.keyCode || e.which;
+                            if (code == 13) {
+                                text = $('#insertText').val();
+                                $('#insertText').val('');
+                                socket.emit('text', {msg: text});
+                            }
+                        });
+                    });
+                    function leave_room() {
+                        socket.emit('left', {}, function() {
+                            socket.disconnect();
+        
+                            // go back to the login page
+                            window.location.href = "{{ url_for('index') }}";
+                        });
+                    }
+        </script> -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/mainPageStyle.css') }}">
 </head>
 <body>
     
@@ -27,7 +71,6 @@
         <div class="d-flex" style="padding-top: 0.5vh">
             <div class="col-sm-6"></div>
             <div class="col-sm-2">
-                <input type = "button" id="next" value="Next round">
             <!-- <input type="text" placeholder = "Username" class="form-control" > -->
             <!-- <input type="text"><button type="button">Login</button><button type="button">Sign Up</button> -->
             </div>
@@ -100,36 +143,7 @@
         </div>
         <a class="logout" href="{{ url_for('logout') }}"><i class="bx bx-log-out bx-md"></i></a>
     </div>    
-    <script>
-        $(document).ready(function() {
-          var socket = io.connect('http://' + document.domain + ':' + location.port);
-          socket.on('connect', function(message){ 
-            socket.send("Host side connected");
-          })
-          socket.on('server-response',data=>{ 
-            console.log("server reponses");
-            console.log(data['message'] + data['name']);
-            $('#textMessage').append($('<p>').text(data['name'] + ": " + data['message']));
-          })
-          socket.on('gpt-res', function(data){ 
-            $('#textMessage').append($('<p>').text("GPT" + ": " + data['message']));
-          });
-          $('#insertText').keydown(function(e) {
-            var key = e.keyCode || e.which; 
-            if (key === 13){ 
-                event.preventDefault();
-                var message = $('#insertText').val();
-                socket.emit('player-mes',{'data':message});
-                $('#insertText').val('');
-            }
-          });
-          $('#next').click(e=>{
-            e.preventDefault()
-            socket.emit('next-turn',{'roomID':0})
-          });
-        });
-      </script>
-    <!-- <script type="text/javascript" src="{{ url_for('static', filename='./js/mainPageJS.js') }}"></script> -->
+    <script type="text/javascript" src="{{ url_for('static', filename='./js/mainPageJS.js') }}"></script>
 </body>
 
 </html>
