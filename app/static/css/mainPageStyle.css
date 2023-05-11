@@ -185,7 +185,17 @@ font-size: 36px;
 margin-left: 50px;
 }
 
-button#logout{
+a.logout{
+    border: none;
+    color: white;
+    width: max-content;
+    height: auto;
+    display: flex;
+    padding: 20px;
+    color: #818181;
+    font: 5px;
+}
+/* button#logout{
     background: transparent;
     border: none;
     color: white;
@@ -194,7 +204,7 @@ button#logout{
     padding: 20px;
     color: #818181;
     font: 5px;
-}
+} */
 .hover :hover {
     color: #f1f1f1;
 }

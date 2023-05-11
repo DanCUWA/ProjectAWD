@@ -18,41 +18,46 @@ function toggleNav(){
 }
 //___________________________________________________________
 // Message Box
-const textarea = document.querySelector("#insertText");
-textarea.addEventListener("keyup", e =>{
-  textarea.style.height = "0px";
-  let scHeight = e.target.scrollHeight;
-  textarea.style.height = `${scHeight}px`;
-});
+// const textarea = document.querySelector("#insertText");
+// textarea.addEventListener("keyup", e =>{
+//   textarea.style.height = "0px";
+//   let scHeight = e.target.scrollHeight;
+//   textarea.style.height = `${scHeight}px`;
+// });
 
-const form = document.querySelector("#input")
-const output = document.querySelector("#textMessage")
+// const form = document.querySelector("#input")
+// const output = document.querySelector("#textMessage")
 
 
-form.addEventListener("submit", e =>{
-  e.preventDefault();
-  insertText()
-});
+// form.addEventListener("submit", e =>{
+//   e.preventDefault();
+//   insertText()
+// });
 
-textarea.addEventListener("keydown", e =>{
-  if(e.keyCode == 13 && !e.shiftKey){
-    e.preventDefault();
-    insertText()
-  }
-})
+// textarea.addEventListener("keydown", e =>{
+//   if(e.keyCode == 13 && !e.shiftKey){
+//     e.preventDefault();
+//     insertText()
+//   }
+// })
 
-function insertText() {
-  const formData = new FormData(form); // create new FormData object from form data
-  const myInputValue = formData.get('myInput'); // get value of myInput field
-  if(myInputValue != ''){
-    let theTextSet = document.createElement("p");
-    theTextSet.innerText="Tony: "+myInputValue;
-    output.appendChild(theTextSet);
-    output.scrollTop =  output.scrollHeight;
-  }
+// function insertText() {
+//   const formData = new FormData(form); // create new FormData object from form data
+//   const myInputValue = formData.get('myInput'); // get value of myInput field
+//   if(myInputValue != ''){
+//     let theTextSet = document.createElement("p");
+//     fetch('/get_username').then(response => response.json())
+//     .then(data => {
+//       user = data.username;
+//       theTextSet.innerText=user+": "+myInputValue;
+//     });
+//     //theTextSet.innerText=user+": "+myInputValue;
+//     output.appendChild(theTextSet);
+//     output.scrollTop =  output.scrollHeight;
+//   }
 
-  textarea.value = ''; // clear the textarea value
-}
+//   textarea.value = ''; // clear the textarea value
+// }
 //___________________________________________________________
 
 // function insertText() {
@@ -72,3 +77,6 @@ function insertText() {
 //         insertText();        
 //     }
 // }
+
+//________________________________________________________________________________________-
+
