@@ -112,7 +112,7 @@
             $('#textMessage').append($('<p>').text(data['name'] + ": " + data['message']));
           })
           socket.on('gpt-res', function(data){ 
-            $('#textMessage').append($('<p>').text("GPT" + ": " + data['message']));
+            $('#textMessage').append($('<p>').text("GAMEMASTER" + ": " + data['message']));
           });
           $('#insertText').keydown(function(e) {
             var key = e.keyCode || e.which; 
