@@ -44,7 +44,8 @@ def handle_playerqs(data):
 def handle_turn(data): 
     room = data['roomID']
     print("HANDLING")
-    req = gpt_response("Give me a short scenario for a DnD like RPG")
+    # req = gpt_response("Give me a short scenario for a DnD like RPG")
+    req = "Sorry am unhooked :("
     print("req " + req)
     socketio.emit('gpt-res',{'message':req})
 
