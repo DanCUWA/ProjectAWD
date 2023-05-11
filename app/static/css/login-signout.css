@@ -16,6 +16,19 @@ body{
     width: 90%;
     border-radius: 20px;
 }
+
+.login-box{
+    background: #fff;
+    border: #282525 1px solid;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 500px;
+    width: 90%;
+    border-radius: 20px;
+}
+
 label.title {
     display: flex;
     justify-content: center; 
@@ -23,11 +36,6 @@ label.title {
     font-size: 30px;
     margin: 0 10px;
     border-bottom: 2px solid #adadad;
-}
-
-form {
-    padding: 20px;
-    box-sizing: border-box;
 }
 
 .txt_field {
@@ -61,6 +69,17 @@ form {
     top: -5px;
     color: #248cd2;
 }
+
+.forgot {
+    margin: -5px 0 20px 5px;
+    color: #adadad;
+    cursor: pointer;
+}
+.forgot:hover {
+    text-decoration: underline;
+    color: #282525;
+}
+
 input[type="submit"] {
     height: 40px;
     width: 100%;

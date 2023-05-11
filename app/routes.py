@@ -1,6 +1,7 @@
 from app import app, db,socketio
 from flask import render_template, request, escape, flash, redirect, session, redirect, url_for
 from flask_login import current_user, login_user, logout_user, login_required
+from app.models import User, Settings, Stats, GameRoom
 from flask_socketio import emit
 from app.models import User, Settings, Stats
 from app.forms import LoginForm, SignupForm
@@ -134,12 +135,43 @@ def settings():
     return render_template("settings.html", settings=s)
 
 
-@app.route("/rooms")
+@app.route("/rooms", methods=['GET', 'POST'])
 def rooms():
-    return render_template("rooms.html")
+    user = User.query.filter_by(username=current_user.username).first_or_404()
 
+    if request.method == 'POST':
+        room_name = request.form['room_name']
+        num_players = int(request.form['num_players'])
+
+        # Create a new Room object and set the necessary attributes
+        room = GameRoom(username=user.username, roomName=room_name, playerNumber=num_players, turnNumber=0)
+
+        # Add the room to the database
+        db.session.add(room)
+        db.session.commit()
+
+    rooms = GameRoom.query.filter_by(username=current_user.username).all()
+
+
+    return render_template('rooms.html', user=user, rooms=rooms)
+
+@app.route("/rooms/deleteRoom", methods=['GET', 'POST'])
+def deleteRoom():
+    user = User.query.filter_by(username=current_user.username).first_or_404()
+    if request.method == 'POST':
+            deleteRoom = request.form['roomDelete']
+            room_to_delete = GameRoom.query.get(deleteRoom)
+            db.session.delete(room_to_delete)
+            db.session.commit()
+
+    rooms = GameRoom.query.filter_by(username=current_user.username).all()
+    return render_template('rooms.html', user=user, rooms=rooms)
 
 @login_required
-@app.route("/stats/")
-def stats():
-    return render_template("stats.html")
+@app.route('/stats/<username>')
+def stats(username): 
+    return render_template('stats.html',username=escape(username))
+
+@app.route('/profile/<user_id>')
+def profile(user_id): 
+    return render_template('profile.html',id=escape(user_id))

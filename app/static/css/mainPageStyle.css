@@ -49,11 +49,6 @@
     animation-duration: 5s,5s;
     animation-fill-mode: forwards;
 }
-/* input[type=text] {
-    background-color:rgb(85, 71, 84);
-    color: rgb(196, 194, 194);
-    height: 4vh;
-} */
 
 .form-control {
     /* background-color:rgb(85, 71, 84); */
@@ -65,20 +60,6 @@
     border: none;
 }
 
-/* User Input Message Box */
-/* .inputMessageBox{
-} */
-/* .chatbox {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    
-} */
-
-/* .buttonInsert {
-    margin-bottom: 2.5%;
-    margin-right: 0%;
-} */
 
 #insertText {
     background-color:rgb(60, 51, 61);
@@ -105,7 +86,7 @@ button#submitMessage {
     right: 1%; 
   }
 
-input[type=button],input[type=text]{
+input{
     background-color:rgb(60, 51, 61);
     color: #aeaeae;
     height: 4vh;
@@ -122,11 +103,6 @@ input[type=button],input[type=text]{
 90% { transform: translate(-50%,-50%) rotate(360deg) scale(1.5)}
 100% { transform: translate(-50%,-50%) rotate(360deg) scale(1)}
 }
-
-/* @keyframes entrance { 
-    0% {transform:scale(4);}
-    100% {transform: scale(1);}
-} */
 
 @keyframes backgroundAni{
     0% {background-color:rgb(63, 55, 71);}
@@ -309,7 +285,7 @@ padding: 16px;
     color: aliceblue;
     padding: 10px;
     margin:10px;
-    font-size:x-large;
+    font-size:medium;
   }
 
 .roomFormatting{
@@ -334,6 +310,7 @@ padding: 16px;
 
 #midPage {
     max-height: 90vh;
+    overflow-y: auto;
 }
 
 .centerItems {
