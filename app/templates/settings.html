@@ -5,18 +5,18 @@
     </div>
     
     <div id="midPage" class="container-fluid centerItems" style="color: white;">
-        <div>
+        <form method="POST" action="">
             <label for="primColor">Primary Colour:</label>
             <input type="color" name="primColour" id="primColour" value="rgb(63, 55, 71)"><br><br>
             <label for="secoColor">Secondary Colour:</label>
             <input type="color" name="secoColour" id="secoColour" value="rgb(38, 40, 43)"><br><br>
             <label for="secoColor">Adjust volume:</label>
-            <input type="range" name="secoColor" value="100"><br><br>
+            <input type="range" name="thirdColor" value="100"><br><br>
             <label for="textColour">Text Colour:</label>
             <input type="color" name="textColour" id="textColour" value="rgb(0, 0, 0)"><br><br>
+            <input type="submit" value="Submit"><br><br>
             <button onclick = "window.open('/', '_parent')" class="backButton"> Go Back</button>
-            
-        </div>
+        </form>
     </div>
 
     <script>

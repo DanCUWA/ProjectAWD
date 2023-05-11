@@ -10,12 +10,17 @@
             <div class="col-sm-2">
                 <!-- <input type="text" placeholder="Password" class="form-control" > -->
             </div>
+            {% if current_user.is_anonymous %}
             <div class="col-sm-1 hover">
                 <input type="button" value="Login" class="form-control" onclick="document.location.href='/login';">
             </div>
             <div class="col-sm-1 hover">
                 <input type="button" value="Sign up" class="form-control" onclick="document.location.href='/signup';">
             </div>
+            {% else %}
+            <div class="col-sm-2" style="color:aliceblue">{{current_user.username}}</div>
+
+            {% endif %}
     
         </div>
     </div>
@@ -68,7 +73,7 @@
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
             <a href="/rooms">Game Rooms</a>
             <a href='/stats/{{current_user.username}}'>Stats</a>
-            <a href="/profile">Profile</a>
+            <a href="{{ url_for('profile', username=current_user.username) }}">Profile</a>
             <a href="/settings">Settings</a>
         </div>
         <a class="logout" href="{{ url_for('logout') }}"><i class="bx bx-log-out bx-md"></i></a>
@@ -78,4 +83,9 @@
         <div style="padding-top: 1vh; color:white; font-size: 2vh;">@2023 Copyright</div>
     </div>
     <script src="{{ url_for('static', filename='js/mainPageJS.js') }}"></script>
+    {% if current_user.is_authenticated %}
+    <script>
+        colorChange();
+    </script>
+    {% endif %}
     {%endblock%}

@@ -1,3 +1,10 @@
+:root {
+    --primary-color: rgb(63, 55, 71);
+    --secondary-color: rgb(38, 40, 43);
+    --text-color: white;
+
+}
+
 #midPage {
     background-color: white;
     height: 90vh;
@@ -296,11 +303,11 @@ padding: 16px;
 
 /*Main colouring*/
 #topPage{
-    background-image: linear-gradient(225deg,rgb(63, 55, 71) 50%,rgb(38, 40, 43) 90%);  
+    background-image: linear-gradient(225deg,var(--primary-color) 50%,var(--secondary-color) 90%);  
 }
 
 #botPage{
-    background-image: linear-gradient(45deg,rgb(63, 55, 71) 50%,rgb(38, 40, 43) 90%);
+    background-image: linear-gradient(45deg,var(--primary-color) 50%,var(--secondary-color) 90%);  
 }
 /*Main formatting*/
 #botPage, #topPage{

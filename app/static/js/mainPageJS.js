@@ -1,3 +1,12 @@
+function colorChange() {
+  const root = document.querySelector(":root");
+  root.style.setProperty('--primary-color', '#1a1a1a');
+}
+if (is_user_logged_in()) {
+  const root = document.querySelector(":root");
+  root.style.setProperty('--primary-color', '#1a1a1a');
+}
+
 function openNav() {
     document.getElementById("mySidenav").style.width = "250px";
     document.getElementById("main").style.marginLeft = "250px";
