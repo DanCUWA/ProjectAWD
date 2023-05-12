@@ -105,11 +105,18 @@
           var socket = io.connect('http://' + document.domain + ':' + location.port);
           socket.on('connect', function(message){ 
             socket.send("Host side connected");
+            socket.emit('join_room',{})
           })
           socket.on('server-response',data=>{ 
             console.log("server reponses");
             console.log(data['message'] + data['name']);
             $('#textMessage').append($('<p>').text(data['name'] + ": " + data['message']));
+          })
+          socket.on('joined', data => { 
+            $('#textMessage').append($('<p>').text("SERVER: Welcome to room "+ data['room'] + " " + data['name'] + "!"));
+          })
+          socket.on('left', data => { 
+            $('#textMessage').append($('<p>').text("SERVER: " + data['name'] + " has left room " + data['room']  + "!"));
           })
           socket.on('gpt-res', function(data){ 
             $('#textMessage').append($('<p>').text("GAMEMASTER" + ": " + data['message']));

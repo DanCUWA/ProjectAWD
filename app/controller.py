@@ -38,17 +38,19 @@ def add_message(msg):
 
 @socketio.on('join_room')
 def on_join(data):
-    username = data['username']
-    room = data['room']
+    u = User.query.filter_by(username=current_user.username).first_or_404()
+    username = u.username
+    room = u.roomID
     join_room(room)
-    socketio.emit('joined', {'username': username, 'room': room}, room=room)
+    socketio.emit('joined', {'name': username, 'room': room}, room=room)
 
 @socketio.on('leave_room')
 def on_leave(data):
-    username = data['username']
-    room = data['room']
+    u = User.query.filter_by(username=current_user.username).first_or_404()
+    username = u.username
+    room = u.roomID
     leave_room(room)
-    socketio.emit('left', {'username': username, 'room': room}, room=room)
+    socketio.emit('left', {'name': username, 'room': room}, room=room)
 
 @socketio.on('message')
 def handle_message(message):

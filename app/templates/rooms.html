@@ -12,11 +12,12 @@
                 <form action="{{ url_for('joinRoom')}}" method="POST">
                     <input type="hidden" value={{room.roomID}} name="roomJoin">
                     <input type="submit" value="Join Room">
-                  </form></div>
+                  </form>
                 <form action="{{ url_for('deleteRoom')}}" method="POST">
                     <input type="hidden" value={{room.roomID}} name="roomDelete">
                     <input type="submit" value="Delete Room">
-                  </form></div>
+                  </form>
+            </div>
             {%endfor%}
             <div class="gameNodes">
                 <div>

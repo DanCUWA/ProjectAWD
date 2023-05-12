@@ -13,17 +13,7 @@ import os
 @app.route("/")
 @app.route("/index")
 def index():
-    """Chat room. The user's name and room must be stored in
-    the session."""
-    # name = session.get('name', 'LostBoi0')
-    room = session.get('room', '1')
-    if current_user.is_authenticated: 
-        name = current_user.username
-    else: 
-        name = "Not logged in"
-    # if name == '' or room == '':
-    #     return redirect(url_for('index'))
-    return render_template("mainPage.html", title="MAIN", name=name, room=room)
+    return render_template("WelcomePage.html", title="MAIN")
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
@@ -90,7 +80,7 @@ def rooms():
         # Add the room to the database
         db.session.add(room)
         db.session.commit()
-    rooms = GameRoom.query.filter_by(username=current_user.username).all()
+    rooms = GameRoom.query.all()
     return render_template('rooms.html', user=user, rooms=rooms)
 
 @login_required
@@ -113,11 +103,13 @@ def joinRoom():
     user = User.query.filter_by(username=current_user.username).first_or_404()
     n_users = len(User.query.filter_by(roomID=roomNum).all())
     room = GameRoom.query.get(roomNum)
+    print("TRYING TO JOIN ROOM " + str(room.playerNumber))
     if room.playerNumber > n_users: 
-        user.roomID = joinRoom
+        user.roomID = roomNum
         db.session.commit()
         return redirect(url_for('chat'))
     else: 
+        flash("Room full!")
         return redirect(url_for('rooms'))
 
 @login_required
@@ -135,13 +127,9 @@ def profile():
 @app.route('/chat')
 def chat(): 
     user = User.query.filter_by(username=current_user.username).first_or_404()
-    return render_template("mainPage.html", title="MAIN", name=user.username, room=user.roomID)
+    return render_template("chat.html", title="MAIN", name=user.username, room=user.roomID)
 
 @login_required
 @app.route("/get_username")
 def get_username():
     return {"username": current_user.username}
-
-@app.route('/welcomePage')
-def welcome():
-    return render_template('WelcomePage.html')
