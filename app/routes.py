@@ -78,6 +78,7 @@ def settings():
 
 @login_required
 @app.route("/rooms", methods=['GET', 'POST'])
+@login_required
 def rooms():
     user = User.query.filter_by(username=current_user.username).first_or_404()
     if request.method == 'POST':
@@ -140,3 +141,7 @@ def chat():
 @app.route("/get_username")
 def get_username():
     return {"username": current_user.username}
+
+@app.route('/welcomePage')
+def welcome():
+    return render_template('WelcomePage.html')
