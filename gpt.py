@@ -1,7 +1,7 @@
 import openai 
 import os
 
-openai.api_key = os.environ['GPT_KEY']
+# openai.api_key = os.environ['GPT_KEY']
 def gpt_response(text):
     response = openai.Completion.create(
         engine="text-davinci-003",

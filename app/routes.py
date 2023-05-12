@@ -9,7 +9,7 @@ import bcrypt
 import openai 
 import os
 
-openai.api_key = os.environ['GPT_KEY']
+# openai.api_key = os.environ['GPT_KEY']
 
 def init_all_db(user):
     s = Settings(username=user)
