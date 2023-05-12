@@ -5,24 +5,25 @@
     </div>
     
     <div id="midPage" class="container-fluid centerItems" style="color: white;">
-        <form method="POST" action="">
+        <form action="{{ url_for('settings') }}" method="POST">
             <label for="primColor">Primary Colour:</label>
-            <input type="color" name="primColour" id="primColour" value="rgb(63, 55, 71)"><br><br>
+            <input type="color" name="primColour" id="primColour" value="{{settings.primaryColor}}"><br><br>
             <label for="secoColor">Secondary Colour:</label>
-            <input type="color" name="secoColour" id="secoColour" value="rgb(38, 40, 43)"><br><br>
+            <input type="color" name="secoColour" id="secoColour" value="{{settings.secondaryColor}}"><br><br>
             <label for="secoColor">Adjust volume:</label>
-            <input type="range" name="thirdColor" value="100"><br><br>
+            <input type="range" name="thirdColour" value="100"><br><br>
             <label for="textColour">Text Colour:</label>
-            <input type="color" name="textColour" id="textColour" value="rgb(0, 0, 0)"><br><br>
+            <input type="color" name="textColour" id="textColour" value="{{settings.textColor}}"><br><br>
             <input type="submit" value="Submit"><br><br>
-            <button onclick = "window.open('/', '_parent')" class="backButton"> Go Back</button>
         </form>
+        <button onclick = "window.open('/', '_parent')" class="backButton"> Go Back</button>
     </div>
 
     <script>
         let colourInput = document.getElementById('primColour');
         let colourInput2= document.getElementById('secoColour');
         let textColour = document.getElementById('textColour')
+        
         // Whenever the user changes the color, the input event will be called.
         colourInput.addEventListener('input', () =>{
            document.getElementById("topPage").style.backgroundImage = "linear-gradient(225deg ," + colourInput.value+" 50%," + colourInput2.value +" 90%)";

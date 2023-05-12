@@ -45,11 +45,13 @@
                             <Label>MAT</Label>
                             <Label>MDF</Label>
                             <Label>LUK</Label>
+                            {% if current_user.is_authenticated %}
+                            {% endif %}
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-8 chatbox" style="background-color:rgb(68, 58, 68); color:white;">
+            <div class="col-sm-8 chatbox" style="background-color:rgb(68, 58, 68);">
                 <div id="textBox" class="screenChange" style=" width: 100%; padding: 50px; display: flex;">
                     <div id="textMessage" class="screenChange2" style=" text-align: left; word-wrap: break-word; overflow-y: auto; width: 100%;">
 
@@ -85,7 +87,7 @@
     <script src="{{ url_for('static', filename='js/mainPageJS.js') }}"></script>
     {% if current_user.is_authenticated %}
     <script>
-        colorChange();
+        colorChange('{{setting.primaryColor}}', '{{setting.secondaryColor}}', '{{setting.textColor}}');
     </script>
     {% endif %}
     {%endblock%}

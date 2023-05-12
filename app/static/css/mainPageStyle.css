@@ -1,7 +1,7 @@
 :root {
-    --primary-color: rgb(63, 55, 71);
-    --secondary-color: rgb(38, 40, 43);
-    --text-color: white;
+    --primary-color: #3F3747;
+    --secondary-color: #26282B;
+    --text-color: #ffffff;
 
 }
 
@@ -67,6 +67,9 @@
     border: none;
 }
 
+.chatbox {
+    color: var(--text-color)
+}
 
 #insertText {
     background-color:rgb(60, 51, 61);

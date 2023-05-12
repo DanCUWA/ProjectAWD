@@ -4,10 +4,6 @@ from flask_login import UserMixin
 import bcrypt
 
 
-@login.user_loader
-def load_user(name):
-    return User.query.get(name)
-
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -15,6 +11,7 @@ class User(UserMixin, db.Model):
     # email = db.Column(db.String(120), index=True, unique=True)
 
     rooms = db.relationship('GameRoom', backref='Game Rooms', lazy='dynamic')
+    setting = db.relationship('Settings', backref='Settings', lazy='dynamic')
     salt = db.Column(db.String(128))
     password_hash = db.Column(db.String(128))
 
@@ -46,15 +43,15 @@ class Stats(db.Model):
 
 class Settings(db.Model):
     username = db.Column(
-        db.String(64), db.ForeignKey("user.username"), primary_key=True,
+        db.String(64), db.ForeignKey("user.username"), primary_key=True,index=True
     )
-    primaryColor = db.Column(db.String(7), default="#000000")
-    secondaryColor = db.Column(db.String(7), default="#FFFFFF")
+    primaryColor = db.Column(db.String(7), default="#3F3747")
+    secondaryColor = db.Column(db.String(7), default="#26282B")
     # seems unnecessary
-    textColour = db.Column(db.String(64))
+    textColor = db.Column(db.String(7), default="#ffffff")
 
     def __repr__(self):
-        return "<User {}, Colour {}>".format(self.username, self.textColour)
+        return "<User {}, primaryColor {}, secondaryColor {}, textColor {}>".format(self.username, self.primaryColor, self.secondaryColor, self.textColor)
 
 
 class GameRoom(db.Model):

@@ -2,12 +2,12 @@ from app import app, db
 from flask import render_template, request, escape, flash, redirect
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Settings, Stats, GameRoom
-from app.forms import LoginForm, SignupForm
+from app.forms import LoginForm, SignupForm, ColorForm
 import bcrypt
 
 def init_all_db(user):
-    s = Settings(username=user)
-    st = Stats(username=user)
+    s = Settings(username=user.username)
+    st = Stats(username=user.username)
     db.session.add(s)
     db.session.add(st)
     db.session.commit()
@@ -16,7 +16,11 @@ def init_all_db(user):
 @app.route("/")
 @app.route("/index")
 def index():
-    return render_template("mainPage.html", title="MAIN")
+    print(current_user)
+    if (current_user.is_authenticated):
+        setting = Settings.query.get(current_user.username)
+        return render_template("mainPage.html", title="MAIN", setting=setting)
+    return render_template("mainPage.html", title="MAIN")  
 
 
 @app.route("/get_username")
@@ -35,6 +39,7 @@ def signup():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
+        init_all_db(user)
         flash("Congratulations, you are now a registered user!")
         return redirect(("/login"))
     return render_template("signup.html", title="SignUp", form=form)
@@ -47,14 +52,14 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
+        if user is None:
+            flash('Invalid username or password')
+            return redirect("/login")
         if user.password_hash != bcrypt.hashpw(
             form.password.data.encode("utf-8"), user.salt
         ):
-            flash("Incorrect password")
-            return redirect("/")
-        if user is None:
-            flash("User does not exist")
-            return redirect("/")
+            flash('Invalid username or password')
+            return redirect("/login")
         login_user(user)
         next_page = request.args.get("next")
         if not next_page:
@@ -69,10 +74,17 @@ def logout():
     return redirect("/")
 
 
-@app.route("/settings")
+@app.route("/settings", methods=['GET', 'POST'])
 @login_required
 def settings():
     s = Settings.query.get(current_user.username)
+    if request.method == 'POST':
+        print("yes")
+        print(request.form['primColour'])
+        s.primaryColor = request.form['primColour']
+        s.secondaryColor = request.form['secoColour']
+        s.textColor = request.form['textColour']
+        db.session.commit()
     return render_template("settings.html", settings=s)
 
 
@@ -113,6 +125,8 @@ def deleteRoom():
 def stats(username): 
     return render_template('stats.html',username=escape(username))
 
-@app.route('/profile/<user_id>')
-def profile(user_id): 
-    return render_template('profile.html',id=escape(user_id))
+@app.route('/profile/<username>')
+@login_required
+def profile(username): 
+    user = User.query.filter_by(username=username).first_or_404()
+    return render_template('profile.html', user=user)

@@ -32,3 +32,9 @@ class SignupForm(FlaskForm):
     #         raise ValidationError("Passwords don't match")
     #     print("match")
     #     return True
+
+class ColorForm(FlaskForm):
+    primaryColor = StringField('Text')
+    secondaryColor = StringField('Text')
+    testColor = StringField('Text')
+    submit = SubmitField('Sign In') 

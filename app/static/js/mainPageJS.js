@@ -1,10 +1,9 @@
-function colorChange() {
+function colorChange(primColor, secoColor, textColor) {
   const root = document.querySelector(":root");
-  root.style.setProperty('--primary-color', '#1a1a1a');
-}
-if (is_user_logged_in()) {
-  const root = document.querySelector(":root");
-  root.style.setProperty('--primary-color', '#1a1a1a');
+  root.style.setProperty('--primary-color', primColor);
+  root.style.setProperty('--secondary-color', secoColor);
+  root.style.setProperty('--text-color', textColor);
+  console.log(primColor);
 }
 
 function openNav() {
