@@ -25,12 +25,6 @@ def index():
     #     return redirect(url_for('index'))
     return render_template("mainPage.html", title="MAIN", name=name, room=room)
 
-
-@app.route("/get_username")
-def get_username():
-    return {"username": current_user.username}
-
-
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
 
@@ -82,38 +76,48 @@ def settings():
     s = Settings.query.get(current_user.username)
     return render_template("settings.html", settings=s)
 
-
+@login_required
 @app.route("/rooms", methods=['GET', 'POST'])
 def rooms():
     user = User.query.filter_by(username=current_user.username).first_or_404()
-
     if request.method == 'POST':
         room_name = request.form['room_name']
         num_players = int(request.form['num_players'])
-
         # Create a new Room object and set the necessary attributes
         room = GameRoom(username=user.username, roomName=room_name, playerNumber=num_players, turnNumber=0)
 
         # Add the room to the database
         db.session.add(room)
         db.session.commit()
-
     rooms = GameRoom.query.filter_by(username=current_user.username).all()
-
-
     return render_template('rooms.html', user=user, rooms=rooms)
 
-@app.route("/rooms/deleteRoom", methods=['GET', 'POST'])
+@login_required
+@app.route("/rooms/deleteRoom", methods=['POST'])
 def deleteRoom():
     user = User.query.filter_by(username=current_user.username).first_or_404()
     if request.method == 'POST':
-            deleteRoom = request.form['roomDelete']
-            room_to_delete = GameRoom.query.get(deleteRoom)
-            db.session.delete(room_to_delete)
-            db.session.commit()
+        deleteRoom = request.form['roomDelete']
+        room_to_delete = GameRoom.query.get(deleteRoom)
+        db.session.delete(room_to_delete)
+        db.session.commit()
 
     rooms = GameRoom.query.filter_by(username=current_user.username).all()
     return render_template('rooms.html', user=user, rooms=rooms)
+
+@login_required
+@app.route("/rooms/joinRoom", methods=['POST'])
+def joinRoom():
+    roomNum = request.form['roomJoin']
+    user = User.query.filter_by(username=current_user.username).first_or_404()
+    n_users = len(User.query.filter_by(roomID=roomNum).all())
+    room = GameRoom.query.get(roomNum)
+    if room.playerNumber > n_users: 
+        user.roomID = joinRoom
+        db.session.commit()
+        return redirect(url_for('chat'))
+    else: 
+        return redirect(url_for('rooms'))
 
 @login_required
 @app.route('/stats/<username>')
@@ -126,3 +130,13 @@ def profile():
     msgs = Message.query.filter_by(username=current_user.username).all()
     return render_template('profile.html',id=current_user.username,msgs=msgs)
 
+@login_required
+@app.route('/chat')
+def chat(): 
+    user = User.query.filter_by(username=current_user.username).first_or_404()
+    return render_template("mainPage.html", title="MAIN", name=user.username, room=user.roomID)
+
+@login_required
+@app.route("/get_username")
+def get_username():
+    return {"username": current_user.username}

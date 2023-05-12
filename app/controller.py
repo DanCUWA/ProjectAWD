@@ -3,7 +3,7 @@ from flask import render_template, request, escape, flash, redirect, session, re
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import *
 from app.forms import * 
-from flask_socketio import emit
+from flask_socketio import emit,join_room,leave_room
 import openai, os
 @app.before_first_request
 def make_base(): 
@@ -35,6 +35,20 @@ def add_message(msg):
         m = Message(username=current_user.username,text=msg,roomID=1)
         db.session.add(m)
         db.session.commit()
+
+@socketio.on('join_room')
+def on_join(data):
+    username = data['username']
+    room = data['room']
+    join_room(room)
+    socketio.emit('joined', {'username': username, 'room': room}, room=room)
+
+@socketio.on('leave_room')
+def on_leave(data):
+    username = data['username']
+    room = data['room']
+    leave_room(room)
+    socketio.emit('left', {'username': username, 'room': room}, room=room)
 
 @socketio.on('message')
 def handle_message(message):
