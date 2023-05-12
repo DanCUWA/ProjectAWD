@@ -136,6 +136,7 @@ def settings():
 
 
 @app.route("/rooms", methods=['GET', 'POST'])
+@login_required
 def rooms():
     user = User.query.filter_by(username=current_user.username).first_or_404()
 
@@ -175,3 +176,7 @@ def stats(username):
 @app.route('/profile/<user_id>')
 def profile(user_id): 
     return render_template('profile.html',id=escape(user_id))
+
+@app.route('/welcomePage')
+def welcome():
+    return render_template('WelcomePage.html')
