@@ -5,15 +5,20 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_socketio import SocketIO, send
 
-
-app = Flask(__name__)
-app.config['SECRET_KEY'] = 'you-will-never-guess'
-app.config.from_object(Config)
-db = SQLAlchemy(app)
-socketio = SocketIO(app)
-migrate = Migrate(app, db)
-login = LoginManager(app)
-login.login_view = 'login'
-
-from app import routes, models
-
+# app = Flask(__name__)
+# app.config.from_object(Config)
+# db = SQLAlchemy(app)
+# socketio = SocketIO(app)
+# migrate = Migrate(app, db)
+# login = LoginManager(app)
+# login.login_view = 'login'
+def create_app(): 
+    app = Flask(__name__)
+    app.config.from_object(Config)
+    db = SQLAlchemy(app)
+    socketio = SocketIO(app)
+    migrate = Migrate(app, db)
+    login = LoginManager(app)
+    login.login_view = 'login'
+    return app
+from app import routes, models, controller

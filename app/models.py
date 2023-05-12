@@ -1,6 +1,7 @@
 from app import db, login
 from datetime import datetime
 from flask_login import UserMixin
+
 import bcrypt
 
 
@@ -18,8 +19,8 @@ class User(UserMixin, db.Model):
     salt = db.Column(db.String(128))
     password_hash = db.Column(db.String(128))
 
-    def __init__(self, **kwargs):
-        super(User, self).__init__(**kwargs)
+    # def __init__(self, **kwargs):
+    #     super(User, self).__init__(**kwargs)
 
     def set_password(self,password):
         salt = bcrypt.gensalt()
@@ -37,7 +38,7 @@ class User(UserMixin, db.Model):
 
 class Stats(db.Model):
     username = db.Column(
-        db.String(64), db.ForeignKey("user.username"), primary_key=True, index=True
+        db.String(64), db.ForeignKey("user.username"), primary_key=True
     )
 
     def __repr__(self):
@@ -61,11 +62,21 @@ class GameRoom(db.Model):
     username = db.Column(
         db.String(64), db.ForeignKey("user.username"), index=True
     )
-    roomID = db.Column(db.Integer, unique=True, index=True, primary_key = True)
-    roomName = db.Column(db.String(30), index=True)
-    playerNumber = db.Column(db.Integer, index=True)
-    turnNumber = db.Column(db.Integer, index=True)
+    roomID = db.Column(db.Integer, unique=True, primary_key = True)
+    roomName = db.Column(db.String(30))
+    playerNumber = db.Column(db.Integer)
+    turnNumber = db.Column(db.Integer)
 
 
     def __repr__(self):
         return "<User {}, Room access {}, roomName {}, playerNumber {}, turnNumber {}>".format(self.username, self.roomID, self.roomName, self.playerNumber, self.turnNumber)
+    
+class Message(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    roomID = db.Column(db.Integer,db.ForeignKey("game_room.roomID"),index=True)
+    username = db.Column(db.String(30),db.ForeignKey("user.username"),index=True)
+    text = db.Column(db.String(500))
+    time = db.Column(db.Time)
+    def __init__(self, *args, **kwargs):
+        super(Message, self).__init__(*args, **kwargs)
+        self.time = datetime.now().time()
