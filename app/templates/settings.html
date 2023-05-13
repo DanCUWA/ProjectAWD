@@ -1,48 +1,53 @@
 {% extends 'baseHTML.html' %}
     {%block main%}
     <div class="container-fluid" id="topPage">
-        <h1 style="color:white">Settings</h1>
+        <div class="d-flex" style="padding-top: 0.3vh">
+                <button onclick = "window.open('/', '_parent')" class="backButton"> Go Back</button>
+            <h2 style="color:white; left: 50%; display:block; margin:auto;">Settings</h2>
+        </div>
     </div>
-    
-    <div id="midPage" class="container-fluid centerItems" style="color: white;">
-        <form action="{{ url_for('settings') }}" method="POST">
-            <label for="primColor">Primary Colour:</label>
-            <input type="color" name="primColour" id="primColour" value="{{settings.primaryColor}}"><br><br>
-            <label for="secoColor">Secondary Colour:</label>
-            <input type="color" name="secoColour" id="secoColour" value="{{settings.secondaryColor}}"><br><br>
-            <label for="secoColor">Adjust volume:</label>
-            <input type="range" name="thirdColour" value="100"><br><br>
-            <label for="textColour">Text Colour:</label>
-            <input type="color" name="textColour" id="textColour" value="{{settings.textColor}}"><br><br>
-            <input type="submit" value="Submit"><br><br>
-        </form>
-        <button onclick = "window.open('/', '_parent')" class="backButton"> Go Back</button>
+    <div class="pages">
+        <div class="settingOptions hover">
+            <nav>
+                <a onclick="tabs(0)" class="tab active">Account</a>
+                <a onclick="tabs(1)" class="tab">Appearance</a>
+            </nav>
+
+        </div>
+        <div class="rightbox">
+            <div class="account tabShow">
+                <h1>Profile Info</h1>
+                <form action="{{ url_for('settings') }}" method="POST">
+                    <label>Username</label>
+                    <input type="text" name="username" class="inputAccount" value="{{user.username}}">
+                    <input type="submit" name="username-submit" value="Change username" style="margin:10px;background: #40334d;height:33px;width:140px;">
+                    <p style="margin-left:20px;color:#6f6f6f;">The username will be also displayed to others</p><br><br>
+                </form>
+                <label>Password</label>
+                <input type="password" class="inputAccount">
+            </div>
+            <div class="appearance tabShow">
+                <h1>Color Appearance</h1>
+                <form action="{{ url_for('settings') }}" method="POST">
+                    <label for="primColor">Primary Colour:</label>
+                    <input type="color" name="primColour" id="primColour" value="{{settings.primaryColor}}"><br><br>
+                    <label for="secoColor">Secondary Colour:</label>
+                    <input type="color" name="secoColour" id="secoColour" value="{{settings.secondaryColor}}"><br><br>
+                    <label for="secoColor">Adjust volume:</label>
+                    <input type="range" name="thirdColour" value="100"><br><br>
+                    <label for="textColour">Text Colour:</label>
+                    <input type="color" name="textColour" id="textColour" value="{{settings.textColor}}"><br><br>
+                    <input type="submit" name="color-submit" value="Save" style="width:100px;background: #40334d;"><br><br>
+                </form>
+                <form action="{{ url_for('settings') }}" method="POST">
+                    <input type="submit" name="default-submit" value="Default Colors" style="width:130px; background:#40334d">
+                </form>
+            </div>
+        </div>
     </div>
-
-    <script>
-        let colourInput = document.getElementById('primColour');
-        let colourInput2= document.getElementById('secoColour');
-        let textColour = document.getElementById('textColour')
-        
-        // Whenever the user changes the color, the input event will be called.
-        colourInput.addEventListener('input', () =>{
-           document.getElementById("topPage").style.backgroundImage = "linear-gradient(225deg ," + colourInput.value+" 50%," + colourInput2.value +" 90%)";
-           document.getElementById("botPage").style.backgroundImage = "linear-gradient(225deg ," + colourInput2.value+" 50%," + colourInput.value +" 90%)";
-        });
-        colourInput2.addEventListener('input', () =>{
-           document.getElementById("topPage").style.backgroundImage = "linear-gradient(225deg ," + colourInput2.value+" 50%," + colourInput.value +" 90%)";
-           document.getElementById("botPage").style.backgroundImage = "linear-gradient(225deg ," + colourInput.value+" 50%," + colourInput2.value +" 90%)";
-        });
-
-        textColour.addEventListener('input', () =>{
-            var elements = document.querySelectorAll('h1, div');
-            for (var x = 0; x < elements.length; x++)
-                elements[x].style.color = textColour.value;
-        })
-
-     </script>
 
     <div class="container-fluid" id="botPage">
         <div style="padding-top: 1vh; color:white">@2023 Copyright</div>
     </div>
+    <script src="{{url_for('static', filename='js/settings.js')}}"></script>
 {%endblock%}

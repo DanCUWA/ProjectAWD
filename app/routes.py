@@ -2,8 +2,9 @@ from app import app, db
 from flask import render_template, request, escape, flash, redirect
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Settings, Stats, GameRoom
-from app.forms import LoginForm, SignupForm, ColorForm
+from app.forms import LoginForm, SignupForm
 import bcrypt
+
 
 def init_all_db(user):
     s = Settings(username=user.username)
@@ -20,7 +21,7 @@ def index():
     if (current_user.is_authenticated):
         setting = Settings.query.get(current_user.username)
         return render_template("mainPage.html", title="MAIN", setting=setting)
-    return render_template("mainPage.html", title="MAIN")  
+    return render_template("mainPage.html", title="MAIN")
 
 
 @app.route("/get_username")
@@ -78,14 +79,24 @@ def logout():
 @login_required
 def settings():
     s = Settings.query.get(current_user.username)
-    if request.method == 'POST':
-        print("yes")
-        print(request.form['primColour'])
+    if request.method == 'POST' and "username-submit" in request.form:
+        user = User.query.filter_by(username=request.form['username']).first()
+        if user is None:
+            current_user.username = request.form['username']
+            db.session.commit()
+        else:
+            flash('Username ALreay')
+    if request.method == 'POST' and "color-submit" in request.form:
         s.primaryColor = request.form['primColour']
         s.secondaryColor = request.form['secoColour']
         s.textColor = request.form['textColour']
         db.session.commit()
-    return render_template("settings.html", settings=s)
+    if request.method == 'POST' and "default-submit" in request.form:
+        s.primaryColor = '#3F3747'
+        s.secondaryColor = '#26282B'
+        s.textColor = '#ffffff'
+        db.session.commit()
+    return render_template("settings.html", settings=s, user=current_user)
 
 
 @app.route("/rooms", methods=['GET', 'POST'])
@@ -97,7 +108,8 @@ def rooms():
         num_players = int(request.form['num_players'])
 
         # Create a new Room object and set the necessary attributes
-        room = GameRoom(username=user.username, roomName=room_name, playerNumber=num_players, turnNumber=0)
+        room = GameRoom(username=user.username, roomName=room_name,
+                        playerNumber=num_players, turnNumber=0)
 
         # Add the room to the database
         db.session.add(room)
@@ -105,28 +117,30 @@ def rooms():
 
     rooms = GameRoom.query.filter_by(username=current_user.username).all()
 
-
     return render_template('rooms.html', user=user, rooms=rooms)
+
 
 @app.route("/rooms/deleteRoom", methods=['GET', 'POST'])
 def deleteRoom():
     user = User.query.filter_by(username=current_user.username).first_or_404()
     if request.method == 'POST':
-            deleteRoom = request.form['roomDelete']
-            room_to_delete = GameRoom.query.get(deleteRoom)
-            db.session.delete(room_to_delete)
-            db.session.commit()
+        deleteRoom = request.form['roomDelete']
+        room_to_delete = GameRoom.query.get(deleteRoom)
+        db.session.delete(room_to_delete)
+        db.session.commit()
 
     rooms = GameRoom.query.filter_by(username=current_user.username).all()
     return render_template('rooms.html', user=user, rooms=rooms)
 
+
 @login_required
 @app.route('/stats/<username>')
-def stats(username): 
-    return render_template('stats.html',username=escape(username))
+def stats(username):
+    return render_template('stats.html', username=escape(username))
+
 
 @app.route('/profile/<username>')
 @login_required
-def profile(username): 
+def profile(username):
     user = User.query.filter_by(username=username).first_or_404()
     return render_template('profile.html', user=user)
