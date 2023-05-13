@@ -11,13 +11,6 @@ import os
 
 # openai.api_key = os.environ['GPT_KEY']
 
-def init_all_db(user):
-    s = Settings(username=user)
-    st = Stats(username=user)
-    db.session.add(s)
-    db.session.add(st)
-    db.session.commit()
-
 def gpt_response(text):
     response = openai.Completion.create(
     engine="text-davinci-003",
@@ -49,8 +42,6 @@ def handle_turn(data):
     req = "Sorry am unhooked :("
     print("req " + req)
     socketio.emit('gpt-res',{'message':req})
-
-
 
 @socketio.on('connect')
 def connect_handler():
@@ -167,6 +158,10 @@ def deleteRoom():
 
     rooms = GameRoom.query.filter_by(username=current_user.username).all()
     return render_template('rooms.html', user=user, rooms=rooms)
+
+@app.route("/createRoom")
+def createRoom():
+    return render_template('CreateRoom.html')
 
 @login_required
 @app.route('/stats/<username>')
