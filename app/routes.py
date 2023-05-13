@@ -159,8 +159,13 @@ def deleteRoom():
     rooms = GameRoom.query.filter_by(username=current_user.username).all()
     return render_template('rooms.html', user=user, rooms=rooms)
 
-@app.route("/createRoom")
+@app.route("/createRoom", methods=['GET', 'POST'])
 def createRoom():
+    # user = User.query.filter_by(username=current_user.username).first_or_404()
+    # if request.method == 'POST':
+    #     scenario = request.form['scenario']
+
+        
     return render_template('CreateRoom.html')
 
 @login_required

@@ -9,22 +9,44 @@
             <h1><b>Create Room</b></h1>
         </div>
 
+
         <div class="row" style="margin:0; background-color: transparent;">
-            <div class="col-md-4" style="border-radius: 50px; background-color: mediumpurple;">
-                Journey to the Center of the Earth
-            </div>
-            <div class="col-md-4" style="border-radius: 50px; background-color: mediumpurple;">
-                Escape from HELL
-            </div>
-            <div class="col-md-4" style="border-radius: 50px; background-color: mediumpurple;">
-                Trial of the Gods
-            </div>
+            <form action="{{url_for('createRoom')}}" method="POST">
+                <button>
+                    <div class="col-md-4" style="border-radius: 50px; background-color: mediumpurple;">
+                        <input type="hidden" value="This an adventure to the centre of the Earth. A journey involving dark worldy secrets and discovery
+                        of mythical creatures and technology thought to be lost" name="scenario">
+                        Journey to the Center of the Earth
+                    </div>
+                </button>
+            </form>
+            <form action="{{url_for('createRoom')}}" method="POST">
+                <button type="submit">
+                    <div class="col-md-4" style="border-radius: 50px; background-color: mediumpurple;">
+                        <input type="hidden" value="This is an adventure from the depths of hell, you are either trying to escape or conquer Hell. Hell is a mysterious barren landscape where you will meet 
+                        lost souls and mysterious beings both formidable and devious. You will discover the secrets of hell throughout your journey." name="scenario">
+                        Escape from HELL
+                    </div>
+                </button>
+            </form>
+            <form action="{{url_for('createRoom')}}" method="POST">
+                <button type="submit">
+                    <div class="col-md-4" style="border-radius: 50px; background-color: mediumpurple;">
+                        <input type="hidden" value="You have been chosen to partake in the trial of God, you will wonder many worlds and partake in the 
+                        arduous trials that each God has deviously planned. Will you survive or suffer a fate worse than death." name="scenario">
+                        Trials of the Gods
+                    </div>
+                </button>
+            </form>
         </div>
         <div>
-            <div>Create your scenario</div>
-            <textarea rows="5" maxlength="500" style="width: 90vw; background-color:rgb(45, 45, 45); color: rgb(166, 166, 166);"></textarea>
-            <input type="submit" value="Create Game" style="width: 10%;"> 
+            <form action="{{ url_for('createRoom') }}" method="POST">
+                <div>Create your scenario</div>
+                <textarea rows="5" maxlength="500" style="width: 90vw; background-color:rgb(45, 45, 45); color: rgb(166, 166, 166);" name="scenario"></textarea>
+                <input type="submit" value="Create Game" style="width: 10%;"> 
+            </form>
         </div>
+        <div><input type="button" value="Cancel" onclick="window.open('/rooms', '_parent')"></div>
         
     
     </div>
