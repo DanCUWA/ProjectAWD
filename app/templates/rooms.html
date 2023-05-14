@@ -21,7 +21,7 @@
             {%endfor%}
             <div class="gameNodes">
                 <div>
-                    <form action="{{ url_for('rooms', username=user.username) }}" method="POST">
+                    <form action="{{ url_for('createRoom', username=user.username) }}" method="POST">
                         Make Room<br>
                         <input type="text" name="room_name" placeholder="Room name" required><br>
                         Number of Players

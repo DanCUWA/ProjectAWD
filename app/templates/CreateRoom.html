@@ -12,7 +12,7 @@
 
         <div class="row" style="margin:0; background-color: transparent;">
             <div class="col-md-4" style="border-radius: 50px; background-color: mediumpurple;">
-                <form action="{{url_for('createRoom')}}" method="POST">
+                <form action="{{url_for('created')}}" method="POST">
                     <button style="background-color: transparent; border-color: transparent; color:aliceblue">
                         <input type="hidden" value="This an adventure to the centre of the Earth. A journey involving dark worldy secrets and discovery
                         of mythical creatures and technology thought to be lost" name="scenario">
@@ -22,7 +22,7 @@
                 </form>
             </div>
             <div class="col-md-4" style="border-radius: 50px; background-color: mediumpurple;">
-                <form action="{{url_for('createRoom')}}" method="POST">
+                <form action="{{url_for('created')}}" method="POST">
                 <button style="background-color: transparent; border-color: transparent; color:aliceblue">
                     <input type="hidden" value="This is an adventure from the depths of hell, you are either trying to escape or conquer Hell. Hell is a mysterious barren landscape where you will meet 
                     lost souls and mysterious beings both formidable and devious. You will discover the secrets of hell throughout your journey." name="scenario">
@@ -32,7 +32,7 @@
             </div>
            
             <div class="col-md-4" style="border-radius: 50px; background-color: mediumpurple;"> 
-                <form action="{{url_for('createRoom')}}" method="POST">
+                <form action="{{url_for('created')}}" method="POST">
                 <button style="background-color: transparent; border-color: transparent; color:aliceblue">
                     <input type="hidden" value="You have been chosen to partake in the trial of God, you will wonder many worlds and partake in the 
                     arduous trials that each God has deviously planned. Will you survive or suffer a fate worse than death." name="scenario">
@@ -43,7 +43,7 @@
            
         </div>
         <div>
-            <form action="{{ url_for('createRoom') }}" method="POST">
+            <form action="{{ url_for('created') }}" method="POST">
                 <div>Create your scenario</div>
                 <textarea rows="5" maxlength="500" style="width: 90vw; background-color:rgb(45, 45, 45); color: rgb(166, 166, 166);" name="scenario"></textarea>
                 <input type="submit" value="Create Game" style="width: 10%;"> 

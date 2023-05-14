@@ -71,15 +71,6 @@ def settings():
 @login_required
 def rooms():
     user = User.query.filter_by(username=current_user.username).first_or_404()
-    if request.method == 'POST':
-        room_name = request.form['room_name']
-        num_players = int(request.form['num_players'])
-        # Create a new Room object and set the necessary attributes
-        room = GameRoom(username=user.username, roomName=room_name, playerNumber=num_players, turnNumber=0)
-
-        # Add the room to the database
-        db.session.add(room)
-        db.session.commit()
     rooms = GameRoom.query.all()
     return render_template('rooms.html', user=user, rooms=rooms)
 
@@ -101,9 +92,28 @@ def createRoom():
     # user = User.query.filter_by(username=current_user.username).first_or_404()
     # if request.method == 'POST':
     #     scenario = request.form['scenario']
-
+    if request.method == 'POST':
+        session['room_name'] = request.form['room_name']
+        session['num_players'] = int(request.form['num_players'])
         
     return render_template('CreateRoom.html')
+
+@app.route("/createRoom/created", methods=['GET','POST'])
+def createdRoom():
+    user = User.query.filter_by(username=current_user.username).first_or_404()
+    if request.method == 'POST':
+        room_name = session['room_name']
+        num_players = session['num_players']
+        startScenario = request.form['scenario']
+        # Create a new Room object and set the necessary attributes
+        room = GameRoom(username=user.username, roomName=room_name, playerNumber=num_players, turnNumber=0, scenario = startScenario)
+
+        # Add the room to the database
+        db.session.add(room)
+        db.session.commit()
+    rooms = GameRoom.query.all()
+    return render_template('rooms.html', user=user, rooms=rooms)
+
 
 @login_required
 @app.route("/rooms/joinRoom", methods=['POST'])
