@@ -53,19 +53,17 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
-        if user is None:
-            flash('Invalid username or password')
-            return redirect("/login")
-        if user.password_hash != bcrypt.hashpw(
+        if user is None or user.password_hash != bcrypt.hashpw(
             form.password.data.encode("utf-8"), user.salt
         ):
             flash('Invalid username or password')
             return redirect("/login")
-        login_user(user)
-        next_page = request.args.get("next")
-        if not next_page:
-            next_page = "index"
-        return redirect(next_page)
+        else:
+            login_user(user)
+            next_page = request.args.get("next")
+            if not next_page:
+                next_page = "index"
+            return redirect(next_page)
     return render_template("login.html", form=form)
 
 

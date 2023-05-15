@@ -19,6 +19,13 @@
                 <span style="color: red;">[{{ error }}]</span>
                 {% endfor %}
             </div>         
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="alert alert-danger" role="alert">
+            {{ messages[0] }}
+            </div>
+            {% endif %}
+            {% endwith %}
             <div class="forgot">Forgot Password?</div>
             {{ form.submit() }}
         </form>
@@ -27,4 +34,5 @@
         </div>
     </div>
     </body>
+    
 {%endblock%}
