@@ -121,6 +121,7 @@ def rooms():
 
 
 @app.route("/rooms/deleteRoom", methods=['GET', 'POST'])
+@login_required
 def deleteRoom():
     user = User.query.filter_by(username=current_user.username).first_or_404()
     if request.method == 'POST':
