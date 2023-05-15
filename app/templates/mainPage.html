@@ -32,23 +32,6 @@
                     <div id="main" style="margin-top: 40vh; text-align: left;width: 30px;">
                         <span style="font-size:30px;cursor:pointer;color: #d4d4d4;" onclick="toggleNav()">&#8692;</span>
                     </div>
-                    <div class="stats_box">
-                        <span id="username">{{current_user.username}}- template layout</span>
-                        <div class="Character">
-                            
-                            <label>Health</label>
-                            <label>Mana</label>
-                        </div>
-                        <div class="stats">
-                            <Label>ATK</Label>
-                            <Label>DEF</Label>
-                            <Label>MAT</Label>
-                            <Label>MDF</Label>
-                            <Label>LUK</Label>
-                            {% if current_user.is_authenticated %}
-                            {% endif %}
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="col-sm-8 chatbox" style="background-color:rgb(68, 58, 68);">
@@ -71,13 +54,13 @@
 
 
     <div id="mySidenav" class="sidenav hover">
-        <div id="navChoices">
+        <nav id="navChoices">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-            <a href="/rooms">Game Rooms</a>
+            <a href="{{ url_for('rooms')}}">Game Rooms</a>
             <a href='/stats/{{current_user.username}}'>Stats</a>
             <a href="{{ url_for('profile', username=current_user.username) }}">Profile</a>
-            <a href="/settings">Settings</a>
-        </div>
+            <a href="{{ url_for('settings')}}">Settings</a>
+        </nav>
         <a class="logout" href="{{ url_for('logout') }}"><i class="bx bx-log-out bx-md"></i></a>
     </div>    
 

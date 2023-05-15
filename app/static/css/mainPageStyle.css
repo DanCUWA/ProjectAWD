@@ -5,6 +5,14 @@
 
 }
 
+body.bg{
+    background: linear-gradient(225deg,rgb(63, 55, 71) 50%,rgb(38, 40, 43) 90%);
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+}
+
 #midPage {
     background-color: white;
     height: 90vh;

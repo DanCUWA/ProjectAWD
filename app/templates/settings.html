@@ -1,5 +1,6 @@
 {% extends 'baseHTML.html' %}
     {%block main%}
+    <body class="bg">
     <div class="container-fluid" id="topPage">
         <div class="d-flex" style="padding-top: 0.3vh">
                 <button onclick = "window.open('/', '_parent')" class="backButton"> Go Back</button>
@@ -49,5 +50,6 @@
     <div class="container-fluid" id="botPage">
         <div style="padding-top: 1vh; color:white">@2023 Copyright</div>
     </div>
+    </body>
     <script src="{{url_for('static', filename='js/settings.js')}}"></script>
 {%endblock%}

@@ -85,7 +85,7 @@ def settings():
             current_user.username = request.form['username']
             db.session.commit()
         else:
-            flash('Username ALreay')
+            flash('Username Already Taken')
     if request.method == 'POST' and "color-submit" in request.form:
         s.primaryColor = request.form['primColour']
         s.secondaryColor = request.form['secoColour']
