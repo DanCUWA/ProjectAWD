@@ -214,8 +214,6 @@ def handle_playerqs(data):
 
 @socketio.on('start-game')
 def start_game(data): 
-@socketio.on('start-game')
-def start_game(data): 
     # req = gpt_response("Give me a short scenario for a DnD like RPG")
     u = User.query.filter_by(username=current_user.username).first_or_404()
     req = "Starting game"
