@@ -25,9 +25,14 @@
     
     <div class="container-fluid" style="text-align: center;background-image: linear-gradient(225deg,rgb(63, 55, 71) 50%,rgb(38, 40, 43) 90%);  height: 5vh;">
         <div class="d-flex" style="padding-top: 0.5vh">
-            <div class="col-sm-6"></div>
+            <div class="col-sm-4"></div>
             <div class="col-sm-2">
-                <input type = "button" id="next" value="Next round">
+                <input type = "button" id="logout" value="Logout">
+            <!-- <input type="text" placeholder = "Username" class="form-control" > -->
+            <!-- <input type="text"><button type="button">Login</button><button type="button">Sign Up</button> -->
+            </div>
+            <div class="col-sm-2">
+                <input type = "button" id="start" value="Start">
             <!-- <input type="text" placeholder = "Username" class="form-control" > -->
             <!-- <input type="text"><button type="button">Login</button><button type="button">Sign Up</button> -->
             </div>
@@ -69,7 +74,7 @@
                 </div>
             </div>
             <div class="col-sm-8 chatbox" style="background-color:rgb(68, 58, 68); color:white;">
-                <div id="textBox" class="screenChange" style=" width: 100%; padding: 50px; display: flex;">
+                <div id="textBox" class="screenChange" style=" width: 100%; padding: 50px; display: flex;"> 
                     <div id="textMessage" class="screenChange2" style=" text-align: left; word-wrap: break-word; overflow-y: auto; width: 100%;">
 
                     </div>
@@ -101,27 +106,54 @@
         <div style="padding-top: 1vh; color:white; font-size: 2vh;">@2023 Copyright</div>
     </div>
     <script>
+        function addMessage(name,msg){ 
+            $('#textMessage').append($('<p style="margin:0;">').html(name));
+                $('#textMessage').append($('<p style="margin:5px;margin-left:20px;">').html(msg));
+            // let lines = msg.split('\n');
+            // $('#textMessage').append($('<p>').text(name + ":" + lines[0]));
+            //     for (let i = 1; i < lines.length; i++) {
+            //         $('#textMessage').append($('<p>').text("&#9;" + lines[i]));
+            //         $('#textMessage').append($('<p style="margin-left:30px;">').html(indentedLine));
+            // }
+        }
         $(document).ready(function() {
-          var socket = io.connect('http://' + document.domain + ':' + location.port);
-          socket.on('connect', function(message){ 
-            socket.send("Host side connected");
-            socket.emit('join_room',{})
-          })
-          socket.on('server-response',data=>{ 
-            console.log("server reponses");
-            console.log(data['message'] + data['name']);
-            $('#textMessage').append($('<p>').text(data['name'] + ": " + data['message']));
-          })
-          socket.on('joined', data => { 
-            $('#textMessage').append($('<p>').text("SERVER: Welcome to room "+ data['room'] + " " + data['name'] + "!"));
-          })
-          socket.on('left', data => { 
-            $('#textMessage').append($('<p>').text("SERVER: " + data['name'] + " has left room " + data['room']  + "!"));
-          })
-          socket.on('gpt-res', function(data){ 
-            $('#textMessage').append($('<p>').text("GAMEMASTER" + ": " + data['message']));
-          });
-          $('#insertText').keydown(function(e) {
+            var socket = io.connect('http://' + document.domain + ':' + location.port);
+            socket.on('connect', function(message){ 
+                socket.send("Host side connected");
+                socket.emit('connected',{'room':"{{room}}"})
+                // socket.emit('join_room',{})
+                // socket.emit('render-prev',{})
+            })
+            socket.on('display-prev', function(data){ 
+                console.log(data)
+                txt = data.txt 
+                usrs = data.usr
+                for (i=0;i<txt.length;i++) { 
+                    addMessage(usrs[i],txt[i])
+                }
+            })
+            socket.on('server-response',data=>{ 
+                console.log("server reponses");
+                console.log(data['message'] + data['name']);
+                addMessage(data['name'],data['message'])
+                // $('#textMessage').append($('<p>').text(data['name'] + ": " + data['message']));
+            })
+            socket.on('joined', data => { 
+                console.log("SERVER" + "Welcome to room "+ data['room'] + " " + data['name'] + "!")
+                addMessage("SERVER", "Welcome to room "+ data['room'] + " " + data['name'] + "!")
+                // $('#textMessage').append($('<p>').text("SERVER: Welcome to room "+ data['room'] + " " + data['name'] + "!"));
+            })
+            socket.on('left', data => { 
+                console.log('User left')
+                addMessage("SERVER",data['name'] + " has left room " + data['room']  + "!")
+                // $('#textMessage').append($('<p>').text("SERVER: " + data['name'] + " has left room " + data['room']  + "!"));
+            })
+            socket.on('gpt-res', function(data){ 
+                console.log("GAMEMASTER MESSAGING")
+                addMessage("GAMEMASTER",data['message'])
+                // $('#textMessage').append($('<p>').text("GAMEMASTER" + ": " + data['message']));
+            });
+            $('#insertText').keydown(function(e) {
             var key = e.keyCode || e.which; 
             if (key === 13){ 
                 event.preventDefault();
@@ -129,11 +161,31 @@
                 socket.emit('player-mes',{'data':message});
                 $('#insertText').val('');
             }
-          });
-          $('#next').click(e=>{
-            e.preventDefault()
-            socket.emit('next-turn',{'roomID':0})
-          });
+            });
+            $('#start').click(e=>{
+                e.preventDefault();
+                console.log("GM START TRIGGER")
+                socket.emit('start-game',{});
+            });
+            $('#logout').click(e=>{ 
+                e.preventDefault(); 
+                socket.emit('leave_room', {});
+            })
+            // $(window).bind("pagehide",function(){
+            //     socket.emit('leave_room', {});
+            //     console.log("hello");
+            // })
+            // $(window).unload(function(){
+            //     socket.emit('leave_room', {});
+            //     console.log("LEFT")
+            // });
+            // $(window).bind('beforeunload', function(e){
+            //     console.log("LEAVING");
+            //     e.preventDefault();
+            //     e.returnValue = 'Are you sure you want to leave? This will log you out of the current room.';
+            //     socket.emit('leave_room', {});
+            //     return e.returnValue;
+            // });
         });
       </script>
     <script type="text/javascript" src="{{ url_for('static', filename='./js/mainPageJS.js') }}"></script>

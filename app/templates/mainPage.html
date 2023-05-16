@@ -1,0 +1,76 @@
+{% extends 'baseHTML.html' %}
+    {%block main%}
+    <div class="container-fluid" id="topPage">
+        <div class="d-flex" style="padding-top: 0.5vh">
+            <div class="col-sm-6"></div>
+            <div class="col-sm-2">
+            <!-- <input type="text" placeholder = "Username" class="form-control" > -->
+            <!-- <input type="text"><button type="button">Login</button><button type="button">Sign Up</button> -->
+            </div>
+            <div class="col-sm-2">
+                <!-- <input type="text" placeholder="Password" class="form-control" > -->
+            </div>
+            {% if current_user.is_anonymous %}
+            <div class="col-sm-1 hover">
+                <input type="button" value="Login" class="form-control" onclick="document.location.href='/login';">
+            </div>
+            <div class="col-sm-1 hover">
+                <input type="button" value="Sign up" class="form-control" onclick="document.location.href='/signup';">
+            </div>
+            {% else %}
+            <div class="col-sm-2" style="color:aliceblue">{{current_user.username}}</div>
+
+            {% endif %}
+    
+        </div>
+    </div>
+
+    <div id="midPage" class="container-fluid" >
+        <div class="row" style="height:90vh; max-height: 90vh;">
+            <div class="col-sm-4" style="background-color: rgb(116, 115, 126);">
+                <div class="left_box" style="display: flex;">
+                    <div id="main" style="margin-top: 40vh; text-align: left;width: 30px;">
+                        <span style="font-size:30px;cursor:pointer;color: #d4d4d4;" onclick="toggleNav()">&#8692;</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8 chatbox" style="background-color:rgb(68, 58, 68);">
+                <div id="textBox" class="screenChange" style=" width: 100%; padding: 50px; display: flex;">
+                    <div id="textMessage" class="screenChange2" style=" text-align: left; word-wrap: break-word; overflow-y: auto; width: 100%;">
+
+                    </div>
+                </div>
+                <div>
+                    <form id="input">
+                        <div class="inputMessageBox hover">
+                            <textarea id="insertText" name="myInput" style="border-radius: 20px; width: 100%;" placeholder="Type your message here..." autofocus></textarea>
+                            <button class="buttonInsert" id="submitMessage" type="submit"><i class="bx bx-send buttonInsert" id="send"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="mySidenav" class="sidenav hover">
+        <nav id="navChoices">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <a href="{{ url_for('rooms')}}">Game Rooms</a>
+            <a href='/stats/{{current_user.username}}'>Stats</a>
+            <a href="{{ url_for('profile', username=current_user.username) }}">Profile</a>
+            <a href="{{ url_for('settings')}}">Settings</a>
+        </nav>
+        <a class="logout" href="{{ url_for('logout') }}"><i class="bx bx-log-out bx-md"></i></a>
+    </div>    
+
+    <div class="container-fluid" id="botPage">
+        <div style="padding-top: 1vh; color:white; font-size: 2vh;">@2023 Copyright</div>
+    </div>
+    <script src="{{ url_for('static', filename='js/mainPageJS.js') }}"></script>
+    {% if current_user.is_authenticated %}
+    <script>
+        colorChange('{{setting.primaryColor}}', '{{setting.secondaryColor}}', '{{setting.textColor}}');
+    </script>
+    {% endif %}
+    {%endblock%}

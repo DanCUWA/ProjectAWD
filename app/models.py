@@ -28,7 +28,7 @@ class User(UserMixin, db.Model):
         self.password_hash = bcrypt.hashpw(password.encode("utf-8"), salt)
 
     def __repr__(self):
-        return '<User {}>'.format(self.username)
+        return '<User {}, Room {}>'.format(self.username,self.roomID)
         # return '<User {}, email {}, password {}>'.format(self.username,self.email,self.password_hash)
 
     @login.user_loader
@@ -72,12 +72,20 @@ class GameRoom(db.Model):
     def __repr__(self):
         return "<User {}, Room access {}, roomName {}, playerNumber {}, turnNumber {}>".format(self.username, self.roomID, self.roomName, self.playerNumber, self.turnNumber)
     
+class Prompts(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    roomID = db.Column(db.Integer,db.ForeignKey("game_room.roomID"),index=True)
+    role = db.Column(db.String(20))
+    content = db.Column(db.String(400))
+    def __repr__(self):
+        return "<Room {}, Role {}, Content {}>".format(self.roomID, self.role, self.content)
+    
 class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     roomID = db.Column(db.Integer,db.ForeignKey("game_room.roomID"),index=True)
     username = db.Column(db.String(30),db.ForeignKey("user.username"),index=True)
     text = db.Column(db.String(500))
-    time = db.Column(db.Time)
+    time = db.Column(db.DateTime)
     def __init__(self, *args, **kwargs):
         super(Message, self).__init__(*args, **kwargs)
-        self.time = datetime.now().time()
+        self.time = datetime.now()
