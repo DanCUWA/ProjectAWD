@@ -5,6 +5,7 @@ from app.models import *
 from app.forms import * 
 from flask_socketio import emit,join_room,leave_room
 import openai, os, pdb
+import openai, os, pdb
 @app.before_first_request
 def make_base(): 
     db.drop_all()
@@ -75,9 +76,19 @@ def add_message(msg,room):
     if current_user.is_authenticated:
         #CHANGE ROOM ID
         m = Message(username=current_user.username,text=msg,roomID=room)
+        m = Message(username=current_user.username,text=msg,roomID=room)
         db.session.add(m)
         db.session.commit()
 
+def add_gm_msg(msg,room): 
+    m = Message(username="GAMEMASTER",text=msg,roomID=room)
+    db.session.add(m)
+    db.session.commit()
+
+
+@socketio.on('connected')
+def connect_handler(data):
+    print("Server side connections")
 def add_gm_msg(msg,room): 
     m = Message(username="GAMEMASTER",text=msg,roomID=room)
     db.session.add(m)
@@ -101,12 +112,31 @@ def connect_handler(data):
     # if (data['room'] == u.roomID): 
     #     #User already logged in 
     #     send_prev(data['room'])
+    join_room(data['room'])
+    send_prev(data['room'])
+    if (str(u.roomID) == data['room']):
+        print("Already in room")
+    elif (session['room'] == data['room']):
+        print("First time in room") 
+        socketio.emit('joined', {'name': username, 'room': data['room']}, room=data['room'])
+        u.roomID = data['room']
+        db.session.commit()
+    # if (data['room'] == u.roomID): 
+    #     #User already logged in 
+    #     send_prev(data['room'])
 
 @socketio.on('leave_room')
 def on_leave(data):
     u = User.query.filter_by(username=current_user.username).first_or_404()
     username = u.username
     room = u.roomID
+    session['room'] = 0
+    print(str(room) +" " + username )
+    socketio.emit('left', {'name': username, 'room': room}, room=str(room))
+    u.roomID = -1
+    db.session.commit()
+    # leave_room(room)
+    # return redirect(url_for('index'))
     session['room'] = 0
     print(str(room) +" " + username )
     socketio.emit('left', {'name': username, 'room': room}, room=str(room))
@@ -151,7 +181,39 @@ def handle_playerqs(data):
         socketio.emit('server-response',{'message':data['data'],'name':name},room=str(rm.roomID))
         print("MSG GONE")
 
+    name = current_user.username
+    u = User.query.filter_by(username=name).first_or_404()
+    room_msgs =  Message.query.filter_by(roomID=u.roomID)
+    rm = GameRoom.query.get(u.roomID)
+    if rm.turnNumber!=0: 
+        last_time = room_msgs.filter_by(username="GAMEMASTER").order_by(Message.time.desc()).all()[0].time
+        user_turn = room_msgs.filter(Message.time>last_time).all()
+        room_usrs = User.query.filter_by(roomID = u.roomID).all()
+        num_usrs = len(room_usrs)
+        usrs = list(map(lambda x:x.username, user_turn))
+        print(usrs)
+        already_gone = len(usrs)
+        if (u.username not in usrs):
+            add_message(data['data'],str(rm.roomID))
+            already_gone += 1
+            socketio.emit('server-response',{'message':data['data'],'name':name},room=str(rm.roomID))
+        else: 
+            pass
+        if (already_gone == num_usrs):
+            handle_turn(room=rm,all_usrs=room_usrs)
+            #All users gone - run gpt turn
+    else: 
+        print(u)
+        print(data['data'])
+        print(rm.roomID)
+        add_message(data['data'],rm.roomID)
+        print("NEW MESSAGE GOING TO CLIENT")
+        socketio.emit('server-response',{'message':data['data'],'name':name},room=str(rm.roomID))
+        print("MSG GONE")
 
+
+@socketio.on('start-game')
+def start_game(data): 
 @socketio.on('start-game')
 def start_game(data): 
     # req = gpt_response("Give me a short scenario for a DnD like RPG")
