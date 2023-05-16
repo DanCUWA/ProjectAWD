@@ -105,9 +105,10 @@ def joinRoom():
     room = GameRoom.query.get(roomNum)
     print("TRYING TO JOIN ROOM " + str(room.playerNumber))
     if room.playerNumber > n_users: 
-        user.roomID = roomNum
-        db.session.commit()
-        return redirect(url_for('chat'))
+        # user.roomID = roomNum
+        session['room'] = roomNum
+        # db.session.commit()
+        return redirect('/chat/' + roomNum)
     else: 
         flash("Room full!")
         return redirect(url_for('rooms'))
@@ -124,10 +125,13 @@ def profile():
     return render_template('profile.html',id=current_user.username,msgs=msgs)
 
 @login_required
-@app.route('/chat')
-def chat(): 
+@app.route('/chat/<cur_room>')
+def chat(cur_room): 
     user = User.query.filter_by(username=current_user.username).first_or_404()
-    return render_template("chat.html", title="MAIN", name=user.username, room=user.roomID)
+    if (cur_room == session['room']):
+        return render_template("chat.html", title="MAIN", name=user.username, room=cur_room)
+    else: 
+        return redirect(url_for('rooms'))
 
 @login_required
 @app.route("/get_username")

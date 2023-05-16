@@ -4,7 +4,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 from app.models import *
 from app.forms import * 
 from flask_socketio import emit,join_room,leave_room
-import openai, os
+import openai, os, pdb
 @app.before_first_request
 def make_base(): 
     db.drop_all()
@@ -21,6 +21,36 @@ def make_base():
     db.session.commit()
     print(User.query.all())
 
+def handle_turn(room,all_usrs): 
+    names = map(lambda u:u.username,all_usrs)
+    messages = Message.query.filter_by(roomID=room.roomID).filter(Message.username.in_(names)).all()
+    g = GameRoom.query.get(room.roomID)
+    req = "New turn"
+    add_gm_msg(req,str(room.roomID))
+    socketio.emit('gpt-res',{'message':req},room=str(room.roomID))
+    g.turnNumber += 1
+    db.session.add(g)
+    db.session.commit()
+
+
+def send_prev(room):
+    time = datetime.now()
+    cur = User.query.filter_by(username=current_user.username)
+    msgs = Message.query.filter_by(roomID = room).all()
+    logged_in = User.query.filter_by(roomID = room).all()
+    txt = []
+    usrs = []
+    print(logged_in)
+    for u in logged_in: 
+        usrs.append("SERVER")
+        txt.append( "Welcome to room "+ room + " " + u.username + "!")
+    print(msgs)
+    for msg in msgs:
+        if msg.time < time:
+            txt.append(msg.text)
+            usrs.append(msg.username)
+    emit('display-prev',{'txt':txt, 'usr':usrs})
+
 # openai.api_key = os.environ['GPT_KEY']
 def gpt_response(text):
     response = openai.Completion.create(
@@ -29,28 +59,50 @@ def gpt_response(text):
     max_tokens=50
     )
     return response.choices[0].text
-def add_message(msg): 
+
+def add_message(msg,room): 
     if current_user.is_authenticated:
         #CHANGE ROOM ID
-        m = Message(username=current_user.username,text=msg,roomID=1)
+        m = Message(username=current_user.username,text=msg,roomID=room)
         db.session.add(m)
         db.session.commit()
 
-@socketio.on('join_room')
-def on_join(data):
+def add_gm_msg(msg,room): 
+    m = Message(username="GAMEMASTER",text=msg,roomID=room)
+    db.session.add(m)
+    db.session.commit()
+
+
+@socketio.on('connected')
+def connect_handler(data):
+    print("Server side connections")
     u = User.query.filter_by(username=current_user.username).first_or_404()
     username = u.username
-    room = u.roomID
-    join_room(room)
-    socketio.emit('joined', {'name': username, 'room': room}, room=room)
+    join_room(data['room'])
+    send_prev(data['room'])
+    if (str(u.roomID) == data['room']):
+        print("Already in room")
+    elif (session['room'] == data['room']):
+        print("First time in room") 
+        socketio.emit('joined', {'name': username, 'room': data['room']}, room=data['room'])
+        u.roomID = data['room']
+        db.session.commit()
+    # if (data['room'] == u.roomID): 
+    #     #User already logged in 
+    #     send_prev(data['room'])
 
 @socketio.on('leave_room')
 def on_leave(data):
     u = User.query.filter_by(username=current_user.username).first_or_404()
     username = u.username
     room = u.roomID
-    leave_room(room)
-    socketio.emit('left', {'name': username, 'room': room}, room=room)
+    session['room'] = 0
+    print(str(room) +" " + username )
+    socketio.emit('left', {'name': username, 'room': room}, room=str(room))
+    u.roomID = -1
+    db.session.commit()
+    # leave_room(room)
+    # return redirect(url_for('index'))
 
 @socketio.on('message')
 def handle_message(message):
@@ -58,29 +110,67 @@ def handle_message(message):
 
 @socketio.on('player-mes')
 def handle_playerqs(data): 
-    print(data)
-    print("Got player message" + data['data'])
-    name = "Anon"
-    if current_user.is_authenticated: 
-        name = current_user.username
-    add_message(data['data'])
-    socketio.emit('server-response',{'message':data['data'],'name':name})
+    name = current_user.username
+    u = User.query.filter_by(username=name).first_or_404()
+    room_msgs =  Message.query.filter_by(roomID=u.roomID)
+    rm = GameRoom.query.get(u.roomID)
+    if rm.turnNumber!=0: 
+        last_time = room_msgs.filter_by(username="GAMEMASTER").order_by(Message.time.desc()).all()[0].time
+        user_turn = room_msgs.filter(Message.time>last_time).all()
+        room_usrs = User.query.filter_by(roomID = u.roomID).all()
+        num_usrs = len(room_usrs)
+        usrs = list(map(lambda x:x.username, user_turn))
+        print(usrs)
+        already_gone = len(usrs)
+        if (u.username not in usrs):
+            add_message(data['data'],str(rm.roomID))
+            already_gone += 1
+            socketio.emit('server-response',{'message':data['data'],'name':name},room=str(rm.roomID))
+        else: 
+            pass
+        if (already_gone == num_usrs):
+            handle_turn(room=rm,all_usrs=room_usrs)
+            #All users gone - run gpt turn
+    else: 
+        print(u)
+        print(data['data'])
+        print(rm.roomID)
+        add_message(data['data'],rm.roomID)
+        print("NEW MESSAGE GOING TO CLIENT")
+        socketio.emit('server-response',{'message':data['data'],'name':name},room=str(rm.roomID))
+        print("MSG GONE")
 
-@socketio.on('next-turn')
-def handle_turn(data): 
-    room = data['roomID']
-    print("HANDLING")
+
+@socketio.on('start-game')
+def start_game(data): 
     # req = gpt_response("Give me a short scenario for a DnD like RPG")
-    req = "Sorry am unhooked :("
-    print("req " + req)
-    socketio.emit('gpt-res',{'message':req})
+    u = User.query.filter_by(username=current_user.username).first_or_404()
+    req = "Starting game"
+    print("Sending gpt request " + req + str(u.roomID))
+    g = GameRoom.query.get(u.roomID)
+    add_gm_msg(req,str(u.roomID))
+    socketio.emit('gpt-res',{'message':req},room=str(u.roomID))
+    g.turnNumber += 1
+    db.session.commit()
 
-@socketio.on('connect')
-def connect_handler():
-    print("Server side connections")
-    # if current_user.is_authenticated:
-    #     emit('my response',
-    #          {'message': '{0} has joined'.format(current_user.name)},
-    #          broadcast=True)
-    # else:
-    #     return False  # not allowed here\
+# @socketio.on('render-prev')
+# def send_prev():
+#     time = datetime.now()
+#     u = User.query.filter_by(username=current_user.username).first_or_404()
+#     msgs = Message.query.filter_by(roomID = u.roomID).all()
+#     txt = []
+#     usrs = []
+#     print(msgs)
+#     for msg in msgs:
+#         if msg.time < time:
+#             txt.append(msg.text)
+#             usrs.append(msg.username)
+#     socketio.emit('display-prev',{'txt':txt, 'usr':usrs},room=request.sid)#u.roomID)
+
+# @socketio.on('join_room')
+# def on_join(data):
+#     u = User.query.filter_by(username=current_user.username).first_or_404()
+#     username = u.username
+#     room = u.roomID
+#     join_room(room)
+#     socketio.emit('joined', {'name': username, 'room': room}, room=room)
