@@ -31,14 +31,7 @@
             <!-- <input type="text" placeholder = "Username" class="form-control" > -->
             <!-- <input type="text"><button type="button">Login</button><button type="button">Sign Up</button> -->
             </div>
-            <div class="col-sm-4"></div>
             <div class="col-sm-2">
-                <input type = "button" id="logout" value="Logout">
-            <!-- <input type="text" placeholder = "Username" class="form-control" > -->
-            <!-- <input type="text"><button type="button">Login</button><button type="button">Sign Up</button> -->
-            </div>
-            <div class="col-sm-2">
-                <input type = "button" id="start" value="Start">
                 <input type = "button" id="start" value="Start">
             <!-- <input type="text" placeholder = "Username" class="form-control" > -->
             <!-- <input type="text"><button type="button">Login</button><button type="button">Sign Up</button> -->
@@ -161,43 +154,6 @@
                 // $('#textMessage').append($('<p>').text("GAMEMASTER" + ": " + data['message']));
             });
             $('#insertText').keydown(function(e) {
-            var socket = io.connect('http://' + document.domain + ':' + location.port);
-            socket.on('connect', function(message){ 
-                socket.send("Host side connected");
-                socket.emit('connected',{'room':"{{room}}"})
-                // socket.emit('join_room',{})
-                // socket.emit('render-prev',{})
-            })
-            socket.on('display-prev', function(data){ 
-                console.log(data)
-                txt = data.txt 
-                usrs = data.usr
-                for (i=0;i<txt.length;i++) { 
-                    addMessage(usrs[i],txt[i])
-                }
-            })
-            socket.on('server-response',data=>{ 
-                console.log("server reponses");
-                console.log(data['message'] + data['name']);
-                addMessage(data['name'],data['message'])
-                // $('#textMessage').append($('<p>').text(data['name'] + ": " + data['message']));
-            })
-            socket.on('joined', data => { 
-                console.log("SERVER" + "Welcome to room "+ data['room'] + " " + data['name'] + "!")
-                addMessage("SERVER", "Welcome to room "+ data['room'] + " " + data['name'] + "!")
-                // $('#textMessage').append($('<p>').text("SERVER: Welcome to room "+ data['room'] + " " + data['name'] + "!"));
-            })
-            socket.on('left', data => { 
-                console.log('User left')
-                addMessage("SERVER",data['name'] + " has left room " + data['room']  + "!")
-                // $('#textMessage').append($('<p>').text("SERVER: " + data['name'] + " has left room " + data['room']  + "!"));
-            })
-            socket.on('gpt-res', function(data){ 
-                console.log("GAMEMASTER MESSAGING")
-                addMessage("GAMEMASTER",data['message'])
-                // $('#textMessage').append($('<p>').text("GAMEMASTER" + ": " + data['message']));
-            });
-            $('#insertText').keydown(function(e) {
             var key = e.keyCode || e.which; 
             if (key === 13){ 
                 event.preventDefault();
@@ -205,31 +161,6 @@
                 socket.emit('player-mes',{'data':message});
                 $('#insertText').val('');
             }
-            });
-            $('#start').click(e=>{
-                e.preventDefault();
-                console.log("GM START TRIGGER")
-                socket.emit('start-game',{});
-            });
-            $('#logout').click(e=>{ 
-                e.preventDefault(); 
-                socket.emit('leave_room', {});
-            })
-            // $(window).bind("pagehide",function(){
-            //     socket.emit('leave_room', {});
-            //     console.log("hello");
-            // })
-            // $(window).unload(function(){
-            //     socket.emit('leave_room', {});
-            //     console.log("LEFT")
-            // });
-            // $(window).bind('beforeunload', function(e){
-            //     console.log("LEAVING");
-            //     e.preventDefault();
-            //     e.returnValue = 'Are you sure you want to leave? This will log you out of the current room.';
-            //     socket.emit('leave_room', {});
-            //     return e.returnValue;
-            // });
             });
             $('#start').click(e=>{
                 e.preventDefault();
