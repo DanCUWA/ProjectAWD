@@ -82,7 +82,13 @@ def deleteRoom():
     if request.method == 'POST':
         deleteRoom = request.form['roomDelete']
         room_to_delete = GameRoom.query.get(deleteRoom)
+        prompts_to_delete = Prompts.query.filter_by(roomID=room_to_delete.roomID).all()
+        messages_to_delete = Message.query.filter_by(roomID=room_to_delete.roomID).all()
         db.session.delete(room_to_delete)
+        for prompts in prompts_to_delete:
+            db.session.delete(prompts)
+        for messages in messages_to_delete:
+            db.session.delete(messages)
         db.session.commit()
 
     rooms = GameRoom.query.filter_by(username=current_user.username).all()

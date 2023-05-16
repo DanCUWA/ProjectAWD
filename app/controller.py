@@ -158,20 +158,17 @@ def start_game(data):
     req = "Starting game"
     print("Sending gpt request " + req + str(u.roomID))
     g = GameRoom.query.get(u.roomID)
-    add_gm_msg(req,str(u.roomID))
     prompt = Prompts.query.get(u.roomID)
     
     messages = []
     messages.append({"role": prompt.role, "content": prompt.content})
 
-    # question = {}
-    # question["role"] = "user"
-    # question["content"] = "What is 1+1?"
-    # messages.append(question)
-
     response = gpt_response(messages)
+    add_gm_msg(response,str(u.roomID))
+
     new_prompt = Prompts(role="assistant",content=response,roomID=u.roomID)
     db.session.add(new_prompt)
+
     socketio.emit('gpt-res',{'message':response},room=str(u.roomID))
     g.turnNumber += 1
     db.session.commit()
