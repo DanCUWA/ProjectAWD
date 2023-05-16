@@ -66,6 +66,9 @@ class GameRoom(db.Model):
     roomName = db.Column(db.String(30))
     playerNumber = db.Column(db.Integer)
     turnNumber = db.Column(db.Integer)
+    scenario = db.Column(db.String)
+
+
     def __repr__(self):
         return "<User {}, Room access {}, roomName {}, playerNumber {}, turnNumber {}>".format(self.username, self.roomID, self.roomName, self.playerNumber, self.turnNumber)
     
