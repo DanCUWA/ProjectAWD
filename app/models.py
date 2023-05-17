@@ -1,20 +1,18 @@
 from app import db, login
 from datetime import datetime
 from flask_login import UserMixin
-
 import bcrypt
 
-
-
+# Model containing User information. 
+# Unique ids and usernames, and passwords stored as hashes.
+# Hashes use bcrypt to provide more security than SHA256. 
+# It also requries the salts to be saved
+ 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
     roomID = db.Column(db.Integer,db.ForeignKey("game_room.roomID"),index=True,default=-1)
-<<<<<<< Updated upstream
-    # rooms = db.relationship('GameRoom', backref='Game Rooms', lazy='dynamic')
     setting = db.relationship('Settings', backref='Settings', lazy='dynamic')
-=======
->>>>>>> Stashed changes
     salt = db.Column(db.String(128))
     password_hash = db.Column(db.String(128))
 
@@ -31,15 +29,7 @@ class User(UserMixin, db.Model):
     def load_user(id):
         return User.query.get(int(id))
 
-
-class Stats(db.Model):
-    username = db.Column(
-        db.String(64), db.ForeignKey("user.username"), primary_key=True
-    )
-
-    def __repr__(self):
-        return "<User {}>".format(self.username)
-
+# Stores user preferences about colour schemes
 
 class Settings(db.Model):
     username = db.Column(
@@ -52,6 +42,7 @@ class Settings(db.Model):
     def __repr__(self):
         return "<User {}, primaryColor {}, secondaryColor {}, textColor {}>".format(self.username, self.primaryColor, self.secondaryColor, self.textColor)
 
+# Stores information about each individual room
 
 class GameRoom(db.Model):
     username = db.Column(
@@ -67,6 +58,8 @@ class GameRoom(db.Model):
     def __repr__(self):
         return "<User {}, Room access {}, roomName {}, playerNumber {}, turnNumber {}>".format(self.username, self.roomID, self.roomName, self.playerNumber, self.turnNumber)
     
+# Stores information about the initial prompts for each room
+
 class Prompts(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     roomID = db.Column(db.Integer,db.ForeignKey("game_room.roomID"),index=True)
@@ -75,6 +68,8 @@ class Prompts(db.Model):
     def __repr__(self):
         return "<Room {}, Role {}, Content {}>".format(self.roomID, self.role, self.content)
     
+# Stores previous message history for each user
+
 class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     roomID = db.Column(db.Integer,db.ForeignKey("game_room.roomID"),index=True)
