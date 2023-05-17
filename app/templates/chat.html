@@ -23,7 +23,7 @@
 <body>
     
     
-    <div class="container-fluid" style="text-align: center;background-image: linear-gradient(225deg,rgb(63, 55, 71) 50%,rgb(38, 40, 43) 90%);  height: 5vh;">
+    <div class="container-fluid" id="topPage">
         <div class="d-flex" style="padding-top: 0.5vh">
             <div class="col-sm-4"></div>
             <div class="col-sm-2">
@@ -39,12 +39,17 @@
             <div class="col-sm-2">
                 <!-- <input type="text" placeholder="Password" class="form-control" > -->
             </div>
+            {% if current_user.is_anonymous %}
             <div class="col-sm-1 hover">
                 <input type="button" value="Login" class="form-control" onclick="document.location.href='/login';">
             </div>
             <div class="col-sm-1 hover">
                 <input type="button" value="Sign up" class="form-control" onclick="document.location.href='/signup';">
             </div>
+            {% else %}
+            <div class="col-sm-2" style="color:aliceblue">{{current_user.username}}</div>
+
+            {% endif %}
     
         </div>
     </div>
@@ -55,21 +60,6 @@
                 <div class="left_box" style="display: flex;">
                     <div id="main" style="margin-top: 40vh; text-align: left;width: 30px;">
                         <span style="font-size:30px;cursor:pointer;color: #d4d4d4;" onclick="toggleNav()">&#8692;</span>
-                    </div>
-                    <div class="stats_box">
-                        <span id="username">{{current_user.username}}- template layout</span>
-                        <div class="Character">
-                            
-                            <label>Health</label>
-                            <label>Mana</label>
-                        </div>
-                        <div class="stats">
-                            <Label>ATK</Label>
-                            <Label>DEF</Label>
-                            <Label>MAT</Label>
-                            <Label>MDF</Label>
-                            <Label>LUK</Label>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -186,6 +176,8 @@
             //     socket.emit('leave_room', {});
             //     return e.returnValue;
             // });
+
+            colorChange('{{setting.primaryColor}}', '{{setting.secondaryColor}}', '{{setting.textColor}}');
         });
       </script>
     <script type="text/javascript" src="{{ url_for('static', filename='./js/mainPageJS.js') }}"></script>

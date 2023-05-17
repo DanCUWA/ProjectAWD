@@ -9,8 +9,14 @@ import bcrypt
 import openai 
 import os
 
-# openai.api_key = os.environ['GPT_KEY']
-    
+
+def init_all_db(user):
+    s = Settings(username=user.username)
+    st = Stats(username=user.username)
+    db.session.add(s)
+    db.session.add(st)
+    db.session.commit()
+
 @app.route("/")
 @app.route("/index")
 def index():
@@ -27,6 +33,7 @@ def signup():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
+        init_all_db(user)
         flash("Congratulations, you are now a registered user!")
         return redirect(("/login"))
     return render_template("signup.html", title="SignUp", form=form)
@@ -39,19 +46,17 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
-        if user.password_hash != bcrypt.hashpw(
+        if user is None or user.password_hash != bcrypt.hashpw(
             form.password.data.encode("utf-8"), user.salt
         ):
-            flash("Incorrect password")
-            return redirect("/")
-        if user is None:
-            flash("User does not exist")
-            return redirect("/")
-        login_user(user)
-        next_page = request.args.get("next")
-        if not next_page:
-            next_page = "index"
-        return redirect(next_page)
+            flash('Invalid username or password')
+            return redirect("/login")
+        else:
+            login_user(user)
+            next_page = request.args.get("next")
+            if not next_page:
+                next_page = "index"
+            return redirect(next_page)
     return render_template("login.html", form=form)
 
 
@@ -61,11 +66,28 @@ def logout():
     return redirect("/")
 
 
-@app.route("/settings")
+@app.route("/settings", methods=['GET', 'POST'])
 @login_required
 def settings():
     s = Settings.query.get(current_user.username)
-    return render_template("settings.html", settings=s)
+    if request.method == 'POST' and "username-submit" in request.form:
+        user = User.query.filter_by(username=request.form['username']).first()
+        if user is None:
+            current_user.username = request.form['username']
+            db.session.commit()
+        else:
+            flash('Username Already Taken')
+    if request.method == 'POST' and "color-submit" in request.form:
+        s.primaryColor = request.form['primColour']
+        s.secondaryColor = request.form['secoColour']
+        s.textColor = request.form['textColour']
+        db.session.commit()
+    if request.method == 'POST' and "default-submit" in request.form:
+        s.primaryColor = '#3F3747'
+        s.secondaryColor = '#26282B'
+        s.textColor = '#ffffff'
+        db.session.commit()
+    return render_template("settings.html", settings=s, user=current_user)
 
 @login_required
 @app.route("/rooms", methods=['GET', 'POST'])
@@ -75,8 +97,9 @@ def rooms():
     rooms = GameRoom.query.all()
     return render_template('rooms.html', user=user, rooms=rooms)
 
+
+@app.route("/rooms/deleteRoom", methods=['GET', 'POST'])
 @login_required
-@app.route("/rooms/deleteRoom", methods=['POST'])
 def deleteRoom():
     user = User.query.filter_by(username=current_user.username).first_or_404()
     if request.method == 'POST':
@@ -145,8 +168,8 @@ def joinRoom():
 
 @login_required
 @app.route('/stats/<username>')
-def stats(username): 
-    return render_template('stats.html',username=escape(username))
+def stats(username):
+    return render_template('stats.html', username=escape(username))
 
 @login_required
 @app.route('/profile')
@@ -159,7 +182,8 @@ def profile():
 def chat(cur_room): 
     user = User.query.filter_by(username=current_user.username).first_or_404()
     if (cur_room == session['room']):
-        return render_template("chat.html", title="MAIN", name=user.username, room=cur_room)
+        s = Settings.query.get(user.username)
+        return render_template("chat.html", title="MAIN", name=user.username, room=cur_room, setting = s)
     else: 
         return redirect(url_for('rooms'))
 
