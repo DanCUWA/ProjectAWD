@@ -4,18 +4,8 @@ from flask_login import current_user, login_user, logout_user, login_required
 from app.models import *
 from flask_socketio import emit
 from app.forms import LoginForm, SignupForm
-from app.controller import starting_prompt
+from app.controller import *
 import bcrypt
-import openai 
-import os
-
-
-def init_all_db(user):
-    s = Settings(username=user.username)
-    st = Stats(username=user.username)
-    db.session.add(s)
-    db.session.add(st)
-    db.session.commit()
 
 @app.route("/")
 @app.route("/index")
@@ -24,40 +14,41 @@ def index():
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
+    return handleSignup()
+    # form = SignupForm()
+    # if form.validate_on_submit():
 
-    form = SignupForm()
-    if form.validate_on_submit():
-
-        # add new user to the database
-        user = User(username=form.username.data)  # , email=form.email.data)
-        user.set_password(form.password.data)
-        db.session.add(user)
-        db.session.commit()
-        init_all_db(user)
-        flash("Congratulations, you are now a registered user!")
-        return redirect(("/login"))
-    return render_template("signup.html", title="SignUp", form=form)
+    #     # add new user to the database
+    #     user = User(username=form.username.data)  # , email=form.email.data)
+    #     user.set_password(form.password.data)
+    #     db.session.add(user)
+    #     db.session.commit()
+    #     init_all_db(user)
+    #     flash("Congratulations, you are now a registered user!")
+    #     return redirect(("/login"))
+    # return render_template("signup.html", title="SignUp", form=form)
 
 
 @app.route("/login", methods=["GET", "POST"])
-def login():
-    if current_user.is_authenticated:
-        return redirect("/")
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
-        if user is None or user.password_hash != bcrypt.hashpw(
-            form.password.data.encode("utf-8"), user.salt
-        ):
-            flash('Invalid username or password')
-            return redirect("/login")
-        else:
-            login_user(user)
-            next_page = request.args.get("next")
-            if not next_page:
-                next_page = "index"
-            return redirect(next_page)
-    return render_template("login.html", form=form)
+def logins():
+    return handleLogin()
+    # if current_user.is_authenticated:
+    #     return redirect("/")
+    # form = LoginForm()
+    # if form.validate_on_submit():
+    #     user = User.query.filter_by(username=form.username.data).first()
+    #     if user is None or user.password_hash != bcrypt.hashpw(
+    #         form.password.data.encode("utf-8"), user.salt
+    #     ):
+    #         flash('Invalid username or password')
+    #         return redirect("/login")
+    #     else:
+    #         login_user(user)
+    #         next_page = request.args.get("next")
+    #         if not next_page:
+    #             next_page = "index"
+    #         return redirect(next_page)
+    # return render_template("login.html", form=form)
 
 
 @app.route("/logout")
@@ -69,25 +60,26 @@ def logout():
 @app.route("/settings", methods=['GET', 'POST'])
 @login_required
 def settings():
-    s = Settings.query.get(current_user.username)
-    if request.method == 'POST' and "username-submit" in request.form:
-        user = User.query.filter_by(username=request.form['username']).first()
-        if user is None:
-            current_user.username = request.form['username']
-            db.session.commit()
-        else:
-            flash('Username Already Taken')
-    if request.method == 'POST' and "color-submit" in request.form:
-        s.primaryColor = request.form['primColour']
-        s.secondaryColor = request.form['secoColour']
-        s.textColor = request.form['textColour']
-        db.session.commit()
-    if request.method == 'POST' and "default-submit" in request.form:
-        s.primaryColor = '#3F3747'
-        s.secondaryColor = '#26282B'
-        s.textColor = '#ffffff'
-        db.session.commit()
-    return render_template("settings.html", settings=s, user=current_user)
+    return handleSettings()
+    # s = Settings.query.get(current_user.username)
+    # if request.method == 'POST' and "username-submit" in request.form:
+    #     user = User.query.filter_by(username=request.form['username']).first()
+    #     if user is None:
+    #         current_user.username = request.form['username']
+    #         db.session.commit()
+    #     else:
+    #         flash('Username Already Taken')
+    # if request.method == 'POST' and "color-submit" in request.form:
+    #     s.primaryColor = request.form['primColour']
+    #     s.secondaryColor = request.form['secoColour']
+    #     s.textColor = request.form['textColour']
+    #     db.session.commit()
+    # if request.method == 'POST' and "default-submit" in request.form:
+    #     s.primaryColor = '#3F3747'
+    #     s.secondaryColor = '#26282B'
+    #     s.textColor = '#ffffff'
+    #     db.session.commit()
+    # return render_template("settings.html", settings=s, user=current_user)
 
 @login_required
 @app.route("/rooms", methods=['GET', 'POST'])
@@ -101,27 +93,25 @@ def rooms():
 @app.route("/rooms/deleteRoom", methods=['GET', 'POST'])
 @login_required
 def deleteRoom():
-    user = User.query.filter_by(username=current_user.username).first_or_404()
-    if request.method == 'POST':
-        deleteRoom = request.form['roomDelete']
-        room_to_delete = GameRoom.query.get(deleteRoom)
-        prompts_to_delete = Prompts.query.filter_by(roomID=room_to_delete.roomID).all()
-        messages_to_delete = Message.query.filter_by(roomID=room_to_delete.roomID).all()
-        db.session.delete(room_to_delete)
-        for prompts in prompts_to_delete:
-            db.session.delete(prompts)
-        for messages in messages_to_delete:
-            db.session.delete(messages)
-        db.session.commit()
+    return handleRoomDeletion()
+    # user = User.query.filter_by(username=current_user.username).first_or_404()
+    # if request.method == 'POST':
+    #     deleteRoom = request.form['roomDelete']
+    #     room_to_delete = GameRoom.query.get(deleteRoom)
+    #     prompts_to_delete = Prompts.query.filter_by(roomID=room_to_delete.roomID).all()
+    #     messages_to_delete = Message.query.filter_by(roomID=room_to_delete.roomID).all()
+    #     db.session.delete(room_to_delete)
+    #     for prompts in prompts_to_delete:
+    #         db.session.delete(prompts)
+    #     for messages in messages_to_delete:
+    #         db.session.delete(messages)
+    #     db.session.commit()
 
-    rooms = GameRoom.query.filter_by(username=current_user.username).all()
-    return render_template('rooms.html', user=user, rooms=rooms)
+    # rooms = GameRoom.query.filter_by(username=current_user.username).all()
+    # return render_template('rooms.html', user=user, rooms=rooms)
 
 @app.route("/createRoom", methods=['GET', 'POST'])
 def createRoom():
-    # user = User.query.filter_by(username=current_user.username).first_or_404()
-    # if request.method == 'POST':
-    #     scenario = request.form['scenario']
     if request.method == 'POST':
         session['room_name'] = request.form['room_name']
         session['num_players'] = int(request.form['num_players'])
@@ -130,41 +120,41 @@ def createRoom():
 
 @app.route("/createRoom/created", methods=['GET','POST'])
 def createdRoom():
-    user = User.query.filter_by(username=current_user.username).first_or_404()
-    if request.method == 'POST':
-        room_name = session['room_name']
-        num_players = session['num_players']
-        startScenario = request.form['scenario']
-        # Create a new Room object and set the necessary attributes
-        room = GameRoom(username=user.username, roomName=room_name, playerNumber=num_players, turnNumber=0, scenario = startScenario)
-        startingPrompt = starting_prompt()
-        prompt = Prompts(roomID=room.roomID, role="system", content=startingPrompt)
+    return handleRoomCreation()
+    # user = User.query.filter_by(username=current_user.username).first_or_404()
+    # if request.method == 'POST':
+    #     room_name = session['room_name']
+    #     num_players = session['num_players']
+    #     startScenario = request.form['scenario']
+    #     # Create a new Room object and set the necessary attributes
+    #     room = GameRoom(username=user.username, roomName=room_name, playerNumber=num_players, turnNumber=0, scenario = startScenario)
+    #     startingPrompt = starting_prompt()
+    #     prompt = Prompts(roomID=room.roomID, role="system", content=startingPrompt)
 
 
-        # Add the room to the database
-        db.session.add(room)
-        db.session.add(prompt)
-        db.session.commit()
-    rooms = GameRoom.query.all()
-    return render_template('rooms.html', user=user, rooms=rooms)
+    #     # Add the room to the database
+    #     db.session.add(room)
+    #     db.session.add(prompt)
+    #     db.session.commit()
+    # rooms = GameRoom.query.all()
+    # return render_template('rooms.html', user=user, rooms=rooms)
 
 
 @login_required
 @app.route("/rooms/joinRoom", methods=['POST'])
 def joinRoom():
-    roomNum = request.form['roomJoin']
-    user = User.query.filter_by(username=current_user.username).first_or_404()
-    n_users = len(User.query.filter_by(roomID=roomNum).all())
-    room = GameRoom.query.get(roomNum)
-    print("TRYING TO JOIN ROOM " + str(room.playerNumber))
-    if room.playerNumber > n_users: 
-        # user.roomID = roomNum
-        session['room'] = roomNum
-        # db.session.commit()
-        return redirect('/chat/' + roomNum)
-    else: 
-        flash("Room full!")
-        return redirect(url_for('rooms'))
+    return handleRoomJoin()
+    # roomNum = request.form['roomJoin']
+    # user = User.query.filter_by(username=current_user.username).first_or_404()
+    # n_users = len(User.query.filter_by(roomID=roomNum).all())
+    # room = GameRoom.query.get(roomNum)
+    # print("TRYING TO JOIN ROOM " + str(room.playerNumber))
+    # if room.playerNumber > n_users: 
+    #     session['room'] = roomNum
+    #     return redirect('/chat/' + roomNum)
+    # else: 
+    #     flash("Room full!")
+    #     return redirect(url_for('rooms'))
 
 @login_required
 @app.route('/stats/<username>')
@@ -179,13 +169,14 @@ def profile():
 
 @login_required
 @app.route('/chat/<cur_room>')
-def chat(cur_room): 
-    user = User.query.filter_by(username=current_user.username).first_or_404()
-    if (cur_room == session['room']):
-        s = Settings.query.get(user.username)
-        return render_template("chat.html", title="MAIN", name=user.username, room=cur_room, setting = s)
-    else: 
-        return redirect(url_for('rooms'))
+def chat(cur_room):
+    return handleChat(cur_room) 
+    # user = User.query.filter_by(username=current_user.username).first_or_404()
+    # if (cur_room == session['room']):
+    #     s = Settings.query.get(user.username)
+    #     return render_template("chat.html", title="MAIN", name=user.username, room=cur_room, setting = s)
+    # else: 
+    #     return redirect(url_for('rooms'))
 
 @login_required
 @app.route("/get_username")

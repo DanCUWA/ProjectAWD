@@ -6,7 +6,7 @@ from app.forms import *
 from flask_socketio import emit,join_room,leave_room
 import openai, os, pdb
 
-# Sets up initial database for users
+# Sets up initial database
 
 @app.before_first_request
 def make_base(): 
@@ -139,9 +139,13 @@ def on_leave(data):
     leave_room(room)
     # return redirect(url_for('index'))
 
-@socketio.on('message')
-def handle_message(message):
-    print('received message: ' + message)
+# @socketio.on('message')
+# def handle_message(message):
+#     print('received message: ' + message)
+
+# When sent a message by a user, check if the game has started. 
+# If it has, check if all the players have gone. If they have, go 
+# to the next turn. 
 
 @socketio.on('player-mes')
 def handle_playerqs(data): 
@@ -171,14 +175,13 @@ def handle_playerqs(data):
         print(data['data'])
         print(rm.roomID)
         add_message(data['data'],rm.roomID)
-        print("NEW MESSAGE GOING TO CLIENT")
         socketio.emit('server-response',{'message':data['data'],'name':name},room=str(rm.roomID))
-        print("MSG GONE")
 
+# Called when a room is started by a user. 
+# Send the initial prompt and start the game. 
 
 @socketio.on('start-game')
 def start_game(data): 
-    # req = gpt_response("Give me a short scenario for a DnD like RPG")
     u = User.query.filter_by(username=current_user.username).first_or_404()
     req = "Starting game"
     print("Sending gpt request " + req + str(u.roomID))
@@ -197,26 +200,112 @@ def start_game(data):
     socketio.emit('gpt-res',{'message':response},room=str(u.roomID))
     g.turnNumber += 1
     db.session.commit()
-    # https://www.youtube.com/watch?v=9b-Pv-5Av0w
 
-# @socketio.on('render-prev')
-# def send_prev():
-#     time = datetime.now()
-#     u = User.query.filter_by(username=current_user.username).first_or_404()
-#     msgs = Message.query.filter_by(roomID = u.roomID).all()
-#     txt = []
-#     usrs = []
-#     print(msgs)
-#     for msg in msgs:
-#         if msg.time < time:
-#             txt.append(msg.text)
-#             usrs.append(msg.username)
-#     socketio.emit('display-prev',{'txt':txt, 'usr':usrs},room=request.sid)#u.roomID)
+def handleSignup():
+    form = SignupForm()
+    if form.validate_on_submit():
+        user = User(username=form.username.data)
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        init_settings(user)
+        flash("Congratulations, you are now a registered user!")
+        return redirect(("/login"))
+    return render_template("signup.html", title="SignUp", form=form)
 
-# @socketio.on('join_room')
-# def on_join(data):
-#     u = User.query.filter_by(username=current_user.username).first_or_404()
-#     username = u.username
-#     room = u.roomID
-#     join_room(room)
-#     socketio.emit('joined', {'name': username, 'room': room}, room=room)
+def handleLogin():
+    if current_user.is_authenticated:
+        return redirect("/")
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user is None or user.password_hash != bcrypt.hashpw(
+            form.password.data.encode("utf-8"), user.salt
+        ):
+            flash('Invalid username or password')
+            return redirect("/login")
+        else:
+            login_user(user)
+            next_page = request.args.get("next")
+            if not next_page:
+                next_page = "index"
+            return redirect(next_page)
+    return render_template("login.html", form=form)
+
+def handleSettings(): 
+    s = Settings.query.get(current_user.username)
+    if request.method == 'POST' and "username-submit" in request.form:
+        user = User.query.filter_by(username=request.form['username']).first()
+        if user is None:
+            current_user.username = request.form['username']
+            db.session.commit()
+        else:
+            flash('Username Already Taken')
+    if request.method == 'POST' and "color-submit" in request.form:
+        s.primaryColor = request.form['primColour']
+        s.secondaryColor = request.form['secoColour']
+        s.textColor = request.form['textColour']
+        db.session.commit()
+    if request.method == 'POST' and "default-submit" in request.form:
+        s.primaryColor = '#3F3747'
+        s.secondaryColor = '#26282B'
+        s.textColor = '#ffffff'
+        db.session.commit()
+    return render_template("settings.html", settings=s, user=current_user)
+
+def handleRoomDeletion():
+    user = User.query.filter_by(username=current_user.username).first_or_404()
+    if request.method == 'POST':
+        deleteRoom = request.form['roomDelete']
+        room_to_delete = GameRoom.query.get(deleteRoom)
+        prompts_to_delete = Prompts.query.filter_by(roomID=room_to_delete.roomID).all()
+        messages_to_delete = Message.query.filter_by(roomID=room_to_delete.roomID).all()
+        db.session.delete(room_to_delete)
+        for prompts in prompts_to_delete:
+            db.session.delete(prompts)
+        for messages in messages_to_delete:
+            db.session.delete(messages)
+        db.session.commit()
+
+    rooms = GameRoom.query.filter_by(username=current_user.username).all()
+    return render_template('rooms.html', user=user, rooms=rooms)
+
+def handleRoomCreation():
+    user = User.query.filter_by(username=current_user.username).first_or_404()
+    if request.method == 'POST':
+        room_name = session['room_name']
+        num_players = session['num_players']
+        startScenario = request.form['scenario']
+        # Create a new Room object and set the necessary attributes
+        room = GameRoom(username=user.username, roomName=room_name, playerNumber=num_players, turnNumber=0, scenario = startScenario)
+        startingPrompt = starting_prompt()
+        prompt = Prompts(roomID=room.roomID, role="system", content=startingPrompt)
+
+
+        # Add the room to the database
+        db.session.add(room)
+        db.session.add(prompt)
+        db.session.commit()
+    rooms = GameRoom.query.all()
+    return render_template('rooms.html', user=user, rooms=rooms)
+
+def handleRoomJoin():
+    roomNum = request.form['roomJoin']
+    user = User.query.filter_by(username=current_user.username).first_or_404()
+    n_users = len(User.query.filter_by(roomID=roomNum).all())
+    room = GameRoom.query.get(roomNum)
+    print("TRYING TO JOIN ROOM " + str(room.playerNumber))
+    if room.playerNumber > n_users: 
+        session['room'] = roomNum
+        return redirect('/chat/' + roomNum)
+    else: 
+        flash("Room full!")
+        return redirect(url_for('rooms'))
+    
+def handleChat(room): 
+    user = User.query.filter_by(username=current_user.username).first_or_404()
+    if (room == session['room']):
+        s = Settings.query.get(user.username)
+        return render_template("chat.html", title="MAIN", name=user.username, room=room, setting = s)
+    else: 
+        return redirect(url_for('rooms'))
