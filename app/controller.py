@@ -137,11 +137,8 @@ def on_leave(data):
     u.roomID = -1
     db.session.commit()
     leave_room(room)
-    # return redirect(url_for('index'))
+    return redirect(url_for('index'))
 
-# @socketio.on('message')
-# def handle_message(message):
-#     print('received message: ' + message)
 
 # When sent a message by a user, check if the game has started. 
 # If it has, check if all the players have gone. If they have, go 
@@ -200,6 +197,8 @@ def start_game(data):
     socketio.emit('gpt-res',{'message':response},room=str(u.roomID))
     g.turnNumber += 1
     db.session.commit()
+
+######################### ROUTE HANDLERS #########################
 
 def handleSignup():
     form = SignupForm()
@@ -270,19 +269,22 @@ def handleRoomDeletion():
     rooms = GameRoom.query.filter_by(username=current_user.username).all()
     return render_template('rooms.html', user=user, rooms=rooms)
 
-def handleRoomCreation():
+def handleRoomOnCreate():
+    if request.method == 'POST':
+        session['room_name'] = request.form['room_name']
+        session['num_players'] = int(request.form['num_players'])
+        
+    return render_template('CreateRoom.html')
+
+def handleRoomCreated():
     user = User.query.filter_by(username=current_user.username).first_or_404()
     if request.method == 'POST':
         room_name = session['room_name']
         num_players = session['num_players']
         startScenario = request.form['scenario']
-        # Create a new Room object and set the necessary attributes
         room = GameRoom(username=user.username, roomName=room_name, playerNumber=num_players, turnNumber=0, scenario = startScenario)
         startingPrompt = starting_prompt()
         prompt = Prompts(roomID=room.roomID, role="system", content=startingPrompt)
-
-
-        # Add the room to the database
         db.session.add(room)
         db.session.add(prompt)
         db.session.commit()
@@ -294,7 +296,6 @@ def handleRoomJoin():
     user = User.query.filter_by(username=current_user.username).first_or_404()
     n_users = len(User.query.filter_by(roomID=roomNum).all())
     room = GameRoom.query.get(roomNum)
-    print("TRYING TO JOIN ROOM " + str(room.playerNumber))
     if room.playerNumber > n_users: 
         session['room'] = roomNum
         return redirect('/chat/' + roomNum)
