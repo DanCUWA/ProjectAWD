@@ -27,7 +27,7 @@
         <div class="d-flex" style="padding-top: 0.5vh">
             <div class="col-sm-4"></div>
             <div class="col-sm-2">
-                <input type = "button" id="logout" value="Logout">
+                    <input type="button" id="logout" value="Logout">
             <!-- <input type="text" placeholder = "Username" class="form-control" > -->
             <!-- <input type="text"><button type="button">Login</button><button type="button">Sign Up</button> -->
             </div>
@@ -47,8 +47,8 @@
                 <input type="button" value="Sign up" class="form-control" onclick="document.location.href='/signup';">
             </div>
             {% else %}
-            <div class="col-sm-2" style="color:aliceblue">{{current_user.username}}</div>
-
+            <div class="col-sm-1" style="color:aliceblue">{{current_user.username}}</div>
+            <a class="logout col-sm-1" href="{{ url_for('logout') }}">LOGOUT</a>
             {% endif %}
     
         </div>
@@ -99,20 +99,12 @@
         function addMessage(name,msg){ 
             $('#textMessage').append($('<p style="margin:0;">').html(name));
                 $('#textMessage').append($('<p style="margin:5px;margin-left:20px;">').html(msg));
-            // let lines = msg.split('\n');
-            // $('#textMessage').append($('<p>').text(name + ":" + lines[0]));
-            //     for (let i = 1; i < lines.length; i++) {
-            //         $('#textMessage').append($('<p>').text("&#9;" + lines[i]));
-            //         $('#textMessage').append($('<p style="margin-left:30px;">').html(indentedLine));
-            // }
         }
         $(document).ready(function() {
             var socket = io.connect('http://' + document.domain + ':' + location.port);
             socket.on('connect', function(message){ 
                 socket.send("Host side connected");
                 socket.emit('connected',{'room':"{{room}}"})
-                // socket.emit('join_room',{})
-                // socket.emit('render-prev',{})
             })
             socket.on('display-prev', function(data){ 
                 console.log(data)
@@ -126,22 +118,18 @@
                 console.log("server reponses");
                 console.log(data['message'] + data['name']);
                 addMessage(data['name'],data['message'])
-                // $('#textMessage').append($('<p>').text(data['name'] + ": " + data['message']));
             })
             socket.on('joined', data => { 
                 console.log("SERVER" + "Welcome to room "+ data['room'] + " " + data['name'] + "!")
                 addMessage("SERVER", "Welcome to room "+ data['room'] + " " + data['name'] + "!")
-                // $('#textMessage').append($('<p>').text("SERVER: Welcome to room "+ data['room'] + " " + data['name'] + "!"));
             })
             socket.on('left', data => { 
                 console.log('User left')
                 addMessage("SERVER",data['name'] + " has left room " + data['room']  + "!")
-                // $('#textMessage').append($('<p>').text("SERVER: " + data['name'] + " has left room " + data['room']  + "!"));
             })
             socket.on('gpt-res', function(data){ 
                 console.log("GAMEMASTER MESSAGING")
                 addMessage("GAMEMASTER",data['message'])
-                // $('#textMessage').append($('<p>').text("GAMEMASTER" + ": " + data['message']));
             });
             $('#insertText').keydown(function(e) {
             var key = e.keyCode || e.which; 
@@ -161,22 +149,6 @@
                 e.preventDefault(); 
                 socket.emit('leave_room', {});
             })
-            // $(window).bind("pagehide",function(){
-            //     socket.emit('leave_room', {});
-            //     console.log("hello");
-            // })
-            // $(window).unload(function(){
-            //     socket.emit('leave_room', {});
-            //     console.log("LEFT")
-            // });
-            // $(window).bind('beforeunload', function(e){
-            //     console.log("LEAVING");
-            //     e.preventDefault();
-            //     e.returnValue = 'Are you sure you want to leave? This will log you out of the current room.';
-            //     socket.emit('leave_room', {});
-            //     return e.returnValue;
-            // });
-
             colorChange('{{setting.primaryColor}}', '{{setting.secondaryColor}}', '{{setting.textColor}}');
         });
       </script>

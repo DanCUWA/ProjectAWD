@@ -7,11 +7,6 @@ from app.forms import LoginForm, SignupForm
 from app.controller import *
 import bcrypt
 
-@app.route("/")
-@app.route("/index")
-def index():
-    return render_template("WelcomePage.html", title="MAIN")
-
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     return handleSignup()
@@ -20,23 +15,10 @@ def signup():
 def login():
     return handleLogin()
 
-@app.route("/logout")
-def logout():
-    logout_user()
-    return redirect("/")
-
 @app.route("/settings", methods=['GET', 'POST'])
 @login_required
 def settings():
     return handleSettings()
-
-@app.route("/rooms", methods=['GET', 'POST'])
-@login_required
-def rooms():
-    user = User.query.filter_by(username=current_user.username).first_or_404()
-    rooms = GameRoom.query.all()
-    return render_template('rooms.html', user=user, rooms=rooms)
-
 
 @app.route("/rooms/deleteRoom", methods=['GET', 'POST'])
 @login_required
@@ -47,7 +29,6 @@ def deleteRoom():
 def createRoom():
     return handleRoomOnCreate()
 
-
 @app.route("/createRoom/created", methods=['GET','POST'])
 def createdRoom():
     return handleRoomCreated()
@@ -57,10 +38,30 @@ def createdRoom():
 def joinRoom():
     return handleRoomJoin()
 
+@app.route('/chat/<cur_room>')
+@login_required
+def chat(cur_room):
+    return handleChat(cur_room) 
+
 @app.route('/stats/<username>')
 @login_required
 def stats(username):
     return render_template('stats.html', username=escape(username))
+
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect("/")
+
+@app.route("/get_username")
+@login_required
+def get_username():
+    return {"username": current_user.username}
+
+@app.route("/")
+@app.route("/index")
+def index():
+    return render_template("WelcomePage.html", title="MAIN")
 
 @app.route('/profile')
 @login_required
@@ -68,12 +69,10 @@ def profile():
     msgs = Message.query.filter_by(username=current_user.username).all()
     return render_template('profile.html',id=current_user.username,msgs=msgs)
 
-@app.route('/chat/<cur_room>')
+@app.route("/rooms", methods=['GET', 'POST'])
 @login_required
-def chat(cur_room):
-    return handleChat(cur_room) 
+def rooms():
+    user = User.query.filter_by(username=current_user.username).first_or_404()
+    rooms = GameRoom.query.all()
+    return render_template('rooms.html', user=user, rooms=rooms)
 
-@app.route("/get_username")
-@login_required
-def get_username():
-    return {"username": current_user.username}
