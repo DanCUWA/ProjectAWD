@@ -189,6 +189,11 @@ a.logout{
     color: #818181;
     font: 5px;
 }
+a.logout-corner {
+    right: 0px;
+    color: #818181;
+
+}
 /* button#logout{
     background: transparent;
     border: none;
