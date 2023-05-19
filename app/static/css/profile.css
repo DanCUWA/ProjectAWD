@@ -1,17 +1,46 @@
 #prof-head{ 
     text-align: center;
     background-color: lightgrey; 
-    width: 40svh; 
+    width: 40svw; 
     padding: 10px; 
-    margin:30px 20px;
+    margin: 30px auto;
     border-radius: 10px;
     font-family: "Garamond", "Verdana", monospace;
 }
+.rm_name{ 
+    background:orange;
+    width: 40svw;
+    margin-left: 15px;
+}
 .cont { 
     display:flex;
-    width: 50svh;
+    width: 40svw;
     justify-content:left; 
     background: blue;
-    wrap: nowrap;
+    flex-flow: column wrap;
     color: white;
+    padding:20px;
+    margin: 0px 0px 20px 20px;
+}
+.msg { 
+    padding: 5px 0px;
+    background:lightblue;
+    color:black;
+}
+#search-box{ 
+    background:grey; 
+    height: 100svh; 
+    width: 50svw; 
+    float: right;
+    margin: 0px 30px;
+    padding: 30px;
+}
+#search-head { 
+    text-align:center;
+    font-family: "Copperplate", "Lucida Console", monospace;
+    color:crimson;
+}
+#sbar{ 
+    margin:auto;
+    text-align: center;
 }
