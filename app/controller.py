@@ -273,7 +273,6 @@ def handleRoomOnCreate():
     if request.method == 'POST':
         session['room_name'] = request.form['room_name']
         session['num_players'] = int(request.form['num_players'])
-        
     return render_template('CreateRoom.html')
 
 def handleRoomCreated():
