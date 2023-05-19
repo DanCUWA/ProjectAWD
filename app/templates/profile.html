@@ -1,13 +1,18 @@
 {% extends 'baseHTML.html' %}
 {%block main%}
-    <h1>Profile</h1>
+    <h1 id="prof-head">Profile</h1>
+    <input type="text" name="search">
+    <button>Search</button>
     {%for r in rooms%}
         <h2>{{r.roomName}}</h2>
-        {%for m in msgs%}
-            {% if m.roomID == r.roomID %}
-                <p>{{m.time}}: {{m.text}}</p>
-            {% endif %}
-        {%endfor%}    
+        <div class="cont">
+            {%for m in msgs%}
+                {% if m.roomID == r.roomID %}
+                    <p>{{m.time}}: {{m.text}}</p>
+                {% endif %}
+            {%endfor%}    
+        </div>
     {%endfor%}    
+    <br>
     <input type="button" value="Back" onclick="document.location.href='/index';">
 {%endblock%}
