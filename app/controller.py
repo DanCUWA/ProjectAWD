@@ -311,3 +311,29 @@ def handleChat(room):
         return render_template("chat.html", title="MAIN", name=user.username, room=room, setting = s, gameRoom = gameRoom)
     else: 
         return redirect(url_for('rooms'))
+    
+def handleRooms(): 
+    user = User.query.filter_by(username=current_user.username).first_or_404()
+    rooms = GameRoom.query.all()
+    return render_template('rooms.html', user=user, rooms=rooms)
+
+def handleMain(): 
+    return render_template("WelcomePage.html", title="MAIN")
+
+def handleProfile():
+    msgs = Message.query.filter_by(username=current_user.username)
+    all_msgs = msgs.all()
+    msg_rms = msgs.group_by(Message.roomID).all()
+    room_ids = map(lambda m:m.roomID,msg_rms)
+    rooms = []
+    for r in room_ids: 
+        room = GameRoom.query.get(r)
+        rooms.append(room)
+    return render_template('profile.html',id=current_user.username,msgs=all_msgs,rooms=rooms)
+
+def handleLogout(): 
+    logout_user()
+    return redirect("/")
+
+def getUsername():
+    return {"username": current_user.username}
