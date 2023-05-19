@@ -44,3 +44,6 @@
     margin:auto;
     text-align: center;
 }
+#ref { 
+    display:none;
+}

@@ -328,6 +328,7 @@ def handleProfile():
     for r in room_ids: 
         room = GameRoom.query.get(r)
         rooms.append(room)
+    print(all_msgs)
     return render_template('profile.html',id=current_user.username,msgs=all_msgs,rooms=rooms)
 
 def handleLogout(): 
