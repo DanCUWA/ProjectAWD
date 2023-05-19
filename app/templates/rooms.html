@@ -9,14 +9,19 @@
         <div class="centerItems" >
             {%for room in rooms%}
             <div class="gameNodes">Room: {{room.roomID}}<br>Turn: {{room.turnNumber}} <br> {{room.roomName}} <br> Players: {{room.playerNumber}} <br>
+                <form action="{{ url_for('joinRoom')}}" method="POST">
+                    <input type="hidden" value={{room.roomID}} name="roomJoin">
+                    <input type="submit" value="Join Room">
+                  </form>
                 <form action="{{ url_for('deleteRoom')}}" method="POST">
                     <input type="hidden" value={{room.roomID}} name="roomDelete">
                     <input type="submit" value="Delete Room">
-                  </form></div>
+                  </form>
+            </div>
             {%endfor%}
             <div class="gameNodes">
                 <div>
-                    <form action="{{ url_for('rooms', username=user.username) }}" method="POST">
+                    <form action="{{ url_for('createRoom', username=user.username) }}" method="POST">
                         Make Room<br>
                         <input type="text" name="room_name" placeholder="Room name" required><br>
                         Number of Players
