@@ -307,6 +307,7 @@ def handleChat(room):
     user = User.query.filter_by(username=current_user.username).first_or_404()
     if (room == session['room']):
         s = Settings.query.get(user.username)
-        return render_template("chat.html", title="MAIN", name=user.username, room=room, setting = s)
+        gameRoom = GameRoom.query.get(room)
+        return render_template("chat.html", title="MAIN", name=user.username, room=room, setting = s, gameRoom = gameRoom)
     else: 
         return redirect(url_for('rooms'))

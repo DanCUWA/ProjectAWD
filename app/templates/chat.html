@@ -31,8 +31,10 @@
             <!-- <input type="text" placeholder = "Username" class="form-control" > -->
             <!-- <input type="text"><button type="button">Login</button><button type="button">Sign Up</button> -->
             </div>
-            <div class="col-sm-2">
-                <input type = "button" id="start" value="Start">
+            <div class="col-sm-2 aa">
+                {% if gameRoom.turnNumber == 0 %}
+                <input type = "button" id="start" value="Start" onclick="this.style.display='none'">
+                {% endif %}
             <!-- <input type="text" placeholder = "Username" class="form-control" > -->
             <!-- <input type="text"><button type="button">Login</button><button type="button">Sign Up</button> -->
             </div>
@@ -48,7 +50,7 @@
             </div>
             {% else %}
             <div class="col-sm-1" style="color:aliceblue">{{current_user.username}}</div>
-            <a class="logout col-sm-1" href="{{ url_for('logout') }}">LOGOUT</a>
+            <a class="logout-corner col-sm-1" href="{{ url_for('logout') }}"><i class="bx bx-log-out bx-sm"></i></a>
             {% endif %}
     
         </div>
@@ -149,6 +151,8 @@
                 e.preventDefault(); 
                 socket.emit('leave_room', {});
             })
+
+
             colorChange('{{setting.primaryColor}}', '{{setting.secondaryColor}}', '{{setting.textColor}}');
         });
       </script>
