@@ -13,6 +13,17 @@ $(".tab").click(function() {
     $(this).addClass("active").siblings().removeClass("active");
 })
 
+function openConfirmDelete() {
+    document.getElementById("deleteAcc").style.display = "block";
+    document.getElementById("delete").style.display = "none";
+}
+
+function closeConfirmDelete() {
+    document.getElementById("deleteAcc").style.display = "none";
+    document.getElementById("delete").style.display = "block";
+}
+
+
 let colourInput = document.getElementById('primColour');
 let colourInput2= document.getElementById('secoColour');
 let textColour = document.getElementById('textColour')

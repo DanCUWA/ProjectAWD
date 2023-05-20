@@ -151,10 +151,9 @@
                 e.preventDefault(); 
                 socket.emit('leave_room', {});
             })
-
-
-            colorChange('{{setting.primaryColor}}', '{{setting.secondaryColor}}', '{{setting.textColor}}');
+            
         });
+        colorChange('{{setting.primaryColor}}', '{{setting.secondaryColor}}', '{{setting.textColor}}');
       </script>
     <script type="text/javascript" src="{{ url_for('static', filename='./js/mainPageJS.js') }}"></script>
 </body>
