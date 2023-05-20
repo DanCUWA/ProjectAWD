@@ -94,7 +94,7 @@ def send_prev(room):
 
 # Generate a response using chat-GPT 
 
-openai.api_key = "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"
+openai.api_key = os.getenv('GPT_KEY')
 def gpt_response(prompt):
     response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=prompt)
     return response.choices[-1].message.content.replace('\n', '<br>')
