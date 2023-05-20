@@ -1,32 +1,40 @@
 {% extends 'baseHTML.html' %}
 {%block main%}
+    <input type="button" value="Back" onclick="document.location.href='/index';">
     <h1 id="prof-head">Profile</h1>
     <div id="ref">
         {%for m in msgs%}
             <p class="srch">{{m.text}}</p>
         {%endfor%}    
     </div>
-    <div id="search-box"> 
-        <!-- <h2 id="search-head">SEARCH</h2> -->
-        <div id="sbar"> 
-            <input type="text" id="srtxt" name="search">
-            <button id="sbm">Search</button>
+    <div class="main">
+        <div class="rooms"> 
+            {%for r in rooms%}
+            <div class="room">
+                <h2 class="rm_name">{{r.roomName}}</h2>
+                <div class="cont">
+                    {%for m in msgs%}
+                        {% if m.roomID == r.roomID %}
+                            <p class="msg">{{m.time}}: {{m.text}}</p>
+                        {% endif %}
+                    {%endfor%}    
+                </div>
+            </div>  
+            {%endfor%} 
         </div>
-        <div id="res"> 
+        <div id="search">
+            <h2 id ="filter">Search</h2>
+            <div id="search-box"> 
+                <div id="sbar"> 
+                    <input type="text" id="srtxt" name="search">
+                    <button id="sbm">Search</button>
+                </div>
+                <div id="res"> 
+                </div>
+            </div>
         </div>
-    </div>
-    {%for r in rooms%}
-        <h2 class="rm_name">{{r.roomName}}</h2>
-        <div class="cont">
-            {%for m in msgs%}
-                {% if m.roomID == r.roomID %}
-                    <p class="msg">{{m.time}}: {{m.text}}</p>
-                {% endif %}
-            {%endfor%}    
-        </div>
-    {%endfor%}    
+    </div>   
     <br>
-    <input type="button" value="Back" onclick="document.location.href='/index';">
     <script> 
         $('#sbm').on('click', (e) => { 
             e.preventDefault();
@@ -40,6 +48,7 @@
                 } else { 
                     console.log(msg.text() + "show");
                     let add = $('<p>').text(msg.text());
+                    add.addClass("smsg");
                     $(res).append(add)
                 }
             })

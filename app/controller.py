@@ -10,20 +10,31 @@ import openai, os, pdb
 
 @app.before_first_request
 def make_base(): 
-    db.drop_all()
-    db.create_all()
-    db.session.commit()
-    u1 = User(username="DCTEST")
-    u1.set_password("abc")
-    u2 = User(username="GAMEMASTER")
-    u2.set_password("no_login")
-    u3 = User(username="Test")
-    u3.set_password("abc")
-    db.session.add_all([u1,u2,u3])
-    db.session.commit()
-    init_settings(u1)
-    init_settings(u2)
-    init_settings(u3)
+    try: 
+        db.create_all()
+        db.session.commit()
+        if User.query.filter_by(username="DCTEST").first() is None:
+            u1 = User(username="DCTEST")
+            u1.set_password("abc")
+            db.session.add(u1)
+            init_settings(u1)
+
+        if User.query.filter_by(username="GAMEMASTER").first() is None:
+            u2 = User(username="GAMEMASTER")
+            u2.set_password("no_login")
+            db.session.add(u2)
+            init_settings(u2)
+
+        if User.query.filter_by(username="Test").first() is None:
+            u3 = User(username="Test")
+            u3.set_password("abc")
+            db.session.add(u3)
+            init_settings(u3)
+            
+        db.session.commit()
+    except: 
+        print("Already initialised")
+        pass
     print(User.query.all())
 
 def init_settings(user):
