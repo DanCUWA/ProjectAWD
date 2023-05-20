@@ -56,4 +56,10 @@
     <div class="container-fluid" style="text-align: center;background-image: linear-gradient(45deg,rgb(63, 55, 71) 50%,rgb(38, 40, 43) 90%); height: 5vh">
         <p>Bottom</p>
     </div>
+    <script>
+    setTimeout(
+        function (){
+        window.open("{{ url_for('welcomePage')}}", '_parent')}
+        ,11000);
+    </script>
 {%endblock%}

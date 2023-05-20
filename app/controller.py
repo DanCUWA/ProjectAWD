@@ -317,6 +317,9 @@ def handleRooms():
     rooms = GameRoom.query.all()
     return render_template('rooms.html', user=user, rooms=rooms)
 
+def handleIntro():
+    return render_template("IntroPage.html", title="Welcome")
+
 def handleMain(): 
     return render_template("WelcomePage.html", title="MAIN")
 

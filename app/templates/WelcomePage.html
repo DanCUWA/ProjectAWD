@@ -21,39 +21,45 @@
         </div>
 
         <div style="background-color: rgb(63, 55, 71);padding-top: 20px; padding-bottom: 20px;">
-            <div><h1><b>The Game Master</b></h1></div>
             <div class="row" style="margin:0">
-                <div class="col-lg-8" style="align-self: center;">A mysterious entity that foretells your journey as it happens... but in actuality its an ai base off ChatGPT-3 that will create and let the story unfold before your eyes.
+                <div class="col-lg-8" style="align-self: center;">
+                    <div><h1><b>The Game Master</b></h1></div>
+                    A mysterious entity that foretells your journey as it happens... but in actuality its an ai base off ChatGPT-3 that will create and let the story unfold before your eyes.
                 </div>
                 <div class="col-lg-4"><img src="https://cdn.icon-icons.com/icons2/390/PNG/512/hood_39094.png" alt="hooded icon"></div>
             </div>
         </div>
-        <div style="background-color: rgb(38, 40, 43);padding-top: 20px; padding-bottom: 20px;">
-            <h1><b>Lone wolf or a Comrade</b></h1>
-        
+        <div style="background-color: rgb(38, 40, 43);padding-top: 20px; padding-bottom: 20px;background-size: cover; mix-blend-mode:exclusion;background-image: url({{url_for('static', filename='img/mainPage1.png')}});">
             <div class="row" style="margin:0">
-                <div class="col-lg-8" style="align-self:center">You can party up with friends or play alone
+                <div class="col-lg-4">
+                    <img src="https://icon-library.com/images/multiple-people-icon/multiple-people-icon-17.jpg">
+                </div>
+                <div class="col-lg-8" style="align-self:center;color: white;">
+                    <h1><b>Lone wolf or a Comrade</b></h1>
+                    <div>You can party up with friends or play alone.
                     When alone the story continues at your pace.
                     When in a party, don't worry about having to finish the story, the world simply awaits your response. You and your friends can decide the rate at which you play.
                     Play all night or live your busy lives and get back to the adventure when you can.
                 </div>
-                <div class="col-lg-4">
-                    <img src="https://icon-library.com/images/multiple-people-icon/multiple-people-icon-17.jpg">
-                </div>
+            </div>
             </div>
         </div>
-            <div style="height:100px; background-color: rgb(63, 55, 71)">
-                <div><h1>Choose your adventure or make your own</h1></div>
+            <div style="background-color: rgb(63, 55, 71); padding-top: 20px; padding-bottom: 20px;">
                 <div class="row" style="margin:0">
-                    <div  class="col-lg-8" style="align-self: center;">We have adventures and story already waiting for you to start your adventure. Or... if you want even more control, you choose your setting, you choose your context,
+                    <div  class="col-lg-8" style="align-self: center;">
+                        <div><h1><b>Choose your adventure or make your own</b></h1></div>
+                        We have adventures and story already waiting for you to start your adventure. Or... if you want even more control, you choose your setting, you choose your context,
                         you choose your life.
                     </div>
                     <div class="col-lg-4"><img src="https://cdn-icons-png.flaticon.com/512/114/114433.png"></div>
-                    <div><input style="width:20%" type="submit" value="Begin Adventure!"></div>
                 </div>
+                <div><input style="width:20%" type="submit" value="Begin Adventure!"></div>
             </div>
     </div>        
         
+    <div class="container-fluid" style="text-align: center;background-image: linear-gradient(45deg,rgb(63, 55, 71) 50%,rgb(38, 40, 43) 90%); height: 5vh">
+        <div style="padding-top: 1vh; color:white">@2023 Copyright</div>
+    </div>
     <div id="mySidenav" class="sidenav hover">
         <div id="navChoices">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -64,9 +70,6 @@
         </div>
         <a class="logout" href="{{ url_for('logout') }}"><i class="bx bx-log-out bx-md"></i></a>
     </div>    
-    <div class="container-fluid" style="text-align: center;background-image: linear-gradient(45deg,rgb(63, 55, 71) 50%,rgb(38, 40, 43) 90%); height: 5vh">
-        <div style="padding-top: 1vh; color:white">@2023 Copyright</div>
-    </div>
     <script type="text/javascript" src="{{ url_for('static', filename='./js/mainPageJS.js') }}"></script>
 
 {%endblock%}
