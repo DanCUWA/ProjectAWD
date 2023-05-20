@@ -22,7 +22,7 @@
                     <label>Username</label>
                     <input type="text" name="username" class="inputAccount" value="{{user.username}}">
                     <input type="submit" name="username-submit" value="Change username" style="margin:10px;background: #40334d;height:33px;width:140px;">
-                    {% with messages = get_flashed_messages() %}
+                    {% with messages = get_flashed_messages(category_filter=["username-error"]) %}
                     {% if messages %}
                     <div class="alert alert-danger" style="width:fit-content; padding:10px">
                     {{ messages[0] }}
@@ -31,8 +31,21 @@
                     {% endwith %}
                     <p style="margin-left:20px;color:#6f6f6f;">The username will be also displayed to others</p><br><br>
                 </form>
-                <label>Password</label>
-                <input type="password" class="inputAccount"> <br>
+                <form action="{{ url_for('settings') }}" method="POST">
+                    <label>Reset Password</label>
+                    <input type="password" name="password1" class="inputAccount">
+                    <label>Confirm Password</label>
+                    <input type="password" name="password2" class="inputAccount">
+                    <input type="submit" name="password-submit" value="Reset Password" style="margin:10px;background: #40334d;height:33px;width:140px;">
+                    {% with messages = get_flashed_messages(category_filter=["password-error"]) %}
+                    {% if messages %}
+                    <div class="alert alert-danger" style="width:fit-content; padding:10px">
+                    {{ messages[0] }}
+                    </div>
+                    {% endif %}
+                    {% endwith %}
+                </form>
+                <br>
                 <form action="{{ url_for('settings') }}" id="deleteAcc" method="POST" style="display:none;margin-top: 200px;padding:20px;border:1px solid blueviolet;">
                     <button type="button" class="btn cancel" style="color:white"onclick="closeConfirmDelete()">x</button>
                     <label>Type in your username to delete this account</label>

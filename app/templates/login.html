@@ -19,9 +19,16 @@
                 <span style="color: red;">[{{ error }}]</span>
                 {% endfor %}
             </div>         
-            {% with messages = get_flashed_messages() %}
+            {% with messages = get_flashed_messages(category_filter=["message"]) %}
             {% if messages %}
             <div class="alert alert-danger" role="alert">
+            {{ messages[0] }}
+            </div>
+            {% endif %}
+            {% endwith %}
+            {% with messages = get_flashed_messages(category_filter=["signup-success"]) %}
+            {% if messages %}
+            <div class="alert alert-success" role="alert">
             {{ messages[0] }}
             </div>
             {% endif %}

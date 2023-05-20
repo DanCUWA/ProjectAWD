@@ -209,7 +209,7 @@ def handleSignup():
         db.session.add(user)
         db.session.commit()
         init_settings(user)
-        flash("Congratulations, you are now a registered user!")
+        flash("Congratulations, you are now a registered user!", "signup-success")
         return redirect(("/login"))
     return render_template("signup.html", title="SignUp", form=form)
 
@@ -240,7 +240,7 @@ def handleSettings():
             current_user.username = request.form['username']
             db.session.commit()
         else:
-            flash('Username Already Taken')
+            flash('Username Already Taken', 'username-error')
     if request.method == 'POST' and "color-submit" in request.form:
         s.primaryColor = request.form['primColour']
         s.secondaryColor = request.form['secoColour']
@@ -251,6 +251,15 @@ def handleSettings():
         s.secondaryColor = '#26282B'
         s.textColor = '#ffffff'
         db.session.commit()
+    if request.method == 'POST' and "password-submit" in request.form:
+        user = User.query.filter_by(username=current_user.username).first()
+        password1 = request.form['password1']
+        password2 = request.form['password2']
+        if password1 == password2:
+            user.set_password(password1)
+            db.session.commit()
+        else:
+            flash('Passwords do NOT match','password-error')
     if request.method == 'POST' and "delete-submit" in request.form:
         if(current_user.username == request.form["username"]):
             user = User.query.filter_by(username=current_user.username).first_or_404()
