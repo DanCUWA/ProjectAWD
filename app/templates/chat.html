@@ -65,7 +65,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-8 chatbox" style="background-color:rgb(68, 58, 68); color:white;">
+            <div class="col-sm-8 chatbox" style="background-color:rgb(68, 58, 68);">
                 <div id="textBox" class="screenChange" style=" width: 100%; padding: 50px; display: flex;"> 
                     <div id="textMessage" class="screenChange2" style=" text-align: left; word-wrap: break-word; overflow-y: auto; width: 100%;">
 
@@ -88,7 +88,6 @@
         <div id="navChoices">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
             <a href="/rooms">Game Rooms</a>
-            <a href='/stats/{{current_user.username}}'>Stats</a>
             <a href="/profile">Profile</a>
             <a href="/settings">Settings</a>
         </div>
@@ -151,9 +150,8 @@
                 e.preventDefault(); 
                 socket.emit('leave_room', {});
             })
-            
+            colorChange('{{setting.primaryColor}}', '{{setting.secondaryColor}}', '{{setting.textColor}}');
         });
-        colorChange('{{setting.primaryColor}}', '{{setting.secondaryColor}}', '{{setting.textColor}}');
       </script>
     <script type="text/javascript" src="{{ url_for('static', filename='./js/mainPageJS.js') }}"></script>
 </body>

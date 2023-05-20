@@ -247,7 +247,7 @@ def handleSettings():
         s.textColor = request.form['textColour']
         db.session.commit()
     if request.method == 'POST' and "default-submit" in request.form:
-        s.primaryColor = '#3F3747'
+        s.primaryColor = '#3a3341'
         s.secondaryColor = '#26282B'
         s.textColor = '#ffffff'
         db.session.commit()
