@@ -1,16 +1,16 @@
 {% extends 'baseHTML.html' %}
     {%block main%}
-    <div class="container-fluid" style="text-align: center;background-image: linear-gradient(225deg,rgb(63, 55, 71) 50%,rgb(38, 40, 43) 90%);  height: 5vh;">
+    <div class="container-fluid" id="topPage">
     </div>
 
-    <div id="midPage" class="container-fluid" style="text-align: center; color:darkgray; padding: 0; font-size:xx-large;">
+    <div class="container-fluid welcomeBody">
         <span style="text-align: left; position:absolute; top: 50%; left: 2vh; font-size:30px;cursor:pointer;color: #d4d4d4;" onclick="toggleNav()">&#8692;</span>
         <div style="background-color: rgb(63, 55, 71);padding-top: 20px; padding-bottom: 20px;">
             <h1>Welcome to</h1>
             <h1><b>Game Master</b></h1>
             <input style="width: 10%; height: 50px;" type="submit" value="Begin Adventure!" onclick = "window.open('/rooms', '_parent')">
         </div>
-        <div style="background-color: rgb(38, 40, 43); padding-top: 20px; padding-bottom: 20px;">
+        <div class="bodyBlock1">
             
             <div><h1><b>What's this?</b></h1></div>
             <div>This is a sandbox, text-based, Role-playing game. You will be a character of your choosing, built from scratch by you. Each scenario or continuation of the story is influenced by you. An adventurous world of your choosing awaits you. A world in which you control exactly what you do, say, see and feel.
@@ -20,7 +20,7 @@
             </div>
         </div>
 
-        <div style="background-color: rgb(63, 55, 71);padding-top: 20px; padding-bottom: 20px;">
+        <div class="bodyBlock2">
             <div class="row" style="margin:0">
                 <div class="col-lg-8" style="align-self: center;">
                     <div><h1><b>The Game Master</b></h1></div>
@@ -29,7 +29,7 @@
                 <div class="col-lg-4"><img src="https://cdn.icon-icons.com/icons2/390/PNG/512/hood_39094.png" alt="hooded icon"></div>
             </div>
         </div>
-        <div style="background-color: rgb(38, 40, 43);padding-top: 20px; padding-bottom: 20px;background-size: cover; background-blend-mode:exclusion;background-image: url({{url_for('static', filename='img/mainPage1.png')}});">
+        <div class="bodyBlock2" style="background-image: url({{url_for('static', filename='img/mainPage1.png')}});">
             <div class="row" style="margin:0">
                 <div class="col-lg-4">
                     <img src="https://icon-library.com/images/multiple-people-icon/multiple-people-icon-17.jpg">
@@ -44,7 +44,7 @@
             </div>
             </div>
         </div>
-            <div style="background-color: rgb(63, 55, 71); padding-top: 20px; padding-bottom: 20px; background-blend-mode:darken;background-image: url({{url_for('static', filename='img/mainPage2.png')}})">
+            <div class="bodyBlock1" style="background-image: url({{url_for('static', filename='img/mainPage2.png')}})">
                 <div class="row" style="margin:0">
                     <div  class="col-lg-8" style="align-self: center;">
                         <div><h1><b>Choose your adventure or make your own</b></h1></div>
@@ -57,7 +57,7 @@
             </div>
     </div>        
         
-    <div class="container-fluid" style="text-align: center;background-image: linear-gradient(45deg,rgb(63, 55, 71) 50%,rgb(38, 40, 43) 90%); height: 5vh">
+    <div class="container-fluid" id="botPage">
         <div style="padding-top: 1vh; color:white">@2023 Copyright</div>
     </div>
     <div id="mySidenav" class="sidenav hover">
