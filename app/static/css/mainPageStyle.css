@@ -96,12 +96,10 @@ textarea#insertText::-webkit-scrollbar{
   }
 
 button#submitMessage {
-    position: absolute;
+    position:relative;
     background: transparent;
     border: none;
     color: white;
-    bottom: 7px;
-    right: 1%; 
   }
 
 input{
