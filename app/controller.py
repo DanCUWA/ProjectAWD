@@ -70,11 +70,9 @@ def send_prev(room):
     logged_in = User.query.filter_by(roomID = room).all()
     txt = []
     usrs = []
-    print(logged_in)
     for u in logged_in: 
         usrs.append("SERVER")
         txt.append( "Welcome to room "+ room + " " + u.username + "!")
-    print(msgs)
     for msg in msgs:
         if msg.time < time:
             txt.append(msg.text)
@@ -156,7 +154,6 @@ def handle_playerqs(data):
         room_usrs = User.query.filter_by(roomID = u.roomID).all()
         num_usrs = len(room_usrs)
         usrs = list(map(lambda x:x.username, user_turn))
-        print(usrs)
         already_gone = len(usrs)
         if (u.username not in usrs):
             add_message(data['data'],str(rm.roomID))
@@ -168,9 +165,6 @@ def handle_playerqs(data):
             handle_turn(room=rm,all_usrs=room_usrs)
             #All users gone - run gpt turn
     else: 
-        print(u)
-        print(data['data'])
-        print(rm.roomID)
         add_message(data['data'],rm.roomID)
         socketio.emit('server-response',{'message':data['data'],'name':name},room=str(rm.roomID))
 
@@ -180,8 +174,7 @@ def handle_playerqs(data):
 @socketio.on('start-game')
 def start_game(data): 
     u = User.query.filter_by(username=current_user.username).first_or_404()
-    req = "Starting game"
-    print("Sending gpt request " + req + str(u.roomID))
+
     g = GameRoom.query.get(u.roomID)
     g.turnNumber += 1
     db.session.commit()
@@ -237,7 +230,12 @@ def handleSettings():
     if request.method == 'POST' and "username-submit" in request.form:
         user = User.query.filter_by(username=request.form['username']).first()
         if user is None:
-            current_user.username = request.form['username']
+            new_username = request.form['username']
+            current_user.username = new_username
+            messages = Message.query.filter_by(username=current_user.username).all()
+            s.username = new_username
+            for m in messages:
+                m.username = new_username
             db.session.commit()
         else:
             flash('Username Already Taken', 'username-error')

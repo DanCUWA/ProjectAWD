@@ -284,6 +284,12 @@ padding: 16px;
         height: 25vh;
         max-height: 25vh;
     }
+    .settingOptions {
+        max-width: 120px;
+    }
+    .tab {
+        padding: 0;
+    }
 }
 
 #GRbackButton{
@@ -408,4 +414,19 @@ button#delete {
 button#delete:hover {
     border-color: blueviolet; 
     transition: 0.5s;
+}
+input[type="password"]#pass {
+    padding: 20px; 
+}
+
+@media screen and (max-width: 576px){
+    .settingOptions {
+        max-width: 110px;
+    }
+    .tab {
+        padding-left: 3px;
+    }
+    .rightbox {
+        margin-left: 130px;
+    }
 }
