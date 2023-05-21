@@ -146,6 +146,7 @@ Adi Budhavaram - 23086947 - [adibud](https://github.com/adibud)
 * Password Hashing
 
 ### Tony Nguyen
+* Initial Web Game Concept
 * front end template set up
 * base html
 * Game rooms
@@ -158,6 +159,8 @@ Adi Budhavaram - 23086947 - [adibud](https://github.com/adibud)
 * Setting page
 * Database set up
 * Routing
+* Animation
+* Form creation
 
 ### Peter Le
 * Login set up
