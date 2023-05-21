@@ -1,4 +1,5 @@
 from . import user_blueprint
+from .user_controller import *
 from app.controller import *
 @user_blueprint.route("/settings", methods=['GET', 'POST'])
 @login_required

@@ -1,6 +1,6 @@
 from . import room_blueprint
-from app.controller import *
-
+# from app.controller import *
+from .room_controller import *
 @room_blueprint.route("/rooms", methods=['GET', 'POST'])
 @login_required
 def rooms():

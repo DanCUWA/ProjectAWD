@@ -9,7 +9,7 @@ import bcrypt
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
-    roomID = db.Column(db.Integer,db.ForeignKey("game_room.roomID"),index=True,default=-1)
+    roomID = db.Column(db.Integer,db.ForeignKey("game_room.roomID",use_alter=True),index=True,default=-1)
     setting = db.relationship('Settings', backref='Settings', lazy='dynamic')
     salt = db.Column(db.String(128))
     password_hash = db.Column(db.String(128))
@@ -41,7 +41,7 @@ class Settings(db.Model):
 
 class GameRoom(db.Model):
     username = db.Column(
-        db.String(64), db.ForeignKey("user.username"), index=True
+        db.String(64), db.ForeignKey("user.username"),index=True
     )
     roomID = db.Column(db.Integer, unique=True, primary_key = True)
     roomName = db.Column(db.String(30))
