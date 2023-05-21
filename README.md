@@ -103,4 +103,10 @@ Adi Budhavaram - 23086947 - [adibud](https://github.com/adibud)
 
 ## Acknowledgments
 
+## External Images
+* https://icon-library.com/images/multiple-people-icon/multiple-people-icon-17.jpg
+* https://cdn.icon-icons.com/icons2/390/PNG/512/hood_39094.png
+* https://cdn-icons-png.flaticon.com/512/114/114433.png
+* https://1.bp.blogspot.com/-3dJaGBCMKbA/VqcFiK9zO1I/AAAAAAAAW9Y/xCakJ-OxsS8/s640/quantum_stars.gif 
+
 ..??
