@@ -401,7 +401,7 @@ nav a.active {
 .backImage {
     background-size: cover; 
     background-repeat: no-repeat;
-    background-blend-mode:lighten; 
+    background-blend-mode:soft-light; 
     background-position: center center;
 }
 

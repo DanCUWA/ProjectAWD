@@ -113,4 +113,19 @@ Adi Budhavaram - 23086947 - [adibud](https://github.com/adibud)
 * https://d3d00swyhr67nd.cloudfront.net/w800h800/collection/CDN/WELL/CDN_WELL_L_30887-001.jpg
 
 (All other images are created locally by Tony Nguyen)
-..??
+
+## Contributions
+# Daniel Cheng
+* flask set up
+
+# Tony Nguyen
+* front end template set up
+* base html
+* Game rooms
+* Css styling
+* Intro page
+* Graphics/images
+
+# Peter Le
+
+# Adi budhavaram
