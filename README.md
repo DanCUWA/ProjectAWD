@@ -108,5 +108,9 @@ Adi Budhavaram - 23086947 - [adibud](https://github.com/adibud)
 * https://cdn.icon-icons.com/icons2/390/PNG/512/hood_39094.png
 * https://cdn-icons-png.flaticon.com/512/114/114433.png
 * https://1.bp.blogspot.com/-3dJaGBCMKbA/VqcFiK9zO1I/AAAAAAAAW9Y/xCakJ-OxsS8/s640/quantum_stars.gif 
+* https://mir-s3-cdn-cf.behance.net/project_modules/fs/dc82fb44263453.580dd1bf77b62.jpg 
+* https://i.ytimg.com/vi/DyBDy8urs1Q/maxresdefault.jpg
+* https://d3d00swyhr67nd.cloudfront.net/w800h800/collection/CDN/WELL/CDN_WELL_L_30887-001.jpg
 
+(All other images are created locally by Tony Nguyen)
 ..??
