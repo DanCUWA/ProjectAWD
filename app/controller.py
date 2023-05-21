@@ -1,5 +1,5 @@
-from app import app,db,socketio
-from flask import render_template, request, escape, flash, redirect, session, redirect, url_for
+from app import db,socketio
+from flask import current_app,render_template, request, escape, flash, redirect, session, redirect, url_for
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import *
 from app.forms import * 
@@ -8,7 +8,7 @@ import openai, os, pdb
 
 # Sets up initial database
 
-@app.before_first_request
+@current_app.before_first_request
 def make_base(): 
     try: 
         db.create_all()
