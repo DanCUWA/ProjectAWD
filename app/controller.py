@@ -315,6 +315,9 @@ def handleRoomJoin():
     
 def handleChat(room): 
     user = User.query.filter_by(username=current_user.username).first_or_404()
+    if (user.roomID != -1): 
+        leave_room(user.roomID)
+        user.roomID=-1
     if (room == session['room']):
         s = Settings.query.get(user.username)
         gameRoom = GameRoom.query.get(room)
