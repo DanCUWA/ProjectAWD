@@ -1,13 +1,12 @@
-from app import db, login
+from app import db
 from datetime import datetime
 from flask_login import UserMixin
+from flask import current_app
 import bcrypt
-
 # Model containing User information. 
 # Unique ids and usernames, and passwords stored as hashes.
 # Hashes use bcrypt to provide more security than SHA256. 
 # It also requries the salts to be saved
- 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
@@ -25,9 +24,6 @@ class User(UserMixin, db.Model):
         return '<User {}, Room {}>'.format(self.username,self.roomID)
         # return '<User {}, email {}, password {}>'.format(self.username,self.email,self.password_hash)
 
-    @login.user_loader
-    def load_user(id):
-        return User.query.get(int(id))
 
 # Stores user preferences about colour schemes
 

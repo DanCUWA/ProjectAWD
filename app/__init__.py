@@ -18,15 +18,31 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
     initialise(app)
-    with app.app_context():
-        from . import routes, controller, models
+    register_bps(app)
+    return app
 
 def initialise(app): 
     db.init_app(app)
     migrate.init_app(app,db)
     login.init_app(app)
     socketio.init_app(app)
+    with app.app_context():
+        db.drop_all()
+        db.create_all()
 
+    from .models import User    
+    @login.user_loader
+    def load_user(id):
+        return User.query.get(int(id))
+
+def register_bps(app): 
+    from app.rooms import room_blueprint
+    from app.main import main_blueprint
+    from app.users import user_blueprint
+
+    app.register_blueprint(room_blueprint)
+    app.register_blueprint(main_blueprint)
+    app.register_blueprint(user_blueprint)
 
 # app = Flask(__name__)
 # app.config.from_object(Config)
