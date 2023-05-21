@@ -10,20 +10,31 @@ import openai, os, pdb
 
 @app.before_first_request
 def make_base(): 
-    db.drop_all()
-    db.create_all()
-    db.session.commit()
-    u1 = User(username="DCTEST")
-    u1.set_password("abc")
-    u2 = User(username="GAMEMASTER")
-    u2.set_password("no_login")
-    u3 = User(username="Test")
-    u3.set_password("abc")
-    db.session.add_all([u1,u2,u3])
-    db.session.commit()
-    init_settings(u1)
-    init_settings(u2)
-    init_settings(u3)
+    try: 
+        db.create_all()
+        db.session.commit()
+        if User.query.filter_by(username="DCTEST").first() is None:
+            u1 = User(username="DCTEST")
+            u1.set_password("abc")
+            db.session.add(u1)
+            init_settings(u1)
+
+        if User.query.filter_by(username="GAMEMASTER").first() is None:
+            u2 = User(username="GAMEMASTER")
+            u2.set_password("no_login")
+            db.session.add(u2)
+            init_settings(u2)
+
+        if User.query.filter_by(username="Test").first() is None:
+            u3 = User(username="Test")
+            u3.set_password("abc")
+            db.session.add(u3)
+            init_settings(u3)
+            
+        db.session.commit()
+    except: 
+        print("Already initialised")
+        pass
     print(User.query.all())
 
 def init_settings(user):
@@ -81,7 +92,7 @@ def send_prev(room):
 
 # Generate a response using chat-GPT 
 
-openai.api_key = "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"
+openai.api_key = os.getenv('GPT_KEY')
 def gpt_response(prompt):
     response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=prompt)
     return response.choices[-1].message.content.replace('\n', '<br>')
@@ -292,7 +303,6 @@ def handleRoomOnCreate():
     if request.method == 'POST':
         session['room_name'] = request.form['room_name']
         session['num_players'] = int(request.form['num_players'])
-        
     return render_template('CreateRoom.html')
 
 def handleRoomCreated():
@@ -324,9 +334,39 @@ def handleRoomJoin():
     
 def handleChat(room): 
     user = User.query.filter_by(username=current_user.username).first_or_404()
+    if (user.roomID != -1): 
+        leave_room(user.roomID)
+        user.roomID=-1
     if (room == session['room']):
         s = Settings.query.get(user.username)
         gameRoom = GameRoom.query.get(room)
         return render_template("chat.html", title="MAIN", name=user.username, room=room, setting = s, gameRoom = gameRoom)
     else: 
         return redirect(url_for('rooms'))
+    
+def handleRooms(): 
+    user = User.query.filter_by(username=current_user.username).first_or_404()
+    rooms = GameRoom.query.all()
+    return render_template('rooms.html', user=user, rooms=rooms)
+
+def handleMain(): 
+    return render_template("WelcomePage.html", title="MAIN")
+
+def handleProfile():
+    msgs = Message.query.filter_by(username=current_user.username)
+    all_msgs = msgs.all()
+    msg_rms = msgs.group_by(Message.roomID).all()
+    room_ids = map(lambda m:m.roomID,msg_rms)
+    rooms = []
+    for r in room_ids: 
+        room = GameRoom.query.get(r)
+        rooms.append(room)
+    print(all_msgs)
+    return render_template('profile.html',id=current_user.username,msgs=all_msgs,rooms=rooms)
+
+def handleLogout(): 
+    logout_user()
+    return redirect("/")
+
+def getUsername():
+    return {"username": current_user.username}
