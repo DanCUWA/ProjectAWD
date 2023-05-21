@@ -1,5 +1,5 @@
 :root {
-    --primary-color: #3F3747;
+    --primary-color: #3a3341;
     --secondary-color: #26282B;
     --text-color: #ffffff;
 
@@ -282,6 +282,12 @@ padding: 16px;
         height: 25vh;
         max-height: 25vh;
     }
+    .settingOptions {
+        max-width: 120px;
+    }
+    .tab {
+        padding: 0;
+    }
 }
 
 #GRbackButton{
@@ -397,4 +403,35 @@ nav a.active {
     background-repeat: no-repeat;
     background-blend-mode:lighten; 
     background-position: center center;
+}
+
+button#delete {
+    height: 40px;
+    width: 150px;
+    border: 2px solid;
+    background: #40334d;
+    color: #f9f9f9;
+    font: 18px;
+    border-radius: 25px;
+    cursor: pointer;
+    outline: none;
+}
+button#delete:hover {
+    border-color: blueviolet; 
+    transition: 0.5s;
+}
+input[type="password"]#pass1,#pass2 {
+    padding: 20px; 
+}
+
+@media screen and (max-width: 576px){
+    .settingOptions {
+        max-width: 110px;
+    }
+    .tab {
+        padding-left: 3px;
+    }
+    .rightbox {
+        margin-left: 130px;
+    }
 }

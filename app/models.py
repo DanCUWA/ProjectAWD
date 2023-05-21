@@ -35,7 +35,7 @@ class Settings(db.Model):
     username = db.Column(
         db.String(64), db.ForeignKey("user.username"), primary_key=True,index=True
     )
-    primaryColor = db.Column(db.String(7), default="#3F3747")
+    primaryColor = db.Column(db.String(7), default="#3a3341")
     secondaryColor = db.Column(db.String(7), default="#26282B")
     textColor = db.Column(db.String(7), default="#ffffff")
 
