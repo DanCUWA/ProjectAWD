@@ -56,12 +56,12 @@
     <div id="mySidenav" class="sidenav hover">
         <nav id="navChoices">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-            <a href="{{ url_for('rooms')}}">Game Rooms</a>
+            <a href="{{ url_for('rooms.rooms')}}">Game Rooms</a>
             <a href='/stats/{{current_user.username}}'>Stats</a>
-            <a href="{{ url_for('profile', username=current_user.username) }}">Profile</a>
-            <a href="{{ url_for('settings')}}">Settings</a>
+            <a href="{{ url_for('users.profile', username=current_user.username) }}">Profile</a>
+            <a href="{{ url_for('users.settings')}}">Settings</a>
         </nav>
-        <a class="logout" href="{{ url_for('logout') }}"><i class="bx bx-log-out bx-md"></i></a>
+        <a class="logout" href="{{ url_for('users.logout') }}"><i class="bx bx-log-out bx-md"></i></a>
     </div>    
 
     <div class="container-fluid" id="botPage">

@@ -146,7 +146,7 @@ def on_leave(data):
     u.roomID = -1
     db.session.commit()
     leave_room(room)
-    return redirect(url_for('index'))
+    return redirect(url_for('main.index'))
 
 
 # When sent a message by a user, check if the game has started. 
@@ -330,7 +330,7 @@ def handleRoomJoin():
         return redirect('/chat/' + roomNum)
     else: 
         flash("Room full!")
-        return redirect(url_for('rooms'))
+        return redirect(url_for('rooms.rooms'))
     
 def handleChat(room): 
     user = User.query.filter_by(username=current_user.username).first_or_404()
@@ -342,7 +342,7 @@ def handleChat(room):
         gameRoom = GameRoom.query.get(room)
         return render_template("chat.html", title="MAIN", name=user.username, room=room, setting = s, gameRoom = gameRoom)
     else: 
-        return redirect(url_for('rooms'))
+        return redirect(url_for('rooms.rooms'))
     
 def handleRooms(): 
     user = User.query.filter_by(username=current_user.username).first_or_404()

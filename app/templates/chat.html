@@ -50,7 +50,7 @@
             </div>
             {% else %}
             <div class="col-sm-1" style="color:aliceblue">{{current_user.username}}</div>
-            <a class="logout-corner col-sm-1" href="{{ url_for('logout') }}"><i class="bx bx-log-out bx-sm"></i></a>
+            <a class="logout-corner col-sm-1" href="{{ url_for('users.logout') }}"><i class="bx bx-log-out bx-sm"></i></a>
             {% endif %}
     
         </div>
@@ -91,7 +91,7 @@
             <a href="/profile">Profile</a>
             <a href="/settings">Settings</a>
         </div>
-        <a class="logout" href="{{ url_for('logout') }}"><i class="bx bx-log-out bx-md"></i></a>
+        <a class="logout" href="{{ url_for('users.logout') }}"><i class="bx bx-log-out bx-md"></i></a>
     </div>    
     <div class="container-fluid" id="botPage">
         <div style="padding-top: 1vh; color:white; font-size: 2vh;">@2023 Copyright</div>

@@ -12,7 +12,7 @@ socketio = SocketIO()
 migrate = Migrate()
 login = LoginManager()
 socketio = SocketIO()
-login.login_view = 'login'
+login.login_view = 'main.login'
 
 def create_app(): 
     app = Flask(__name__)

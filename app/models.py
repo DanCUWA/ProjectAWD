@@ -1,7 +1,6 @@
 from app import db
 from datetime import datetime
 from flask_login import UserMixin
-from flask import current_app
 import bcrypt
 # Model containing User information. 
 # Unique ids and usernames, and passwords stored as hashes.

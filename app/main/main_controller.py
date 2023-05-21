@@ -51,7 +51,7 @@ def handleSignup():
         init_settings(user)
         flash("Congratulations, you are now a registered user!", "signup-success")
         return redirect(("/login"))
-    return render_template("main.signup.html", title="SignUp", form=form)
+    return render_template("signup.html", title="SignUp", form=form)
 
 def handleLogin():
     if current_user.is_authenticated:
@@ -68,12 +68,12 @@ def handleLogin():
             login_user(user)
             next_page = request.args.get("next")
             if not next_page:
-                next_page = "index"
+                next_page = "main.index"
             return redirect(next_page)
     return render_template("login.html", form=form)
 
 def handleIntro():
-    return render_template("main/IntroPage.html", title="Welcome")
+    return render_template("IntroPage.html", title="Welcome")
 
 def handleMain(): 
-    return render_template("main/WelcomePage.html", title="MAIN")
+    return render_template("WelcomePage.html", title="MAIN")
