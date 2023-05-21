@@ -61,7 +61,15 @@ pip install -r requirements.txt
 
 ### Testing
 
-...
+Testing for the application is done primarily by pytest. 
+In order to run the tests, simply navigate to the root directory in your venv and run the following: 
+```
+pytest
+```
+Or to see full coverage, run 
+```
+pytest --cov=app tests/
+```
 
 ### Creating the database
 
@@ -73,6 +81,7 @@ Run these commands line by line:
 flask db migrate
 flask db upgrade
 ```
+To see the database schema, view models.py in the app directory.
 
 ### Running The Website
 
@@ -116,16 +125,25 @@ Adi Budhavaram - 23086947 - [adibud](https://github.com/adibud)
 
 ## Contributions
 ### Daniel Cheng
-* flask set up
-* Gpt set up
+* Flask set up and structure initialisation
+* Basic GPT request-response architecture
 * Database set up
+> Model and schema initialisation
+* Created routes 
+* Created route handlers  
 * Socketio
+> Multi-client communication
+ Implementation of different rooms
 * Profile Page
+> Initial design 
+> Functionality 
 * Pytest
 * Css styling
-* Login set up
+* Refactoring from basic setup to MVC 
+* Refactoring from single MVC to blueprint MVC
+* Form creation
+* Login/signup set up
 * Password Hashing
-* Pytesting
 
 ### Tony Nguyen
 * front end template set up

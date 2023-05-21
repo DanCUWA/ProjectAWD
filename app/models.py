@@ -71,7 +71,6 @@ class Message(db.Model):
     username = db.Column(db.String(30),db.ForeignKey("user.username"),index=True)
     text = db.Column(db.String(500))
     time = db.Column(db.DateTime)
-    time = db.Column(db.DateTime)
     def __init__(self, *args, **kwargs):
         super(Message, self).__init__(*args, **kwargs)
         self.time = datetime.now()
