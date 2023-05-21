@@ -96,12 +96,10 @@ textarea#insertText::-webkit-scrollbar{
   }
 
 button#submitMessage {
-    position: absolute;
+    position:relative;
     background: transparent;
     border: none;
     color: white;
-    bottom: 7px;
-    right: 1%; 
   }
 
 input{
@@ -400,6 +398,13 @@ nav a.active {
     background: none;
 }
 
+.backImage {
+    background-size: cover; 
+    background-repeat: no-repeat;
+    background-blend-mode:soft-light; 
+    background-position: center center;
+}
+
 button#delete {
     height: 40px;
     width: 150px;
@@ -415,7 +420,7 @@ button#delete:hover {
     border-color: blueviolet; 
     transition: 0.5s;
 }
-input[type="password"]#pass {
+input[type="password"]#pass1,#pass2 {
     padding: 20px; 
 }
 

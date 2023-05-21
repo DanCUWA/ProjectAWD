@@ -8,9 +8,14 @@ from app.controller import *
 # Public routes
 
 @app.route("/")
+@app.route("/intro")
+def intro():
+    return handleIntro()
+
 @app.route("/index")
 def index():
     return handleMain()
+
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     return handleSignup()
