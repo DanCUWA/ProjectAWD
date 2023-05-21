@@ -1,5 +1,8 @@
 {% extends 'baseHTML.html' %}
     {%block main%}
     <h1>Profile</h1>
-    <input type="button" value="Back" onclick="document.location.href='mainPage.html';">
+    {%for m in msgs%}
+    <p>{{m.time}}: {{m.text}}</p>
+    {%endfor%}    
+    <input type="button" value="Back" onclick="document.location.href='/index';">
 {%endblock%}

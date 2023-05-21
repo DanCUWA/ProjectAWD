@@ -1,5 +1,38 @@
 {% extends 'baseHTML.html' %}
     {%block main%}
-    <h1>Login</h1>
-    <i class="ra ra-sword ra-3x"></i>
+    <body class="bg">
+    <div class="login-box">
+        <label class="title">Sign In</label>
+        <form id="signin" action="" method="post" style="box-sizing: border-box; padding: 20px;"novalidate> 
+            {{ form.hidden_tag() }}
+            <div class="txt_field">    
+                {{ form.username(size=32) }}
+                <label>Username</label>
+                {% for error in form.username.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </div>
+            <div class="txt_field">
+                {{ form.password(size=32) }}
+                <label>Password</label>
+                {% for error in form.password.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </div>         
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="alert alert-danger" role="alert">
+            {{ messages[0] }}
+            </div>
+            {% endif %}
+            {% endwith %}
+            <div class="forgot">Forgot Password?</div>
+            {{ form.submit() }}
+        </form>
+        <div class="sign_up_link">
+            Not a Member? <a href="/signup">Sign Up</a>
+        </div>
+    </div>
+    </body>
+    
 {%endblock%}

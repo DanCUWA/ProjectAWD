@@ -7,13 +7,29 @@
     
     <div id="midPage" class="container-fluid">
         <div class="centerItems" >
-            <div class="gameNodes">Room 1<br> Turn 36 <br> Purple Adventure <br> Players: 3</div>
-            <div class="gameNodes">Room 2</div>
-            <div class="gameNodes">Room 3</div>
-            <div class="gameNodes">Room 4</div>
-            <div class="gameNodes">Room 5</div>
-            <div class="gameNodes">Room 6</div>
-            <div class="gameNodes">Room 7</div>
+            {%for room in rooms%}
+            <div class="gameNodes">Room: {{room.roomID}}<br>Turn: {{room.turnNumber}} <br> {{room.roomName}} <br> Players: {{room.playerNumber}} <br>
+                <form action="{{ url_for('joinRoom')}}" method="POST">
+                    <input type="hidden" value={{room.roomID}} name="roomJoin">
+                    <input type="submit" value="Join Room">
+                  </form>
+                <form action="{{ url_for('deleteRoom')}}" method="POST">
+                    <input type="hidden" value={{room.roomID}} name="roomDelete">
+                    <input type="submit" value="Delete Room">
+                  </form>
+            </div>
+            {%endfor%}
+            <div class="gameNodes">
+                <div>
+                    <form action="{{ url_for('createRoom', username=user.username) }}" method="POST">
+                        Make Room<br>
+                        <input type="text" name="room_name" placeholder="Room name" required><br>
+                        Number of Players
+                        <input type="number" name="num_players" min="1" max="4" required><br>
+                        <input type="submit" value="Create Room">
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 
