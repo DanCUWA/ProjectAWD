@@ -1,0 +1,103 @@
+body{
+    background: linear-gradient(225deg,rgb(63, 55, 71) 50%,rgb(38, 40, 43) 90%);
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+}
+.sign_up-box{
+    background: #fff;
+    border: #282525 1px solid;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 500px;
+    width: 90%;
+    border-radius: 20px;
+}
+
+.login-box{
+    background: #fff;
+    border: #282525 1px solid;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 500px;
+    width: 90%;
+    border-radius: 20px;
+}
+
+label.title {
+    display: flex;
+    justify-content: center; 
+    padding-top: 20px;
+    font-size: 30px;
+    margin: 0 10px;
+    border-bottom: 2px solid #adadad;
+}
+
+.txt_field {
+    position: relative;
+    border-bottom: 2px solid #adadad;
+    margin: 20px 0;
+}
+
+.txt_field input {
+    width: 100%;    
+    height: 40px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    background: none;
+}
+
+.txt_field label {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    color: #adadad;
+    transform: translateY(-50%);
+    font-size: 16px;
+    pointer-events: none;
+    transition: .5s;
+}
+
+.txt_field input:focus ~ label,
+.txt_field input:valid ~ label {
+    top: -5px;
+    color: #248cd2;
+}
+
+.forgot {
+    margin: -5px 0 20px 5px;
+    color: #adadad;
+    cursor: pointer;
+}
+.forgot:hover {
+    text-decoration: underline;
+    color: #282525;
+}
+
+input[type="submit"] {
+    height: 40px;
+    width: 100%;
+    border: 2px solid;
+    background: blueviolet; 
+    color: #f9f9f9;
+    font: 18px;
+    border-radius: 25px;
+    cursor: pointer;
+    outline: none;
+}
+input[type="submit"]:hover {
+    border-color: blueviolet; 
+    transition: 0.5s;
+}
+
+.sign_up_link {
+    margin: 20px 0;
+    text-align: center;
+    color: #282525;
+}

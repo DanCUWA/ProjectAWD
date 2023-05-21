@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lan="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <meta http-equiv = "refresh" content = "2; href = webGame_copy.html"> -->
+
+    <title>The Missing Game</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <!-- Latest compiled JavaScript -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!--Jquery-->
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.4.2.min.js"></script>
+    <!--Socket-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mainPageStyle.css') }}">
+</head>
+<body>
+    
+    
+    <div class="container-fluid" id="topPage">
+        <div class="d-flex" style="padding-top: 0.5vh">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-2">
+                    <input type="button" id="logout" value="Logout">
+            <!-- <input type="text" placeholder = "Username" class="form-control" > -->
+            <!-- <input type="text"><button type="button">Login</button><button type="button">Sign Up</button> -->
+            </div>
+            <div class="col-sm-2 aa">
+                {% if gameRoom.turnNumber == 0 %}
+                <input type = "button" id="start" value="Start" onclick="this.style.display='none'">
+                {% endif %}
+            <!-- <input type="text" placeholder = "Username" class="form-control" > -->
+            <!-- <input type="text"><button type="button">Login</button><button type="button">Sign Up</button> -->
+            </div>
+            <div class="col-sm-2">
+                <!-- <input type="text" placeholder="Password" class="form-control" > -->
+            </div>
+            {% if current_user.is_anonymous %}
+            <div class="col-sm-1 hover">
+                <input type="button" value="Login" class="form-control" onclick="document.location.href='/login';">
+            </div>
+            <div class="col-sm-1 hover">
+                <input type="button" value="Sign up" class="form-control" onclick="document.location.href='/signup';">
+            </div>
+            {% else %}
+            <div class="col-sm-1" style="color:aliceblue">{{current_user.username}}</div>
+            <a class="logout-corner col-sm-1" href="{{ url_for('logout') }}"><i class="bx bx-log-out bx-sm"></i></a>
+            {% endif %}
+    
+        </div>
+    </div>
+
+    <div id="midPage" class="container-fluid" >
+        <div class="row" style="height:90vh; max-height: 90vh;">
+            <div class="col-sm-4" style="background-color: rgb(116, 115, 126);">
+                <div class="left_box" style="display: flex;">
+                    <div id="main" style="margin-top: 40vh; text-align: left;width: 30px;">
+                        <span style="font-size:30px;cursor:pointer;color: #d4d4d4;" onclick="toggleNav()">&#8692;</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8 chatbox" style="background-color:rgb(68, 58, 68); color:white;">
+                <div id="textBox" class="screenChange" style=" width: 100%; padding: 50px; display: flex;"> 
+                    <div id="textMessage" class="screenChange2" style=" text-align: left; word-wrap: break-word; overflow-y: auto; width: 100%;">
+
+                    </div>
+                </div>
+                <div>
+                    <form id="input">
+                        <div class="inputMessageBox hover">
+                            <textarea id="insertText" name="myInput" style="border-radius: 20px; width: 100%;" placeholder="Type your message here..." autofocus></textarea>
+                            <button class="buttonInsert" id="submitMessage" type="submit"><i class="bx bx-send buttonInsert" id="send"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="mySidenav" class="sidenav hover">
+        <div id="navChoices">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <a href="/rooms">Game Rooms</a>
+            <a href='/stats/{{current_user.username}}'>Stats</a>
+            <a href="/profile">Profile</a>
+            <a href="/settings">Settings</a>
+        </div>
+        <a class="logout" href="{{ url_for('logout') }}"><i class="bx bx-log-out bx-md"></i></a>
+    </div>    
+    <div class="container-fluid" id="botPage">
+        <div style="padding-top: 1vh; color:white; font-size: 2vh;">@2023 Copyright</div>
+    </div>
+    <script>
+        function addMessage(name,msg){ 
+            $('#textMessage').append($('<p style="margin:0;">').html(name));
+                $('#textMessage').append($('<p style="margin:5px;margin-left:20px;">').html(msg));
+        }
+        $(document).ready(function() {
+            var socket = io.connect('http://' + document.domain + ':' + location.port);
+            socket.on('connect', function(message){ 
+                socket.send("Host side connected");
+                socket.emit('connected',{'room':"{{room}}"})
+            })
+            socket.on('display-prev', function(data){ 
+                console.log(data)
+                txt = data.txt 
+                usrs = data.usr
+                for (i=0;i<txt.length;i++) { 
+                    addMessage(usrs[i],txt[i])
+                }
+            })
+            socket.on('server-response',data=>{ 
+                console.log("server reponses");
+                console.log(data['message'] + data['name']);
+                addMessage(data['name'],data['message'])
+            })
+            socket.on('joined', data => { 
+                console.log("SERVER" + "Welcome to room "+ data['room'] + " " + data['name'] + "!")
+                addMessage("SERVER", "Welcome to room "+ data['room'] + " " + data['name'] + "!")
+            })
+            socket.on('left', data => { 
+                console.log('User left')
+                addMessage("SERVER",data['name'] + " has left room " + data['room']  + "!")
+            })
+            socket.on('gpt-res', function(data){ 
+                console.log("GAMEMASTER MESSAGING")
+                addMessage("GAMEMASTER",data['message'])
+            });
+            $('#insertText').keydown(function(e) {
+            var key = e.keyCode || e.which; 
+            if (key === 13){ 
+                event.preventDefault();
+                var message = $('#insertText').val();
+                socket.emit('player-mes',{'data':message});
+                $('#insertText').val('');
+            }
+            });
+            $('#start').click(e=>{
+                e.preventDefault();
+                console.log("GM START TRIGGER")
+                socket.emit('start-game',{});
+            });
+            $('#logout').click(e=>{ 
+                e.preventDefault(); 
+                socket.emit('leave_room', {});
+            })
+
+
+            colorChange('{{setting.primaryColor}}', '{{setting.secondaryColor}}', '{{setting.textColor}}');
+        });
+      </script>
+    <script type="text/javascript" src="{{ url_for('static', filename='./js/mainPageJS.js') }}"></script>
+</body>
+
+    <!-- <div class="container-fluid" id="botPage">
+        <div style="padding-top: 1vh; color:white; font-size: 2vh;">@2023 Copyright</div>
+    </div>
+    <script src="{{ url_for('static', filename='js/mainPageJS.js') }}"></script> -->

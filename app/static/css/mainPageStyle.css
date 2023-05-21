@@ -1,3 +1,18 @@
+:root {
+    --primary-color: #3F3747;
+    --secondary-color: #26282B;
+    --text-color: #ffffff;
+
+}
+
+body{
+    background: linear-gradient(225deg,rgb(63, 55, 71) 50%,rgb(38, 40, 43) 90%);
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+}
+
 #midPage {
     background-color: white;
     height: 90vh;
@@ -49,11 +64,6 @@
     animation-duration: 5s,5s;
     animation-fill-mode: forwards;
 }
-/* input[type=text] {
-    background-color:rgb(85, 71, 84);
-    color: rgb(196, 194, 194);
-    height: 4vh;
-} */
 
 .form-control {
     /* background-color:rgb(85, 71, 84); */
@@ -65,20 +75,9 @@
     border: none;
 }
 
-/* User Input Message Box */
-/* .inputMessageBox{
-} */
-/* .chatbox {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    
-} */
-
-/* .buttonInsert {
-    margin-bottom: 2.5%;
-    margin-right: 0%;
-} */
+.chatbox {
+    color: var(--text-color)
+}
 
 #insertText {
     background-color:rgb(60, 51, 61);
@@ -105,7 +104,7 @@ button#submitMessage {
     right: 1%; 
   }
 
-input[type=button],input[type=text]{
+input{
     background-color:rgb(60, 51, 61);
     color: #aeaeae;
     height: 4vh;
@@ -122,11 +121,6 @@ input[type=button],input[type=text]{
 90% { transform: translate(-50%,-50%) rotate(360deg) scale(1.5)}
 100% { transform: translate(-50%,-50%) rotate(360deg) scale(1)}
 }
-
-/* @keyframes entrance { 
-    0% {transform:scale(4);}
-    100% {transform: scale(1);}
-} */
 
 @keyframes backgroundAni{
     0% {background-color:rgb(63, 55, 71);}
@@ -195,6 +189,11 @@ a.logout{
     color: #818181;
     font: 5px;
 }
+a.logout-corner {
+    right: 0px;
+    color: #818181;
+
+}
 /* button#logout{
     background: transparent;
     border: none;
@@ -206,10 +205,10 @@ a.logout{
     font: 5px;
 } */
 .hover :hover {
-    color: #f1f1f1;
+    color: #8b8b8b;
 }
 .hover:hover {
-    color: #f1f1f1;
+    color: #8b8b8b;
 }
 
 #main {
@@ -309,7 +308,7 @@ padding: 16px;
     color: aliceblue;
     padding: 10px;
     margin:10px;
-    font-size:x-large;
+    font-size:medium;
   }
 
 .roomFormatting{
@@ -320,11 +319,11 @@ padding: 16px;
 
 /*Main colouring*/
 #topPage{
-    background-image: linear-gradient(225deg,rgb(63, 55, 71) 50%,rgb(38, 40, 43) 90%);  
+    background-image: linear-gradient(225deg,var(--primary-color) 50%,var(--secondary-color) 90%);  
 }
 
 #botPage{
-    background-image: linear-gradient(45deg,rgb(63, 55, 71) 50%,rgb(38, 40, 43) 90%);
+    background-image: linear-gradient(45deg,var(--primary-color) 50%,var(--secondary-color) 90%);  
 }
 /*Main formatting*/
 #botPage, #topPage{
@@ -334,6 +333,7 @@ padding: 16px;
 
 #midPage {
     max-height: 90vh;
+    overflow-y: auto;
 }
 
 .centerItems {
@@ -343,3 +343,53 @@ padding: 16px;
     align-items: center;
 }
 
+/* settings */
+
+.pages{
+    display: flex; 
+    flex-direction: column;
+}
+
+.settingOptions {
+    float: left;
+    top: 5%;
+    padding: 10px;
+    position: absolute;
+    width: 170px;
+    height: 90vh;
+    background: #202020;
+}
+
+.tab {
+    list-style: none;
+    padding-left: 20%;
+    padding-top: 10%;
+    font: 100px;
+    display: block;
+    color: white;
+    text-decoration: none;
+}
+
+nav a.active {
+    color: #5f1299
+}
+
+.rightbox {
+    display: flex;
+    height: 85vh;
+    margin-left: 200px;
+    margin-top: 5vh;
+    color:#ffffff;
+}
+.tabShow {
+    transition: all .5s ease-in;
+    width: 80%;
+    margin-left: 5%;;
+}
+
+.inputAccount {
+    border:0;
+    border-bottom: 1px solid #202020;
+    outline: none;
+    background: none;
+}
