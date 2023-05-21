@@ -28,9 +28,9 @@ def handleSettings():
     if request.method == 'POST' and "username-submit" in request.form:
         user = User.query.filter_by(username=request.form['username']).first()
         if user is None:
+            messages = Message.query.filter_by(username=current_user.username).all()
             new_username = request.form['username']
             current_user.username = new_username
-            messages = Message.query.filter_by(username=current_user.username).all()
             s.username = new_username
             for m in messages:
                 m.username = new_username
