@@ -1,5 +1,8 @@
-body { 
-    background-image: url("/static/img/test1.jpg");
+.profileBack { 
+    background-image: url("/static/img/mainPage3.png");
+    background-repeat: repeat-x;
+    background-blend-mode:multiply;
+    height: 100vh;
 }
 #prof-head{ 
     text-align: center;

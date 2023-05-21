@@ -1,5 +1,6 @@
 {% extends 'baseHTML.html' %}
 {%block main%}
+<div class="profileBack">
     <input type="button" value="Back" onclick="document.location.href='/rooms';">
     <h1 id="prof-head">Profile</h1>
     <div id="ref">
@@ -33,7 +34,7 @@
                 </div>
             </div>
         </div>
-    </div>   
+    </div>  
     <br>
     <script> 
         $('#sbm').on('click', (e) => { 
@@ -54,4 +55,5 @@
             })
         })
     </script>
+</div>
 {%endblock%}
