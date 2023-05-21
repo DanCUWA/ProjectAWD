@@ -117,6 +117,14 @@ Adi Budhavaram - 23086947 - [adibud](https://github.com/adibud)
 ## Contributions
 # Daniel Cheng
 * flask set up
+* Gpt set up
+* Database set up
+* Socketio
+* Profile Page
+* Pytest
+* Css styling
+* Login set up
+* Password Hashing
 
 # Tony Nguyen
 * front end template set up
@@ -125,7 +133,22 @@ Adi Budhavaram - 23086947 - [adibud](https://github.com/adibud)
 * Css styling
 * Intro page
 * Graphics/images
+* Prompts for GPT
+* Welcome Page
+* chatroom page
+* Setting page
+* Database set up
+* Routing
 
 # Peter Le
+* Login set up
+* Login Page
+* Database set up
+* Routing
+* GPT implementation
+* Setting Page
+* Css Styling
+* Custom setting
 
-# Adi budhavaram
+
+# Adi Budhavaram
