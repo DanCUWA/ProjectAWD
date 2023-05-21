@@ -391,3 +391,10 @@ nav a.active {
     outline: none;
     background: none;
 }
+
+.backImage {
+    background-size: cover; 
+    background-repeat: no-repeat;
+    background-blend-mode:lighten; 
+    background-position: center center;
+}
