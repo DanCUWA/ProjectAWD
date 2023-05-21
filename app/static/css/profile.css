@@ -32,10 +32,11 @@ body {
     width: 40svw;
 }
 .rm_name{ 
-    background:#260213;
+    background:#3a3341;
     width: 40svw;
     border-radius:5px;
-    color: #a10b62;
+    color: blueviolet;
+    border: solid #9806b8 3px; 
     padding: 20px;
     text-align: center;
     text-decoration: underline;
@@ -44,18 +45,20 @@ body {
 .cont { 
     display:flex;
     justify-content:left; 
-    background: #4a0459;
-    flex-flow: column wrap;
+    background: #3a3341;
+    flex-flow: row wrap;
     color: white;
     padding:40px 30px; 
-    border-radius:20px;
+    border-radius:10px;
     border: solid #9806b8 5px; 
+    max-height: 500px;
+    overflow-y: auto;
 }
 .msg { 
     padding: 10px;
     border-radius: 5px;
-    background:#260213;
-    color:#a10b62;
+    background:#3a022c;
+    color: rgb(207, 207, 207);
 }
 #search{ 
     display:flex;
@@ -66,18 +69,18 @@ body {
 #filter{ 
     /* width: 50svw;  */
     padding: 30px;
-    border:solid #196bcf 5px;
+    border:solid #6606a5 5px;
     border-radius:7px;
     text-align:center;
     margin: 20px;
-    background:#13234f;
-    color:#14c6c9; 
+    background-color: rgb(38, 40, 43);
+    color:rgb(207, 207, 207);
 }
 #search-box{ 
     display:flex;
-    background:#120552; 
+    background:rgb(38, 40, 43);
     padding: 30px;
-    border:solid #196bcf 5px;
+    border:solid #6606a5 5px;
     border-radius:10px;
     justify-content:left; 
     flex-flow:column wrap;
@@ -90,8 +93,6 @@ body {
 .smsg { 
     padding: 10px;
     border-radius: 5px;
-    background:#042d2e;
-    color:#14c6c9; 
+    background:#420047;
+    color:rgb(207, 207, 207);
 }
-
-

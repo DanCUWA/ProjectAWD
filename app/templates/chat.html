@@ -50,7 +50,7 @@
             </div>
             {% else %}
             <div class="col-sm-1" style="color:aliceblue">{{current_user.username}}</div>
-            <a class="logout-corner col-sm-1" href="{{ url_for('logout') }}"><i class="bx bx-log-out bx-sm"></i></a>
+            <a id="logout" class="logout-corner col-sm-1" href="{{ url_for('logout') }}"><i class="bx bx-log-out bx-sm"></i></a>
             {% endif %}
     
         </div>
@@ -91,7 +91,7 @@
             <a href="/profile">Profile</a>
             <a href="/settings">Settings</a>
         </div>
-        <a class="logout" href="{{ url_for('logout') }}"><i class="bx bx-log-out bx-md"></i></a>
+        <a id="logout" class="logout" href="{{ url_for('logout') }}"><i class="bx bx-log-out bx-md"></i></a>
     </div>    
     <div class="container-fluid" id="botPage">
         <div style="padding-top: 1vh; color:white; font-size: 2vh;">@2023 Copyright</div>
@@ -132,6 +132,23 @@
                 console.log("GAMEMASTER MESSAGING")
                 addMessage("GAMEMASTER",data['message'])
             });
+            window.addEventListener('popstate', function(event) {
+                socket.emit('leave_room', {});  
+                socket.disconnect();
+            // Perform actions when the user presses the back button
+            // You can emit socket events, close the connection, or execute any other necessary logic
+            });
+            window.addEventListener('beforeunload', function() {
+                socket.disconnect();  // Close the socket connection when the user leaves the page
+            });
+            $('#navChoices').click(e=>{ 
+                socket.emit('leave_room', {});
+                socket.disconnect()
+            })
+            $('#logout').click(e=>{ 
+                socket.emit('leave_room', {});
+                socket.disconnect()
+            })
             $('#insertText').keydown(function(e) {
             var key = e.keyCode || e.which; 
             if (key === 13){ 
