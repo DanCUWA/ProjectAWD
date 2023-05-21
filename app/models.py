@@ -1,17 +1,15 @@
-from app import db, login
+from app import db
 from datetime import datetime
 from flask_login import UserMixin
 import bcrypt
-
 # Model containing User information. 
 # Unique ids and usernames, and passwords stored as hashes.
 # Hashes use bcrypt to provide more security than SHA256. 
 # It also requries the salts to be saved
- 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
-    roomID = db.Column(db.Integer,db.ForeignKey("game_room.roomID"),index=True,default=-1)
+    roomID = db.Column(db.Integer,db.ForeignKey("game_room.roomID",use_alter=True),index=True,default=-1)
     setting = db.relationship('Settings', backref='Settings', lazy='dynamic')
     salt = db.Column(db.String(128))
     password_hash = db.Column(db.String(128))
@@ -25,9 +23,6 @@ class User(UserMixin, db.Model):
         return '<User {}, Room {}>'.format(self.username,self.roomID)
         # return '<User {}, email {}, password {}>'.format(self.username,self.email,self.password_hash)
 
-    @login.user_loader
-    def load_user(id):
-        return User.query.get(int(id))
 
 # Stores user preferences about colour schemes
 
@@ -46,7 +41,7 @@ class Settings(db.Model):
 
 class GameRoom(db.Model):
     username = db.Column(
-        db.String(64), db.ForeignKey("user.username"), index=True
+        db.String(64), db.ForeignKey("user.username"),index=True
     )
     roomID = db.Column(db.Integer, unique=True, primary_key = True)
     roomName = db.Column(db.String(30))

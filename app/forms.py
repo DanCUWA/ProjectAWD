@@ -9,7 +9,6 @@ from app.models import User
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
-    remember_me = BooleanField('Remember Me')
     submit = SubmitField('Sign In') 
 
 # Basic form for handling sign ups for new users
@@ -18,7 +17,6 @@ class SignupForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     password2 = PasswordField('Confirm Password', validators=[DataRequired(),EqualTo('password')])
-    remember_me = BooleanField('Remember Me')
     submit = SubmitField('Sign Up')
     
     def validate_username(self,username): 
