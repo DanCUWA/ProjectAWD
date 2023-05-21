@@ -156,6 +156,16 @@ justify-content: space-between;
 flex-direction: column;
 }
 
+.navButton{
+    text-align: left;
+    position:absolute;
+    top: 50%;
+    left: 2vh;
+    font-size:30px;
+    cursor:pointer;
+    color: #d4d4d4;
+}
+
 .sidenav a {
 padding: 8px 8px 8px 32px;
 text-decoration: none;

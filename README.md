@@ -115,7 +115,7 @@ Adi Budhavaram - 23086947 - [adibud](https://github.com/adibud)
 (All other images are created locally by Tony Nguyen)
 
 ## Contributions
-# Daniel Cheng
+### Daniel Cheng
 * flask set up
 * Gpt set up
 * Database set up
@@ -125,8 +125,9 @@ Adi Budhavaram - 23086947 - [adibud](https://github.com/adibud)
 * Css styling
 * Login set up
 * Password Hashing
+* Pytesting
 
-# Tony Nguyen
+### Tony Nguyen
 * front end template set up
 * base html
 * Game rooms
@@ -140,7 +141,7 @@ Adi Budhavaram - 23086947 - [adibud](https://github.com/adibud)
 * Database set up
 * Routing
 
-# Peter Le
+### Peter Le
 * Login set up
 * Login Page
 * Database set up
@@ -148,7 +149,8 @@ Adi Budhavaram - 23086947 - [adibud](https://github.com/adibud)
 * GPT implementation
 * Setting Page
 * Css Styling
-* Custom setting
+* Custom settings
+* Account settings
 
 
-# Adi Budhavaram
+### Adi Budhavaram
