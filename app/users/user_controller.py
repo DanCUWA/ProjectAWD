@@ -20,7 +20,6 @@ def handleLogout():
     logout_user()
     return redirect("/")
 
-
 def getUsername():
     return {"username": current_user.username}
 
