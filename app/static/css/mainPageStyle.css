@@ -415,7 +415,7 @@ button#delete:hover {
     border-color: blueviolet; 
     transition: 0.5s;
 }
-input[type="password"]#pass {
+input[type="password"]#pass1,#pass2 {
     padding: 20px; 
 }
 
