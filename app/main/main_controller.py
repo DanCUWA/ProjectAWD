@@ -68,7 +68,7 @@ def handleLogin():
             login_user(user)
             next_page = request.args.get("next")
             if not next_page:
-                next_page = "main.index"
+                next_page = "index"
             return redirect(next_page)
     return render_template("login.html", form=form)
 
