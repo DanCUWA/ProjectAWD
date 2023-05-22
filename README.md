@@ -128,9 +128,13 @@ ChatGPT
 This project utilizes ChatGPT, an AI model developed by OpenAI
 
 Model: ChatGPT
+
 Model version: GPT-3.5-turbo
+
 Model Source : OpenAI API (https://openai.com)
+
 Model reference: https://openai.com/blog/chatgpt/
+
 Model license: OpenAI API Terms of Service
 
 ## External Images
