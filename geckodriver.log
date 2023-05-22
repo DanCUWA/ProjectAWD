@@ -1,0 +1,7 @@
+1684700854789	geckodriver	INFO	Listening on 127.0.0.1:33535
+error: Found argument '--websocket-port' which wasn't expected, or isn't valid in this context
+
+USAGE:
+    geckodriver --port <PORT>
+
+For more information try --help
