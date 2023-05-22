@@ -2,5 +2,4 @@
 __pycache__/
 /venvlap/
 *.pyc
-.env
 app.db
