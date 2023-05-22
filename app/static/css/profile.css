@@ -1,6 +1,5 @@
 body { 
-    /* background-image: linear-gradient(225deg,var(--primary-color) 50%,var(--secondary-color) 90%);   */
-    background-image: url("/static/img/mainPage3.png");
+    background-image: url("/static/img/mainPage4.png");
     background-color: rgb(60, 51, 61);
     background-size: cover;
     background-blend-mode:luminosity;

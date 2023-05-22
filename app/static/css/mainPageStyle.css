@@ -31,9 +31,7 @@ body{
 }
 
 #welcome {
-    /* padding-top: 50%; */
     background-color: transparent;
-    /* padding-bottom: 0; */
     animation-name: welcome;
     animation-duration: 6s;
     animation-timing-function: ease-in;
@@ -66,7 +64,6 @@ body{
 }
 
 .form-control {
-    /* background-color:rgb(85, 71, 84); */
     background-color: transparent;
     color: #aeaeae;
     font: 14px "Poppins", sans-serif;
@@ -175,10 +172,6 @@ display: block;
 transition: 0.3s;
 }
 
-/* .sidenav :hover {
-color: #f1f1f1;
-} */
-
 .sidenav .closebtn {
 position: absolute;
 top: 0;
@@ -202,16 +195,7 @@ a.logout-corner {
     color: #818181;
 
 }
-/* button#logout{
-    background: transparent;
-    border: none;
-    color: white;
-    height: auto;
-    display: flex;
-    padding: 20px;
-    color: #818181;
-    font: 5px;
-} */
+
 .hover :hover {
     color: #8b8b8b;
 }
