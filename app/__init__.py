@@ -27,7 +27,6 @@ def initialise(app):
     login.init_app(app)
     socketio.init_app(app)
     with app.app_context():
-        db.drop_all()
         db.create_all()
 
     from .models import User    
@@ -43,12 +42,3 @@ def register_bps(app):
     app.register_blueprint(room_blueprint)
     app.register_blueprint(main_blueprint)
     app.register_blueprint(user_blueprint)
-
-# app = Flask(__name__)
-# app.config.from_object(Config)
-# db = SQLAlchemy(app)
-# socketio = SocketIO(app)
-# migrate = Migrate(app, db)
-# login = LoginManager(app)
-# login.login_view = 'login'
-# from app import routes, models, controller
