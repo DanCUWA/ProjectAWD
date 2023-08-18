@@ -119,8 +119,6 @@ Tony Nguyen - 23090585 - [Tony-Nguyen0](https://github.com/Tony-Nguyen0)
 
 Peter Le - 23193249 - [petaa1](https://github.com/petaa1)
 
-Adi Budhavaram - 23086947 - [adibud](https://github.com/adibud)
-
 ## Acknowledgments
 
 ChatGPT
