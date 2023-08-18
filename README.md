@@ -113,11 +113,11 @@ The game response will vary depending on the user's input, the more vague you ar
 
 ## Authors
 
-Daniel Cheng - 23126543 - [DanCUWA](https://github.com/DanCUWA)
+Daniel Cheng - [DanCUWA](https://github.com/DanCUWA)
 
-Tony Nguyen - 23090585 - [Tony-Nguyen0](https://github.com/Tony-Nguyen0)
+Tony Nguyen - [Tony-Nguyen0](https://github.com/Tony-Nguyen0)
 
-Peter Le - 23193249 - [petaa1](https://github.com/petaa1)
+Peter Le - [petaa1](https://github.com/petaa1)
 
 ## Acknowledgments
 
